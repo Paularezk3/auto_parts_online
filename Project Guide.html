@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Project Guide: AutoParts Online</title>
+    <style>
+      body {
+        font-family: Montserrat, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f9f8f1; /* Secondary Foreground */
+        color: #000000; /* Primary Foreground */
+      }
+
+      h1 {
+        font-family: Montserrat, sans-serif;
+        color: #c18b2f; /* Primary Color */
+        text-align: center;
+      }
+      h2 {
+        font-family: "Janna LT Bold", sans-serif;
+        color: #c18b2f; /* Primary Color */
+        text-align: center;
+      }
+      h3 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+      }
+
+      section {
+        padding: 20px;
+        margin: 20px auto; /* Centers the box horizontally */
+        max-width: 800px; /* Restricts the width for better readability */
+        border-radius: 12px; /* Rounded corners */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        background: linear-gradient(
+          90deg,
+          #ffffff,
+          #f9f8f1
+        ); /* Subtle white gradient */
+      }
+
+      section:nth-child(even) {
+        background: #ffffff; /* Full white for alternating sections */
+        border: 1px solid #c18b2f; /* Highlight with primary color */
+      }
+
+      .steps li,
+      .tools li {
+        margin: 10px 0;
+      }
+
+      code {
+        background: #f4f4f9; /* Light gray-blue background for contrast */
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .steps {
+        margin-left: 20px;
+      }
+
+      .steps li {
+        margin: 10px 0;
+      }
+
+      .tools {
+        margin-left: 20px;
+      }
+
+      .tools li {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Project Guide: AutoParts Online</h1>
+
+    <section>
+      <h2>Project Overview</h2>
+      <p><strong>Project Name:</strong> AutoParts Online</p>
+      <p>
+        <strong>Description:</strong> A Flutter-based e-commerce platform for
+        car spare parts, enabling suppliers to showcase inventory and customers
+        to purchase parts online.
+      </p>
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>Product browsing with search and filters</li>
+        <li>Cart, checkout, and order history</li>
+        <li>Admin panel for inventory and sales management</li>
+        <li>Authentication (Email/Password, Google Login)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Project Objectives</h2>
+      <p>
+        The goal of the project is to develop a scalable and user-friendly
+        e-commerce platform for car spare parts, tailored to both suppliers and
+        customers. Key objectives include:
+      </p>
+      <ul>
+        <li>
+          Provide suppliers with an intuitive interface to manage inventory and
+          sales.
+        </li>
+        <li>
+          Enable customers to easily browse, search, and purchase spare parts.
+        </li>
+        <li>
+          Incorporate advanced analytics and notifications for both
+          stakeholders.
+        </li>
+        <li>
+          Ensure high performance, reliability, and security for all components.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scrum Cycles</h2>
+
+      <h3>Sprint 1: Requirement Analysis & UI/UX Design</h3>
+      <ul class="steps">
+        <li>
+          Refine user stories and document flows:
+          <ul>
+            <li>
+              <strong>Customer Stories:</strong> "As a customer, I want to
+              browse, search, and filter products to quickly find the exact car
+              spare part I need."
+            </li>
+            <li>
+              <strong>Supplier Stories:</strong> "As a supplier, I want to
+              manage my inventory and monitor sales using a streamlined admin
+              panel."
+            </li>
+          </ul>
+        </li>
+        <li>
+          Create detailed user flows for:
+          <ul>
+            <li>Product browsing, search, and filtering process.</li>
+            <li>Authentication flow for customers and suppliers.</li>
+            <li>
+              Admin panel operations, including inventory and sales management.
+            </li>
+            <li>Cart, checkout, and order history flows.</li>
+          </ul>
+        </li>
+        <li>Create wireframes and high-fidelity mockups for all user flows.</li>
+        <li>
+          Finalize design elements:
+          <ul>
+            <li>
+              Color palette and typography for a modern and accessible look.
+            </li>
+            <li>Responsive layouts for mobile, tablet, and web devices.</li>
+          </ul>
+        </li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>Figma or Adobe XD for wireframes and mockups.</li>
+            <li>Jira for task management and sprint documentation.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong>
+          <ul>
+            <li>Approved wireframes and mockups.</li>
+            <li>Documented user stories and flows in Jira.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Sprint 2: Frontend Development</h3>
+      <ul class="steps">
+        <li>
+          Set up project infrastructure:
+          <ul>
+            <li>
+              Initialize the Flutter project with branching strategies (`main`,
+              `dev`).
+            </li>
+            <li>
+              Prepare a detailed README.md with an overview, setup instructions,
+              and roadmap.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Implement key UI components:
+          <ul>
+            <li>
+              Authentication screens (Login/Signup) with email/password and
+              Google login.
+            </li>
+            <li>Home screen showcasing featured products and categories.</li>
+            <li>Product browsing, search, and filtering screens.</li>
+            <li>Cart and checkout screens with progress indicators.</li>
+          </ul>
+        </li>
+        <li>
+          Optimize state management:
+          <ul>
+            <li>Set up BLoC for handling state transitions in the frontend.</li>
+            <li>Use mock data to prepare UI components for API integration.</li>
+          </ul>
+        </li>
+        <li>
+          Enhance responsiveness:
+          <ul>
+            <li>
+              Ensure compatibility across devices using MediaQuery and adaptive
+              layouts.
+            </li>
+            <li>Test on mobile, tablet, and web platforms.</li>
+          </ul>
+        </li>
+        <li>
+          Collaboration and version control:
+          <ul>
+            <li>
+              Use GitHub for version control and feature-specific pull requests.
+            </li>
+            <li>Set up GitHub Actions for CI workflows.</li>
+          </ul>
+        </li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>Flutter for frontend development.</li>
+            <li>BLoC for state management.</li>
+            <li>Mock API tools for placeholder data.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong>
+          <ul>
+            <li>Responsive UI components with mock data.</li>
+            <li>Structured GitHub repository with CI pipelines.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Sprint 3: Backend API Development</h3>
+      <ul class="steps">
+        <li>Set up the backend infrastructure using PHP and MySQL.</li>
+        <li>
+          Develop APIs for:
+          <ul>
+            <li>Authentication (email/password and Google OAuth).</li>
+            <li>Product management (CRUD operations).</li>
+            <li>Order processing (create, update, and view orders).</li>
+          </ul>
+        </li>
+        <li>
+          Implement real-time notifications via Firebase:
+          <ul>
+            <li>Order updates for customers.</li>
+            <li>Low-stock alerts for suppliers.</li>
+          </ul>
+        </li>
+        <li>Test APIs with Postman to ensure correctness and reliability.</li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>PHP and MySQL for backend development.</li>
+            <li>Firebase for real-time notifications.</li>
+            <li>Postman for API testing.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong>
+          <ul>
+            <li>
+              Fully functional APIs with documentation (e.g., Swagger or Postman
+              collection).
+            </li>
+            <li>Integrated Firebase notifications.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Sprint 4: Integration & Testing</h3>
+      <ul class="steps">
+        <li>Integrate frontend UI with backend APIs using Retrofit.</li>
+        <li>
+          Test the app with:
+          <ul>
+            <li>Unit tests for frontend logic.</li>
+            <li>Integration tests for API interactions.</li>
+            <li>Widget tests for UI components.</li>
+          </ul>
+        </li>
+        <li>Simulate load tests on the backend with JMeter.</li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>Mockito for mocking API responses in tests.</li>
+            <li>JUnit for backend testing.</li>
+            <li>JMeter for load testing.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong> Fully tested and integrated app,
+          passing all test cases and load tests.
+        </li>
+      </ul>
+
+      <h3>Sprint 5: Deployment & Analytics</h3>
+      <ul class="steps">
+        <li>
+          Deploy the backend (PHP + MySQL) on Hostinger with:
+          <ul>
+            <li>HTTPS for secure API requests.</li>
+            <li>Backup and recovery setup for the database.</li>
+          </ul>
+        </li>
+        <li>Deploy the Flutter web app on Firebase Hosting.</li>
+        <li>
+          Set up Google Analytics to track user engagement and conversion rates.
+        </li>
+        <li>
+          Implement CI/CD pipelines with GitHub Actions to automate:
+          <ul>
+            <li>Build and test on every push.</li>
+            <li>Deploy to Firebase Hosting and Hostinger.</li>
+          </ul>
+        </li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>Hostinger for backend hosting.</li>
+            <li>Firebase Hosting for the web app.</li>
+            <li>GitHub Actions for CI/CD pipelines.</li>
+            <li>Google Analytics for tracking user behavior.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong> Fully deployed app, accessible on the
+          web and mobile, with analytics tracking enabled.
+        </li>
+      </ul>
+
+      <h3>Sprint 6: Post-Deployment & Maintenance</h3>
+      <ul class="steps">
+        <li>Monitor performance and bug reports using Firebase Crashlytics.</li>
+        <li>Set up user feedback channels for improvements.</li>
+        <li>
+          Implement version control for updates:
+          <ul>
+            <li>Increment versioning for new features or bug fixes.</li>
+            <li>Use Git branching strategies (e.g., Gitflow).</li>
+          </ul>
+        </li>
+        <li>Automate regular database backups.</li>
+        <li>
+          Tools to Use:
+          <ul class="tools">
+            <li>Firebase Crashlytics for monitoring crashes.</li>
+            <li>Hostinger database backup tools.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Deliverables:</strong> Stable app with regular updates and
+          monitoring in place.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Detailed Development Steps</h2>
+
+      <h3>1. UI/UX Design (Sprint 1)</h3>
+      <p>
+        Focus on creating intuitive and visually appealing designs based on user
+        stories:
+      </p>
+      <ul>
+        <li>
+          Define detailed user flows and wireframes for:
+          <ul>
+            <li>
+              Customers: Browse products, manage cart, checkout, view orders.
+            </li>
+            <li>
+              Suppliers: Manage inventory, monitor sales, update product
+              listings.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Create high-fidelity mockups and prototypes:
+          <ul>
+            <li>Include responsive designs for mobile, tablet, and web.</li>
+            <li>
+              Ensure accessibility with proper color contrast and text sizes.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Document designs in a style guide covering colors, typography, and
+          branding.
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>Approved wireframes and mockups.</li>
+            <li>User stories linked to Jira tasks.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>2. Technical Architecture (Sprint 1)</h3>
+      <p>Define the application's technology stack and system design:</p>
+      <ul>
+        <li>
+          Establish a scalable architecture:
+          <ul>
+            <li>Frontend: Flutter using MVVM pattern.</li>
+            <li>
+              Backend: PHP with MySQL, supplemented by Firebase for real-time
+              features.
+            </li>
+            <li>
+              APIs: RESTful design for seamless frontend-backend interaction.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Set up version control with GitHub and establish branching strategies
+          (e.g., main, dev, feature branches).
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>
+              Architecture diagrams and API specifications documented in
+              Swagger.
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>3. Frontend Development (Sprint 2 & 3)</h3>
+      <ul>
+        <li>
+          Initialize the Flutter project:
+          <ul>
+            <li>Set up the project structure following MVVM.</li>
+            <li>Create reusable widgets and components for consistent UI.</li>
+          </ul>
+        </li>
+        <li>
+          Develop key screens:
+          <ul>
+            <li>Authentication: Login and Signup with form validation.</li>
+            <li>Product Browsing: Home, Product List, and Product Details.</li>
+            <li>
+              Cart and Checkout: Interactive cart updates and checkout flow.
+            </li>
+            <li>Supplier Dashboard: Manage inventory and orders.</li>
+          </ul>
+        </li>
+        <li>
+          Integrate state management using BLoC:
+          <ul>
+            <li>
+              Separate logic into features like ProductBloc, CartBloc, etc.
+            </li>
+            <li>Handle loading, success, and error states for each feature.</li>
+          </ul>
+        </li>
+        <li>
+          Ensure responsiveness:
+          <ul>
+            <li>Use Flutter widgets for adaptive layouts.</li>
+            <li>Test across devices to refine the user experience.</li>
+          </ul>
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>Functional UI components with mock data integration.</li>
+            <li>Documented project structure and coding standards.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>4. Backend Development (Sprint 3)</h3>
+      <ul>
+        <li>
+          Build RESTful APIs for:
+          <ul>
+            <li>Authentication: Secure login and signup with JWT tokens.</li>
+            <li>Product Management: CRUD operations for suppliers.</li>
+            <li>Order Management: Process, update, and track orders.</li>
+          </ul>
+        </li>
+        <li>
+          Integrate Firebase for:
+          <ul>
+            <li>Push notifications: Alerts for order updates.</li>
+            <li>Real-time inventory updates.</li>
+          </ul>
+        </li>
+        <li>
+          Perform thorough testing:
+          <ul>
+            <li>Validate endpoints using Postman.</li>
+            <li>Write PHPUnit tests for critical functionalities.</li>
+          </ul>
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>Secure and scalable backend with documentation.</li>
+            <li>Tested APIs ready for frontend integration.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>5. Integration & Testing (Sprint 4)</h3>
+      <ul>
+        <li>Integrate frontend with backend APIs using Retrofit.</li>
+        <li>
+          Test comprehensively:
+          <ul>
+            <li>Unit tests: Validate individual components and BLoC states.</li>
+            <li>
+              Integration tests: Ensure smooth communication between frontend
+              and backend.
+            </li>
+            <li>Load tests: Simulate high traffic to assess performance.</li>
+          </ul>
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>Fully integrated application passing all test cases.</li>
+            <li>
+              Performance reports highlighting system stability under load.
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>6. Deployment & Monitoring (Sprint 5)</h3>
+      <ul>
+        <li>
+          Deploy backend to Hostinger with HTTPS for secure API communication.
+        </li>
+        <li>Host the Flutter web app on Firebase Hosting.</li>
+        <li>
+          Set up CI/CD pipelines:
+          <ul>
+            <li>Automate testing and deployment using GitHub Actions.</li>
+            <li>
+              Monitor application health with tools like Firebase Analytics and
+              Crashlytics.
+            </li>
+          </ul>
+        </li>
+        <li>
+          Deliverables:
+          <ul>
+            <li>Deployed application with monitoring and analytics enabled.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Analytics & Reporting</h2>
+      <p>
+        Analytics is critical for understanding user behavior and improving the
+        platform. Key integrations include:
+      </p>
+      <ul>
+        <li>
+          <strong>Google Analytics:</strong> Track page views, session
+          durations, and conversion rates.
+        </li>
+        <li>
+          <strong>Firebase Analytics:</strong> Monitor app usage patterns and
+          events.
+        </li>
+        <li>
+          <strong>Admin Dashboard:</strong> Custom analytics for sales trends
+          and inventory performance.
+        </li>
+      </ul>
+      <p>
+        <strong>Tools:</strong> Google Analytics, Firebase Analytics, Tableau
+        (optional for advanced reporting).
+      </p>
+    </section>
+
+    <section>
+      <h2>Learning Resources</h2>
+      <ul>
+        <li>
+          <a href="https://riverpod.dev" target="_blank"
+            >Riverpod Documentation</a
+          >
+        </li>
+        <li>
+          <a href="https://flutter.dev/docs/testing" target="_blank"
+            >Flutter Testing Guide</a
+          >
+        </li>
+        <li>
+          <a href="https://firebase.google.com/docs/analytics" target="_blank"
+            >Google Analytics Docs</a
+          >
+        </li>
+        <li>
+          <a href="https://docs.github.com/en" target="_blank">GitHub Docs</a>
+        </li>
+        <li>
+          <a href="https://www.markdownguide.org" target="_blank"
+            >Markdown Guide</a
+          >
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>

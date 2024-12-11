@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Stories and User Flows</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #0073e6;
+            color: #fff;
+            text-align: center;
+            padding: 20px 10px;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            background-color: #0073e6;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1 1 calc(50% - 40px);
+            box-sizing: border-box;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .card h2 {
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+        .card h3 {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .card p {
+            line-height: 1.6;
+        }
+        .acceptance-criteria, .user-flow-steps {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        .acceptance-criteria li, .user-flow-steps li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Stories and User Flows</h1>
+        <p>Detailed documentation for the car spare parts platform.</p>
+    </header>
+    <div class="container">
+        <!-- User Stories Section -->
+        <section class="section">
+    <h2>User Stories</h2>
+    <div class="card-container">
+        <!-- User Story 1 -->
+        <div class="card">
+            <h2>Implement Product Browsing with Search and Filters</h2>
+            <h3>Desired Business Outcome:</h3>
+            <p>Enable customers to easily discover and locate car spare parts to improve user satisfaction and increase sales.</p>
+            <h3>User Story:</h3>
+            <p>As a customer, I want to browse and search for car spare parts using filters so that I can find the exact part I need quickly and efficiently.</p>
+            <h3>Acceptance Criteria:</h3>
+            <ul class="acceptance-criteria">
+                <li>Display a list of products.</li>
+                <li>Search for a product.</li>
+                <li>Filter products.</li>
+            </ul>
+        </div>
+
+        <!-- User Story 2 -->
+        <div class="card">
+            <h2>Implement Authentication via Email/Password and Google Login</h2>
+            <h3>Desired Business Outcome:</h3>
+            <p>Allow both customers and suppliers to securely access the platform to ensure data security and user convenience.</p>
+            <h3>User Story:</h3>
+            <p>As a platform user, I want to log in using either email/password or Google account so that I can securely access my account and related features.</p>
+            <h3>Acceptance Criteria:</h3>
+            <ul class="acceptance-criteria">
+                <li>Email/Password authentication.</li>
+                <li>Google login.</li>
+                <li>Failed login attempt.</li>
+            </ul>
+        </div>
+
+        <!-- User Story 3 -->
+        <div class="card">
+            <h2>Admin Panel for Inventory and Sales Management</h2>
+            <h3>Desired Business Outcome:</h3>
+            <p>Provide suppliers with tools to manage inventory and track sales efficiently to enhance operational capabilities.</p>
+            <h3>User Story:</h3>
+            <p>As a supplier, I want to access an admin panel to manage my inventory and view sales metrics so that I can maintain up-to-date stock and analyze business performance.</p>
+            <h3>Acceptance Criteria:</h3>
+            <ul class="acceptance-criteria">
+                <li>Manage inventory.</li>
+                <li>View sales metrics.</li>
+                <li>Low stock notification.</li>
+            </ul>
+        </div>
+
+        <!-- User Story 4 -->
+        <div class="card">
+            <h2>Customer Cart, Checkout, and Order History</h2>
+            <h3>Desired Business Outcome:</h3>
+            <p>Enable customers to manage their purchases efficiently, improving the shopping experience and ensuring transparency.</p>
+            <h3>User Story:</h3>
+            <p>As a customer, I want to add products to a cart, complete the checkout process, and view my order history so that I can manage my purchases seamlessly.</p>
+            <h3>Acceptance Criteria:</h3>
+            <ul class="acceptance-criteria">
+                <li>Add to cart.</li>
+                <li>Complete checkout.</li>
+                <li>View order history.</li>
+            </ul>
+        </div>
+
+        <!-- User Story 5 -->
+        <div class="card">
+            <h2>Advanced Analytics and Notifications for Stakeholders</h2>
+            <h3>Desired Business Outcome:</h3>
+            <p>Provide actionable insights and timely notifications to both customers and suppliers to improve decision-making and engagement.</p>
+            <h3>User Story:</h3>
+            <p>As a stakeholder, I want to receive relevant analytics and notifications so that I can stay informed and take timely actions.</p>
+            <h3>Acceptance Criteria:</h3>
+            <ul class="acceptance-criteria">
+                <li>Sales trend analysis for suppliers.</li>
+                <li>Order status notification for customers.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+        <!-- User Flows Section -->
+        <section class="section">
+    <h2>User Flows</h2>
+    <div class="card-container">
+        <!-- User Flow 1 -->
+        <div class="card">
+            <h2>Product Browsing with Search and Filters</h2>
+            <h3>Objective:</h3>
+            <p>Enable customers to discover and locate car spare parts quickly, improving user satisfaction and increasing sales.</p>
+            <h3>User Flow:</h3>
+            <ul class="user-flow-steps">
+                <li><strong>Entry Point:</strong> Homepage or product landing page.</li>
+                <li><strong>Browse Products:</strong>
+                    <ul>
+                        <li>Access the "Spare Parts" section via the navigation menu or homepage banner.</li>
+                        <li>Display a grid/list of car spare parts with key details (name, price, availability).</li>
+                    </ul>
+                </li>
+                <li><strong>Search Products:</strong>
+                    <ul>
+                        <li>Include a search bar at the top of the page for keyword-based searching.</li>
+                        <li>Suggest auto-completed terms for common searches.</li>
+                    </ul>
+                </li>
+                <li><strong>Filter Products:</strong>
+                    <ul>
+                        <li>Category: Engine, Body Parts, Electronics, etc.</li>
+                        <li>Price Range Slider</li>
+                        <li>Brand</li>
+                        <li>Compatibility (Car Make & Model)</li>
+                    </ul>
+                </li>
+                <li><strong>View Product Details:</strong>
+                    <ul>
+                        <li>Description</li>
+                        <li>Pricing</li>
+                        <li>Compatibility</li>
+                        <li>Stock availability</li>
+                        <li>Customer reviews</li>
+                    </ul>
+                </li>
+                <li><strong>Next Steps:</strong> Add to Cart, Save for Later.</li>
+            </ul>
+        </div>
+
+        <!-- User Flow 2 -->
+        <div class="card">
+            <h2>Authentication via Email/Password and Google Login</h2>
+            <h3>Objective:</h3>
+            <p>Provide a secure and convenient login process for customers and suppliers.</p>
+            <h3>User Flow:</h3>
+            <ul class="user-flow-steps">
+                <li><strong>Entry Point:</strong>
+                    <ul>
+                        <li>Login/Signup link on the homepage.</li>
+                        <li>Redirect when accessing restricted features like checkout or admin panel.</li>
+                    </ul>
+                </li>
+                <li><strong>Signup/Login Page:</strong>
+                    <ul>
+                        <li>Email/Password:
+                            <ul>
+                                <li>Input form for email and password.</li>
+                                <li>"Forgot Password" link.</li>
+                            </ul>
+                        </li>
+                        <li>Google Login:
+                            <ul>
+                                <li>One-tap login button with Google OAuth integration.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Authentication Outcomes:</strong>
+                    <ul>
+                        <li><strong>Success:</strong> Redirect to the last visited page or user dashboard.</li>
+                        <li><strong>Failure:</strong> Display an error message (e.g., "Invalid credentials").</li>
+                        <li>Option to retry or contact support.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- User Flow 3 -->
+        <div class="card">
+            <h2>Admin Panel for Inventory and Sales Management</h2>
+            <h3>Objective:</h3>
+            <p>Provide suppliers with tools to manage inventory and track sales efficiently, enhancing operational capabilities.</p>
+            <h3>User Flow:</h3>
+            <ul class="user-flow-steps">
+                <li><strong>Entry Point:</strong> Admin login page.</li>
+                <li><strong>Inventory Management:</strong>
+                    <ul>
+                        <li>View and update stock levels.</li>
+                        <li>Add or remove products.</li>
+                        <li>Receive low stock notifications.</li>
+                    </ul>
+                </li>
+                <li><strong>Sales Metrics:</strong>
+                    <ul>
+                        <li>Access sales analytics (e.g., total sales, top-selling products).</li>
+                        <li>View reports by date range or product category.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- User Flow 4 -->
+        <div class="card">
+    <h2>Customer Cart, Checkout, and Order History</h2>
+    <h3>Objective:</h3>
+    <p>Facilitate seamless purchase management and drive retention through a loyalty program.</p>
+    <h3>User Flow:</h3>
+    <ul class="user-flow-steps">
+        <li><strong>Cart:</strong>
+            <ul>
+                <li>Add items directly from product listings or details.</li>
+                <li>View cart summary with:
+                    <ul>
+                        <li>Product name, quantity, price, total.</li>
+                    </ul>
+                </li>
+                <li>Update quantity or remove items.</li>
+            </ul>
+        </li>
+        <li><strong>Checkout:</strong>
+            <ul>
+                <li>Steps:
+                    <ul>
+                        <li>Billing/Shipping Address.</li>
+                        <li>Payment Method (Credit Card, PayPal, etc.).</li>
+                        <li>Order Review.</li>
+                    </ul>
+                </li>
+                <li>Points System:
+                    <ul>
+                        <li>Display points earned on the confirmation page for each purchase.</li>
+                        <li>Message example: “You earned 100 points! Check your dashboard to see your total and redeem rewards.”</li>
+                    </ul>
+                </li>
+                <li>Confirmation page with order summary and estimated delivery date.</li>
+            </ul>
+        </li>
+        <li><strong>Order History:</strong>
+            <ul>
+                <li>View past orders with:
+                    <ul>
+                        <li>Order ID, date, total price, status (e.g., Pending, Delivered).</li>
+                    </ul>
+                </li>
+                <li>Option to reorder or contact support.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+        <!-- User Flow 5 -->
+        <div class="card">
+            <h2>Advanced Analytics and Notifications for Stakeholders</h2>
+            <h3>Objective:</h3>
+            <p>Provide actionable insights and timely notifications to both customers and suppliers, improving decision-making and engagement.</p>
+            <h3>User Flow:</h3>
+            <ul class="user-flow-steps">
+                <li><strong>Analytics for Suppliers:</strong>
+                    <ul>
+                        <li>Access dashboards with sales trends and performance metrics.</li>
+                        <li>Receive recommendations for restocking popular products.</li>
+                    </ul>
+                </li>
+                <li><strong>Notifications for Customers:</strong>
+                    <ul>
+                        <li>Receive real-time updates on order status (e.g., shipped, delivered).</li>
+                        <li>Get reminders for items left in the cart.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<!-- User Flow 5 -->
+<div class="card">
+    <h2>Loyalty Program: Retention Feature</h2>
+    <h3>Objective:</h3>
+    <p>Encourage repeat purchases and referrals, increasing revenue and customer lifetime value.</p>
+    <h3>User Flow:</h3>
+    <ul class="user-flow-steps">
+        <li><strong>Points System:</strong>
+            <ul>
+                <li>Earn points for:
+                    <ul>
+                        <li>Every purchase (e.g., 10 points per $1 spent).</li>
+                        <li>Referring friends (e.g., 500 points per successful referral).</li>
+                    </ul>
+                </li>
+                <li>Notification:
+                    <ul>
+                        <li>After actions that earn points, send real-time confirmation (e.g., “Congratulations! You earned 500 points for your referral!”).</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Tiers:</strong>
+            <ul>
+                <li>Introduce gamified levels (e.g., Silver, Gold, Platinum).</li>
+                <li>Silver: Default tier; basic benefits (e.g., birthday discounts).</li>
+                <li>Gold: Unlock rewards at 1,000 points (e.g., 5% off purchases, free shipping).</li>
+                <li>Platinum: Unlock at 5,000 points (e.g., 10% off purchases, priority customer support).</li>
+                <li>Users advance automatically when point thresholds are met.</li>
+            </ul>
+        </li>
+        <li><strong>Dashboard Integration:</strong>
+            <ul>
+                <li>Add a Loyalty Tab in the dashboard with:
+                    <ul>
+                        <li>Total Points: Display current balance.</li>
+                        <li>Tiers: Show current tier, benefits, and progress toward the next tier.</li>
+                        <li>Rewards: Redeem points for discounts, gift cards, or other benefits.</li>
+                        <li>Transaction History: Log points earned, redeemed, and remaining balance.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+</section>
+
+    </div>
+</body>
+</html>

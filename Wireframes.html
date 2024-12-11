@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Wireframe Design Documentation</title>
+    <style>
+      body {
+        font-family: Montserrat, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f9f8f1; /* Secondary Foreground */
+        color: #000000; /* Primary Foreground */
+      }
+
+      h1 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+        text-align: center;
+        margin: 20px auto; /* Centers the box horizontally */
+      }
+      h2 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+        text-align: center;
+        margin: 20px auto; /* Centers the box horizontally */
+      }
+      h3 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+      }
+
+      .page {
+        border: 1px solid #c18b2f; /* Primary Color */
+        padding: 20px;
+        margin: 20px auto; /* Centers the box horizontally */
+        max-width: 800px; /* Restricts the width for better readability */
+        border-radius: 12px; /* Rounded corners */
+        background: linear-gradient(90deg, #f9f8f1); /* Subtle gradient */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        text-align: left; /* Ensures text remains left-aligned */
+      }
+
+      .section {
+        margin-bottom: 15px;
+      }
+
+      code {
+        background: #f4f4f4;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+
+      .color-swatch {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .color-box {
+        width: 50px;
+        height: 25px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        border-radius: 4px; /* Rounded corners */
+      }
+
+      .typography-example {
+        margin: 10px 0;
+      }
+
+      .gradient-box {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #c18b2f; /* Primary Color */
+        margin-bottom: 10px;
+        border-radius: 12px; /* Rounded corners */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wireframe Design Documentation</h1>
+
+    <section class="page">
+      <h2>Brand Identity</h2>
+      <div class="section">
+        <h3>Colors</h3>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #c18b2f"></div>
+          <span>Primary Color: #c18b2f</span>
+        </div>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #000000"></div>
+          <span>Primary Foreground: #000000</span>
+        </div>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #020024"></div>
+          <span>Secondary Color: #020024</span>
+        </div>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #f9f8f1"></div>
+          <span>Secondary Foreground: #f9f8f1</span>
+        </div>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #d95100"></div>
+          <span>Accent Color: #d95100</span>
+        </div>
+        <div class="color-swatch">
+          <div class="color-box" style="background-color: #000000"></div>
+          <span>Accent Foreground: #000000</span>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Typography</h3>
+        <div
+          class="typography-example"
+          style="
+            font-family: 'Janna LT Bold';
+            font-size: 32px;
+            font-weight: bold;
+          "
+        >
+          Arabic Title Example - 32px Bold (Janna LT Bold)
+        </div>
+
+        <div
+          class="typography-example"
+          style="font-family: 'Cairo'; font-size: 24px; font-weight: bold"
+        >
+          24px Bold (Cairo) مثال عملي
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Helvetica; font-size: 32px; font-weight: bold"
+        >
+          Title Example - 32px Bold (Helvetica)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Montserrat; font-size: 18px; font-weight: normal"
+        >
+          Body Text Example - 18px Regular (Montserrat)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Montserrat; font-size: 14px; font-weight: normal"
+        >
+          Small Text Example - 14px Regular (Montserrat)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: 'Cairo'; font-size: 16px; font-weight: normal"
+        >
+          Body Text Example - 16px Regular (Cairo)
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Gradients</h3>
+        <div
+          class="gradient-box"
+          style="background: linear-gradient(#c18b2f, #020024)"
+        >
+          Primary to Secondary Gradient #c18b2f, #020024
+        </div>
+        <div
+          class="gradient-box"
+          style="background: linear-gradient(#c18b2f, #d95100)"
+        >
+          Primary to Accent Gradient #c18b2f, #d95100
+        </div>
+        <div
+          class="gradient-box"
+          style="background: radial-gradient(#c18b2f, #020024)"
+        >
+          Radial Primary to Secondary Gradient #c18b2f, #020024
+        </div>
+      </div>
+    </section>
+    <section class="page">
+      <h2>Resources & Inspiration</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide references to external tools and designs that inspired or
+          support this wireframe documentation.
+        </p>
+      </div>
+      <div class="section" style="display: flex; flex-wrap: wrap; gap: 20px">
+        <a
+          href="https://elitespareparts.net/store/?woo-share=iHlRXtOXN4Y5bBzyxgS39GG5jlDaAW46"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Elite+Spare+Parts"
+            alt="Elite Spare Parts"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Elite Spare Parts Store</span>
+        </a>
+        <a
+          href="https://www.realtimecolors.com/?colors=000000-f9f8f1-c18b2f-020024-d95100&fonts=Inter-Inter"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Realtime+Colors"
+            alt="Realtime Colors"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Realtime Colors Tool</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/2bv3arIhKSQrEVMF3bNfEl/E-commerce-Shop-Mobile-Wireframe-Flows-(Community)?node-id=1095-15866&node-type=frame&t=8hrzfs8OeOD3qc0U-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=E-commerce+Mobile+Wireframe"
+            alt="E-commerce Mobile Wireframe"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>E-commerce Mobile Wireframe Flows (Figma)</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/2e6KQ3s1aaMve7PCnHCfUX/Ecommerce-Website-Wireframe-(Community)?node-id=0-1&node-type=canvas&t=HuAvVlIVnI65DXYA-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Ecommerce+Website+Wireframe"
+            alt="Ecommerce Website Wireframe"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Ecommerce Website Wireframe (Figma)</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/N4Kz9Jcw2dkanXEGpaMuFE/iOS-Native-Wireframes-(Community)?node-id=0-1&node-type=canvas&t=lQIecCBCCKi0JAOW-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=iOS+Native+Wireframes"
+            alt="iOS Native Wireframes"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>iOS Native Wireframes (Figma)</span>
+        </a>
+        <a
+          href="https://preview.themeforest.net/item/turbojet-shopify-spare-parts-store-theme-automotive/full_screen_preview/39594753"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Turbojet+Shopify+Theme"
+            alt="Turbojet Shopify Theme"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Turbojet Shopify Spare Parts Theme</span>
+        </a>
+        <a
+          href="https://preview.themeforest.net/item/ap-karpart-car-spare-parts-shopify-theme/full_screen_preview/51582460"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=AP+Karpart+Shopify+Theme"
+            alt="AP Karpart Shopify Theme"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>AP Karpart Shopify Theme</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Home Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide an entry point for users to explore the platform, browse
+          categories, and access featured products.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Search Bar: Positioned at the top for keyword-based searching.
+          </li>
+          <li>
+            Navigation Bar: Includes links to Home, Products, Cart, and Account.
+          </li>
+          <li>Banner: Highlight promotions or featured products.</li>
+          <li>
+            Featured Products Section:
+            <ul class="component">
+              <li>
+                Product Cards: Display product image, title, price, and an "Add
+                to Cart" button.
+              </li>
+              <li>
+                Grid Layout: Adjusts to fit screen size (single column for
+                mobile).
+              </li>
+            </ul>
+          </li>
+          <li>Footer: Displays basic information (e.g., copyright).</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Uses a multi-column grid layout for featured products and
+          horizontal navigation.<br />
+          Mobile: Stacked layout with vertical scrolling and simplified
+          navigation.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Product Listing Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable users to browse and filter car spare parts based on categories,
+          price range, and compatibility.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Filters Panel:
+            <ul class="component">
+              <li>
+                Category: Dropdown or checkbox list (e.g., Engine, Body Parts).
+              </li>
+              <li>Price Range Slider.</li>
+              <li>Brand Selector.</li>
+              <li>Compatibility Selector: Dropdown for car make and model.</li>
+            </ul>
+          </li>
+          <li>
+            Product Cards: Displayed in a grid or list view with product
+            details.
+          </li>
+          <li>
+            Pagination: Buttons or infinite scroll for navigating large
+            datasets.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Filters are displayed on the left side, with products in a
+          grid on the right.<br />
+          Mobile: Filters are collapsible, and products are shown in a
+          single-column list.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Product Details Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide detailed information about a product to help users make
+          informed purchasing decisions.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>Product Image Gallery: Carousel or static images.</li>
+          <li>
+            Product Details Section:
+            <ul class="component">
+              <li>Title, Price, and Stock Availability.</li>
+              <li>Compatibility Information.</li>
+              <li>Description: Full details about the product.</li>
+            </ul>
+          </li>
+          <li>"Add to Cart" Button.</li>
+          <li>Customer Reviews Section: List of reviews with ratings.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Two-column layout with images on the left and details on the
+          right.<br />
+          Mobile: Single-column stacked layout.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Cart Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Allow users to review their selected products, update quantities, and
+          proceed to checkout.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Product List: Includes product image, name, price, and quantity
+            selector.
+          </li>
+          <li>Cart Summary: Displays subtotal, tax, and total price.</li>
+          <li>"Proceed to Checkout" Button.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Two-column layout with the product list on the left and
+          summary on the right.<br />
+          Mobile: Stacked layout with the summary below the product list.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Checkout Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Facilitate the completion of a purchase by collecting shipping and
+          payment details.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Shipping Address Form: Includes name, address, and contact details.
+          </li>
+          <li>Payment Method Selector: Credit card, PayPal, etc.</li>
+          <li>Order Review Section: Summarizes cart items and total cost.</li>
+          <li>
+            Points Redemption:
+            <ul class="component">
+              <li>
+                "Use Points" Toggle: Apply points for discounts at checkout.
+              </li>
+              <li>
+                Real-time Update: Show new totals after applying points (e.g.,
+                "Total: $45 after applying 500 points").
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Three-column layout with shipping, payment, and order review
+          side by side.<br />
+          Mobile: Multi-step form with one section per screen.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Order History Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Allow customers to track and review their past purchases, including
+          status and details of each order.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Order List:
+            <ul class="component">
+              <li>Order ID: Unique identifier for each order.</li>
+              <li>Date: The date the order was placed.</li>
+              <li>Total Price: Sum of items in the order.</li>
+              <li>Status: Order status (e.g., Pending, Delivered).</li>
+            </ul>
+          </li>
+          <li>
+            "View Details" Button: Opens detailed information for the specific
+            order.
+          </li>
+          <li>
+            Reorder Option: Shortcut to add items from a previous order to the
+            cart.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: A table format with columns for ID, date, total, and
+          status.<br />
+          Mobile: A card layout displaying key order details in a stacked
+          format.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Login/Register Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable secure user authentication through email/password and Google
+          Login.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>Email/Password Input: Fields for entering email and password.</li>
+          <li>
+            "Log in with Google" Button: Integration for Google OAuth
+            authentication.
+          </li>
+          <li>
+            "Forgot Password" Link: Redirects to a password recovery page.
+          </li>
+          <li>
+            Validation Messages: Real-time feedback for invalid inputs (e.g.,
+            missing email).
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: A centered form layout with all fields visible at once.<br />
+          Mobile: Simplified layout with vertically stacked fields.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Admin Panel</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide tools for suppliers to manage inventory, track sales, monitor
+          performance, and analyze trends using intuitive dashboards and
+          analytics.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Navigation Menu:
+            <ul class="component">
+              <li>
+                Sidebar or top bar navigation links to Dashboard, Inventory
+                Management, and Analytics.
+              </li>
+              <li>Collapsible sections for a cleaner mobile interface.</li>
+            </ul>
+          </li>
+          <li>
+            Loyalty Program
+            <ul class="component">
+              <li>Points Rules Management</li>
+              <li>Tiers Management</li>
+              <li>Reward Catalogue</li>
+              <li>User Analytics</li>
+            </ul>
+          </li>
+
+          <li>
+            Dashboard Widgets:
+            <ul class="component">
+              <li>
+                Sales Metrics: Show total sales, sales trends, and top-selling
+                products.
+              </li>
+              <li>
+                Low Stock Alerts: Highlight products running low on inventory.
+              </li>
+              <li>
+                Inventory Overview: Summarizes stock levels across all
+                categories.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Inventory Management Section:
+            <ul class="component">
+              <li>
+                Product List: Displays all products with search and filter
+                options.
+              </li>
+              <li>Management Options: Add, update, or delete products.</li>
+            </ul>
+          </li>
+          <li>
+            Analytics Widgets:
+            <ul class="component">
+              <li>Graphs for sales performance over time.</li>
+              <li>Filters for date ranges and product categories.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Sidebar navigation with detailed widgets laid out in a grid
+          format for quick data access.<br />
+          Mobile: Simplified layout with vertically stacked sections and
+          collapsible navigation for ease of use on smaller screens.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Inventory Management Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable suppliers to efficiently manage product inventory, ensuring
+          accuracy and real-time updates.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Product List:
+            <ul class="component">
+              <li>Table or card-based list of all products.</li>
+              <li>Search Bar: Filter products by name, category, or SKU.</li>
+              <li>Sort Options: By price, stock quantity, or added date.</li>
+            </ul>
+          </li>
+          <li>
+            Add Product:
+            <ul class="component">
+              <li>
+                Form with fields for product name, description, price, stock,
+                category, and image upload.
+              </li>
+              <li>Validation: Ensure all required fields are completed.</li>
+            </ul>
+          </li>
+          <li>
+            Edit Product:
+            <ul class="component">
+              <li>Pre-filled form for updating product details.</li>
+              <li>Preview Changes: Option to view updates before saving.</li>
+            </ul>
+          </li>
+          <li>
+            Delete Product:
+            <ul class="component">
+              <li>
+                Confirmation Popup: Ask for user confirmation before deletion.
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Table layout with columns for product details and action
+          buttons.<br />
+          Mobile: Stacked card layout with collapsible actions for each product.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Loyalty Program</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide users with a centralized view of their loyalty points, tier
+          progress, and rewards.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Total Points Display: Prominent display of the user's current points
+            balance.
+          </li>
+          <li>
+            Tiers Section:
+            <ul class="component">
+              <li>
+                Current Tier: Highlight the user's current tier (e.g., Silver).
+              </li>
+              <li>Progress Tracker: Visual progress toward the next tier.</li>
+              <li>Tier Benefits: List perks for each tier.</li>
+            </ul>
+          </li>
+          <li>
+            Rewards Section:
+            <ul class="component">
+              <li>
+                Redeemable Rewards: Show available rewards with point costs.
+              </li>
+              <li>
+                Redeem Button: Allow users to apply points to get rewards.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Transaction History: Log of points earned, redeemed, and current
+            balance.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Display sections in a three-column layout for points, tiers,
+          and rewards.<br />
+          Mobile: Stacked layout with collapsible sections for a cleaner
+          experience.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Loyalty Program Notifications</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>Notify users about points earned and tier progress in real-time.</p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Points Earned Notification: "Congratulations! You earned 500 points
+            for your referral!"
+          </li>
+          <li>
+            Tier Upgrade Notification: "You've been upgraded to Gold Tier. Enjoy
+            5% off and free shipping!"
+          </li>
+          <li>Customizable Messages: Based on user actions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Analytics Page (Admin)</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide suppliers with actionable insights on sales performance,
+          product trends, and inventory turnover to support data-driven
+          decisions.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Sales Graphs:
+            <ul class="component">
+              <li>
+                Line/Bar charts showing sales over time (daily, weekly,
+                monthly).
+              </li>
+              <li>
+                Filters: Date range, product categories, or specific products.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Top-Performing Products:
+            <ul class="component">
+              <li>List of products ranked by sales volume.</li>
+              <li>
+                Include metrics like revenue, number of units sold, and
+                profitability.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Inventory Turnover:
+            <ul class="component">
+              <li>
+                Chart or table showing inventory movement and restocking
+                frequency.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Customizable Reports:
+            <ul class="component">
+              <li>Option to generate and export PDF/Excel reports.</li>
+            </ul>
+          </li>
+          <li>
+            Loyalty Program Management:
+            <ul class="component">
+              <li>
+                Points Rules Management:
+                <ul class="component">
+                  <li>Set earning rates (e.g., points per $1).</li>
+                  <li>Configure referral bonuses.</li>
+                </ul>
+              </li>
+              <li>
+                Tiers Management:
+                <ul class="component">
+                  <li>
+                    Define thresholds and benefits for Silver, Gold, and
+                    Platinum tiers.
+                  </li>
+                  <li>Set automatic progression rules.</li>
+                </ul>
+              </li>
+              <li>
+                Reward Catalogue:
+                <ul class="component">
+                  <li>Add, update, or remove redeemable rewards.</li>
+                  <li>Set point costs for rewards.</li>
+                </ul>
+              </li>
+              <li>
+                User Analytics:
+                <ul class="component">
+                  <li>
+                    Track loyalty program engagement and tier distribution.
+                  </li>
+                  <li>Monitor rewards redemption patterns.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Interactive charts and tables in a dashboard-style layout.<br />
+          Mobile: Simplified, scrollable view with expandable graphs and
+          summaries.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
