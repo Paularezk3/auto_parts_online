@@ -10,7 +10,7 @@ Built with **Flutter** for a seamless user experience across web and mobile.
 - 🔑 **Authentication**: Login/Signup using Email/Password and Google.
 - 📊 **Admin Panel**: Manage inventory, monitor sales, and track orders.
 - 📲 **Notifications**: Real-time updates for orders and sales analytics.
--    **Loyalty Program**: Retention Feature
+- **Loyalty Program**: Retention Feature
 
 ---
 
