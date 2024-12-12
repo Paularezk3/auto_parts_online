@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Practices (with Jira)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #0056b3;
+      }
+      h1 {
+        text-align: center;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        border-left: 4px solid #0056b3;
+        overflow-x: auto;
+        border-radius: 4px;
+      }
+      ul {
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+      .section {
+        margin-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>GitHub Best Practices Documentation</h1>
+
+    <section class="section">
+      <h2>Branch Naming Conventions</h2>
+      <p>
+        Maintain clear and professional branch names for better collaboration
+        and organization.
+      </p>
+      <ul>
+        <li>Use lower case and hyphens (<code>-</code>) as separators.</li>
+        <li>Include Jira issue keys in the branch name for traceability.</li>
+        <li>
+          Prefix branch names with categories like <code>feature/</code>,
+          <code>bugfix/</code>, or <code>hotfix/</code>.
+        </li>
+      </ul>
+      <h3>Examples:</h3>
+      <ul>
+        <li><code>feature/PROJ-123-add-login-screen</code></li>
+        <li><code>bugfix/PROJ-456-fix-cart-issue</code></li>
+        <li><code>hotfix/PROJ-789-critical-api-bug</code></li>
+        <li><code>release/v1.2.3</code></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Commit Message Guidelines</h2>
+      <p>
+        Write professional and descriptive commit messages to improve
+        traceability and understanding.
+      </p>
+      <h3>Format:</h3>
+      <pre>
+        &lt;type>(&lt;scope>): &lt;short summary&gt;
+        &lt;empty line&gt;
+        &lt;longer description explaining what changed and why&gt;
+        &lt;empty line&gt;
+        &lt;references&gt;
+    </pre
+      >
+      <h3>Commit Types:</h3>
+      <ul>
+        <li><strong>feat:</strong> A new feature.</li>
+        <li><strong>fix:</strong> A bug fix.</li>
+        <li><strong>docs:</strong> Documentation updates.</li>
+        <li>
+          <strong>style:</strong> Code formatting changes (no functional
+          changes).
+        </li>
+        <li>
+          <strong>refactor:</strong> Code refactoring without functional
+          changes.
+        </li>
+        <li><strong>test:</strong> Adding or fixing tests.</li>
+        <li><strong>chore:</strong> Non-code updates (e.g., build scripts).</li>
+      </ul>
+      <h3>Examples:</h3>
+      <ul>
+        <li><code>feat(PROJ-123): add login functionality</code></li>
+        <li><code>fix(PROJ-456): resolve cart quantity bug</code></li>
+        <li>
+          <code>docs(PROJ-789): update README with deployment steps</code>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Using Smart Commits</h2>
+      <p>
+        Smart commits allow you to directly interact with Jira issues from your
+        Git commit messages. Include specific commands in your commit messages
+        to update Jira tasks.
+      </p>
+      <h3>Smart Commit Syntax:</h3>
+      <ul>
+        <li><code>[Jira Issue Key] [Command] [Optional Comment]</code></li>
+      </ul>
+      <h3>Available Commands:</h3>
+      <ul>
+        <li><code>#close</code>: Marks the issue as closed or resolved.</li>
+        <li><code>#done</code>: Marks the issue as done.</li>
+        <li>
+          <code>#in-progress</code>: Moves the issue to the "In Progress"
+          status.
+        </li>
+        <li><code>#review</code>: Requests a review for the issue.</li>
+      </ul>
+      <h3>Examples:</h3>
+      <ul>
+        <li>
+          <code>PROJ-123 #close Fixed the login authentication bug.</code>
+        </li>
+        <li>
+          <code
+            >PROJ-456 #in-progress Implemented basic product search
+            functionality.</code
+          >
+        </li>
+        <li>
+          <code
+            >PROJ-789 #done Updated README and added deployment
+            instructions.</code
+          >
+        </li>
+      </ul>
+      <h3>Best Practices:</h3>
+      <ul>
+        <li>
+          Ensure the issue key is accurate to link your commit to the correct
+          task.
+        </li>
+        <li>Keep the command relevant to the current progress of the issue.</li>
+        <li>Write meaningful comments to provide context for the commit.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Creating Professional Jira Tasks</h2>
+      <p>
+        Jira tasks should be detailed, actionable, and aligned with Scrum cycles
+        to ensure smooth progress tracking and effective team collaboration.
+      </p>
+      <h3>Task Creation Steps:</h3>
+      <ul>
+        <li>
+          <strong>Step 1: Define the Task Title</strong>
+          <ul>
+            <li>
+              Use a short and descriptive title (e.g., "Implement Login
+              Screen").
+            </li>
+            <li>
+              Include relevant context, such as feature name or bug scope.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Step 2: Write a Detailed Description</strong>
+          <ul>
+            <li>Explain the purpose and outcome of the task.</li>
+            <li>
+              Include technical details, mockups, or links to resources if
+              applicable.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Step 3: Add Acceptance Criteria</strong>
+          <ul>
+            <li>Define measurable outcomes to mark the task as complete.</li>
+            <li>
+              Example: "The login screen should validate email/password and
+              display error messages."
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Step 4: Assign Priority and Estimate Effort</strong>
+          <ul>
+            <li>Use priority levels like "High," "Medium," or "Low."</li>
+            <li>
+              Estimate story points based on the complexity and effort required.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Step 5: Link Dependencies</strong>
+          <ul>
+            <li>Connect related tasks or subtasks.</li>
+            <li>
+              Example: Link "Create API for Login" to "Implement Login Screen."
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Task Types:</h3>
+      <ul>
+        <li>
+          <strong>Story:</strong> High-level functionality or user requirements
+          (e.g., "As a user, I want to add items to my cart").
+        </li>
+        <li>
+          <strong>Task:</strong> A specific piece of work (e.g., "Implement cart
+          functionality").
+        </li>
+        <li>
+          <strong>Bug:</strong> An issue to be fixed (e.g., "Fix checkout page
+          crash on mobile").
+        </li>
+        <li>
+          <strong>Epic:</strong> A large body of work divided into multiple
+          stories (e.g., "E-commerce Shopping Cart").
+        </li>
+      </ul>
+
+      <h3>Task Alignment with Scrum Cycles:</h3>
+      <ul>
+        <li>Ensure all tasks are tied to the sprint goal.</li>
+        <li>
+          Break down stories into manageable tasks that can be completed within
+          a sprint.
+        </li>
+        <li>
+          Regularly update the task status to reflect progress (e.g., "To Do,"
+          "In Progress," "Done").
+        </li>
+      </ul>
+
+      <h3>Examples of Well-Defined Tasks:</h3>
+      <ul>
+        <li><strong>Title:</strong> Implement Login Screen</li>
+        <li>
+          <strong>Description:</strong> Create a Flutter-based login screen that
+          includes fields for email and password, a login button, and validation
+          logic.
+        </li>
+        <li>
+          <strong>Acceptance Criteria:</strong>
+          <ul>
+            <li>
+              Valid email addresses are accepted; invalid ones display error
+              messages.
+            </li>
+            <li>
+              Login fails with incorrect credentials and displays an error
+              message.
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>© 2024 GitHub and Jira Best Practices. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
