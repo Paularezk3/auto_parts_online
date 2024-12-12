@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../common/components/default_buttons.dart';
 import '../../../common/widgets/rounded_appbar.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_gradients.dart';
@@ -17,6 +18,37 @@ class HomePageView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Banner Section
+            Row(
+              children: [
+                PrimaryButton(
+                  text: "Testing",
+                  isLoading: true,
+                  onPressed: () {},
+                ),
+                SecondaryButton(
+                  text: "Testing",
+                  onPressed: () {},
+                ),
+                PrimaryButton(
+                  text: "Testing",
+                  isEnabled: false,
+                  onPressed: () {},
+                ),
+                OutlinedPrimaryButton(
+                  text: "Testing",
+                  isEnabled: false,
+                  isLoading: true,
+                  buttonSize: ButtonSize.small,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            OutlinedPrimaryButton(
+              text: "Testing",
+              isEnabled: true,
+              buttonSize: ButtonSize.big,
+              onPressed: () {},
+            ),
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: const BoxDecoration(

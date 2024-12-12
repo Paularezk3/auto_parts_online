@@ -20,4 +20,9 @@ class AppColors {
   static const accentDark = Color(0xFFFF7424);
   static const accentForegroundLight = Color(0xFF000000);
   static const accentForegroundDark = Color(0xFFFFFFFF);
+
+  // static
+  static const primaryGrey = Colors.grey;
+  static final secondaryGrey = Colors.grey[350];
+  static final secondaryDarkerGrey = Colors.grey[600];
 }
