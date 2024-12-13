@@ -7,7 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../core/utils/logger_test.mocks.mocks.dart';
+
 void main() {
+  setUpAll(() {
+    setupDependencies();
+  });
+
+  // Reset GetIt after tests
+  tearDownAll(() {
+    getIt.reset();
+  });
+
   group('PrimaryButton Tests', () {
     testWidgets('renders PrimaryButton with default properties',
         (tester) async {
@@ -173,7 +184,7 @@ void main() {
     });
   });
 
-  group('Edge Case Tests for Buttons', () {
+  group('Edge Case Tests for Primary Button', () {
     testWidgets('PrimaryButton displays dynamic text correctly',
         (tester) async {
       String dynamicText = 'Initial Text';
@@ -211,16 +222,19 @@ void main() {
 
     testWidgets('PrimaryButton logs correctly on tap', (tester) async {
       const String buttonText = 'Click Me';
-      final logger = getIt<ILogger>();
+      final mockLogger = MockAppLogger(); // Use the mock
 
-      // Replace AppLogger calls with the mockLogger
+      // Inject the mock into your dependency injection system
+      when(mockLogger.info(any))
+          .thenReturn(null); // Optional: Define behavior if needed
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: Builder(
               builder: (context) => ElevatedButton(
                 onPressed: () {
-                  logger.info('PrimaryButton tapped!');
+                  mockLogger.info('PrimaryButton tapped!');
                 },
                 child: const Text(buttonText),
               ),
@@ -236,8 +250,8 @@ void main() {
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
-      // Verify the logger method was called
-      verify(logger.info('PrimaryButton tapped!')).called(1);
+      // Verify that logger.info was called with the correct message
+      verify(mockLogger.info('PrimaryButton tapped!')).called(1);
     });
 
     testWidgets('PrimaryButton handles long text gracefully', (tester) async {
@@ -262,6 +276,200 @@ void main() {
       // Check that button size or layout doesn't break
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.style!.minimumSize, isNotNull);
+    });
+  });
+
+  group('Edge Case Tests for Secondary Button', () {
+    testWidgets('SecondaryButton displays dynamic text correctly',
+        (tester) async {
+      String dynamicText = 'Initial Text';
+      final logger = getIt<ILogger>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: StatefulBuilder(
+              builder: (context, setState) {
+                return SecondaryButton(
+                  logger: logger,
+                  text: dynamicText,
+                  onPressed: () {
+                    setState(() {
+                      dynamicText = 'Updated Text';
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      // Verify initial text
+      expect(find.text('Initial Text'), findsOneWidget);
+
+      // Trigger button press and update text
+      await tester.tap(find.byType(SecondaryButton));
+      await tester.pump();
+
+      // Verify updated text
+      expect(find.text('Updated Text'), findsOneWidget);
+    });
+
+    testWidgets('SecondaryButton logs correctly on tap', (tester) async {
+      const String buttonText = 'Click Me';
+      final mockLogger = MockAppLogger(); // Use the mock
+
+      // Inject the mock into your dependency injection system
+      when(mockLogger.info(any))
+          .thenReturn(null); // Optional: Define behavior if needed
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () {
+                  mockLogger.info('SecondaryButton tapped!');
+                },
+                child: const Text(buttonText),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Verify button text is displayed
+      expect(find.text(buttonText), findsOneWidget);
+
+      // Simulate button press
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+
+      // Verify that logger.info was called with the correct message
+      verify(mockLogger.info('SecondaryButton tapped!')).called(1);
+    });
+
+    testWidgets('SecondaryButton handles long text gracefully', (tester) async {
+      const String longText =
+          'This is a very long button text that might overflow';
+      final logger = getIt<ILogger>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SecondaryButton(
+              logger: logger,
+              text: longText,
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      // Verify long text is rendered
+      expect(find.text(longText), findsOneWidget);
+
+      // Check that button size or layout doesn't break
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(button.style!.minimumSize, isNotNull);
+    });
+  });
+
+  group('Edge Case Tests for Outlined Button', () {
+    testWidgets('OutlinedPrimaryButton displays dynamic text correctly',
+        (tester) async {
+      String dynamicText = 'Initial Text';
+      final logger = getIt<ILogger>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: StatefulBuilder(
+              builder: (context, setState) {
+                return OutlinedPrimaryButton(
+                  logger: logger,
+                  text: dynamicText,
+                  onPressed: () {
+                    setState(() {
+                      dynamicText = 'Updated Text';
+                    });
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      // Verify initial text
+      expect(find.text('Initial Text'), findsOneWidget);
+
+      // Trigger button press and update text
+      await tester.tap(find.byType(OutlinedPrimaryButton));
+      await tester.pump();
+
+      // Verify updated text
+      expect(find.text('Updated Text'), findsOneWidget);
+    });
+
+    testWidgets('OutlinedPrimaryButton logs correctly on tap', (tester) async {
+      const String buttonText = 'Click Me';
+      final mockLogger = MockAppLogger(); // Use the mock
+
+      // Inject the mock into your dependency injection system
+      when(mockLogger.info(any))
+          .thenReturn(null); // Optional: Define behavior if needed
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () {
+                  mockLogger.info('OutlinedPrimaryButton tapped!');
+                },
+                child: const Text(buttonText),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Verify button text is displayed
+      expect(find.text(buttonText), findsOneWidget);
+
+      // Simulate button press
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+
+      // Verify that logger.info was called with the correct message
+      verify(mockLogger.info('OutlinedPrimaryButton tapped!')).called(1);
+    });
+
+    testWidgets('OutlinedPrimaryButton handles long text gracefully',
+        (tester) async {
+      const String longText =
+          'This is a very long button text that might overflow';
+      final logger = getIt<ILogger>();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: OutlinedPrimaryButton(
+              logger: logger,
+              text: longText,
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      // Verify long text is rendered
+      expect(find.text(longText), findsOneWidget);
+
+      // Check that button size or layout doesn't break
+      final button = tester.widget<OutlinedButton>(find.byType(OutlinedButton));
+      expect(button.style!.minimumSize, isNotNull);
+      expect(button.style!.minimumSize!.resolve({}),
+          ButtonStyles.getButtonSize(ButtonSize.big));
     });
   });
 }

@@ -40,7 +40,7 @@ void main() async {
 class ErrorApp extends StatelessWidget {
   final String message;
 
-  const ErrorApp({Key? key, required this.message}) : super(key: key);
+  const ErrorApp({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

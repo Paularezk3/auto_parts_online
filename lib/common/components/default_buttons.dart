@@ -1,6 +1,5 @@
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
-import '../../app/setup_dependencies.dart';
 import '../../core/constants/app_colors.dart';
 
 enum ButtonSize { small, big }
@@ -14,7 +13,6 @@ mixin ButtonStyles {
     required bool isPrimary,
   }) {
     final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(text);
-    final logger = getIt<ILogger>();
     return TextStyle(
       fontSize: buttonSize == ButtonSize.big ? 18 : 14,
       fontWeight: FontWeight.bold,
@@ -99,6 +97,10 @@ class PrimaryButton extends StatelessWidget {
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(
           style: ButtonStyle(
+            minimumSize: WidgetStateProperty.all(
+              ButtonStyles.getButtonSize(
+                  buttonSize), // Set a size based on buttonSize
+            ),
             backgroundColor: WidgetStateProperty.resolveWith((states) {
               return (isEnabled && onPressed != null)
                   ? (theme.brightness == Brightness.dark
@@ -132,6 +134,8 @@ class PrimaryButton extends StatelessWidget {
                 )
               : Text(
                   text,
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
                   style: ButtonStyles.getTextStyle(
                     text: text,
                     isEnabled: (isEnabled && onPressed != null),
@@ -176,6 +180,10 @@ class OutlinedPrimaryButton extends StatelessWidget {
         size: ButtonStyles.getButtonSize(buttonSize),
         child: OutlinedButton(
           style: ButtonStyle(
+            minimumSize: WidgetStateProperty.all(
+              ButtonStyles.getButtonSize(
+                  buttonSize), // Set a size based on buttonSize
+            ),
             side: WidgetStateProperty.resolveWith(
               (states) => ButtonStyles.getBorderSide(
                 isEnabled: (isEnabled && onPressed != null),
@@ -263,6 +271,8 @@ class SecondaryButton extends StatelessWidget {
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
+            minimumSize:
+                ButtonStyles.getButtonSize(buttonSize), // Added minimumSize
             backgroundColor: (isEnabled && onPressed != null)
                 ? Colors.white
                 : AppColors.secondaryGrey,
