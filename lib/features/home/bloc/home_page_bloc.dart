@@ -3,7 +3,7 @@
 import 'dart:math';
 
 import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:auto_parts_online/features/home_page/home_page_model.dart';
+import 'package:auto_parts_online/features/home/home_page_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/setup_dependencies.dart';
 import 'home_page_event.dart';

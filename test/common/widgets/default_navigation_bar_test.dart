@@ -1,6 +1,10 @@
+import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
+import 'package:auto_parts_online/common/models/navigation_item_config.dart';
 import 'package:auto_parts_online/common/widgets/default_navigation_bar.dart';
 import 'package:auto_parts_online/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -8,16 +12,16 @@ void main() {
     testWidgets('renders correctly with light theme',
         (WidgetTester tester) async {
       final items = [
-        NavigationItem(
-          icon: const Icon(Icons.home_outlined),
-          activeIcon: Icons.home,
-          label: 'Home',
-        ),
-        NavigationItem(
-          icon: const Icon(Icons.category_outlined),
-          activeIcon: Icons.category,
-          label: 'Categories',
-        ),
+        NavigationItemConfig(
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: Icons.home,
+            label: 'Home',
+            navigate: (c) {}),
+        NavigationItemConfig(
+            icon: const Icon(Icons.category_outlined),
+            activeIcon: Icons.category,
+            label: 'Categories',
+            navigate: (c) {}),
       ];
 
       await tester.pumpWidget(
@@ -41,16 +45,16 @@ void main() {
 
     testWidgets('applies dark theme correctly', (WidgetTester tester) async {
       final items = [
-        NavigationItem(
-          icon: const Icon(Icons.home_outlined),
-          activeIcon: Icons.home,
-          label: 'Home',
-        ),
-        NavigationItem(
-          icon: const Icon(Icons.category_outlined),
-          activeIcon: Icons.category,
-          label: 'Categories',
-        ),
+        NavigationItemConfig(
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: Icons.home,
+            label: 'Home',
+            navigate: (c) {}),
+        NavigationItemConfig(
+            icon: const Icon(Icons.category_outlined),
+            activeIcon: Icons.category,
+            label: 'Categories',
+            navigate: (c) {}),
       ];
 
       await tester.pumpWidget(
@@ -71,16 +75,27 @@ void main() {
 
     testWidgets('triggers onItemTapped callback', (WidgetTester tester) async {
       int tappedIndex = -1;
+
       final items = [
-        NavigationItem(
+        NavigationItemConfig(
           icon: const Icon(Icons.home_outlined),
           activeIcon: Icons.home,
           label: 'Home',
+          navigate: (context) {
+            context
+                .read<NavigationCubit>()
+                .navigateTo(NavigationHomePageState());
+          },
         ),
-        NavigationItem(
+        NavigationItemConfig(
           icon: const Icon(Icons.category_outlined),
           activeIcon: Icons.category,
           label: 'Categories',
+          navigate: (context) {
+            context
+                .read<NavigationCubit>()
+                .navigateTo(NavigationHomePageState());
+          },
         ),
       ];
 
@@ -94,7 +109,11 @@ void main() {
         ),
       );
 
+      // Simulate tapping the second item
       await tester.tap(find.byIcon(Icons.category_outlined));
+      await tester.pumpAndSettle();
+
+      // Verify the correct index was tapped
       expect(tappedIndex, 1);
     });
   });

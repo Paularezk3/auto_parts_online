@@ -13,21 +13,23 @@ class NavigationCubit extends HydratedCubit<NavigationState> {
     super.emit(state);
   }
 
-  void goToHomePage() {
-    emit(NavigationHomePageState());
-  }
-
-  void goToProductPage() {
-    emit(NavigationProductPageState());
+  void navigateTo(NavigationState state) {
+    emit(state);
   }
 
   @override
   NavigationState? fromJson(Map<String, dynamic> json) {
     final state = json['state'] as String?;
-    if (state == 'NavigationProductPageState') {
-      return NavigationProductPageState();
+    switch (state) {
+      case 'NavigationProductPageState':
+        return NavigationProductPageState();
+      case 'NavigationAccountPageState':
+        return NavigationAccountPageState();
+      case 'NavigationCartPageState':
+        return NavigationCartPageState();
+      default:
+        return NavigationHomePageState();
     }
-    return NavigationHomePageState();
   }
 
   @override

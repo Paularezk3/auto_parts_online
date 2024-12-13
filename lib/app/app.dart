@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/utils/locale_service.dart';
-import '../features/home_page/bloc/home_page_bloc.dart';
+import '../features/home/bloc/home_page_bloc.dart';
 
-import '../features/products_page/bloc/products_page_bloc.dart';
+import '../features/products/bloc/products_page_bloc.dart';
 import 'my_material_app.dart';
 
 class MyApp extends StatefulWidget {

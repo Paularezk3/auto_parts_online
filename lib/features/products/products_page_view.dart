@@ -1,4 +1,5 @@
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/common/widgets/default_appbar.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class ProductsPageView extends StatelessWidget {
     final logger = getIt<ILogger>();
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-        context.read<NavigationCubit>().goToHomePage();
+        context.read<NavigationCubit>().navigateTo(NavigationHomePageState());
         if (didPop) {
           logger.debug("ProductsPage Didn't Ppp");
         }
@@ -23,7 +24,9 @@ class ProductsPageView extends StatelessWidget {
         appBar: OtherPageAppBar(
           title: "Products Page",
           showBackButton: true,
-          onBackTap: () => context.read<NavigationCubit>().goToHomePage(),
+          onBackTap: () => context
+              .read<NavigationCubit>()
+              .navigateTo(NavigationHomePageState()),
         ),
       ),
     );

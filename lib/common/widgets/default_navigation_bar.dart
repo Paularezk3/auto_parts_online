@@ -1,11 +1,11 @@
+import 'package:auto_parts_online/common/models/navigation_item_config.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DefaultNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  final List<NavigationItem> items;
+  final List<NavigationItemConfig> items;
 
   const DefaultNavigationBar({
     super.key,
@@ -54,16 +54,4 @@ class DefaultNavigationBar extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
   }
-}
-
-class NavigationItem {
-  final Widget icon;
-  final IconData activeIcon;
-  final String label;
-
-  NavigationItem({
-    required this.icon,
-    required this.activeIcon,
-    required this.label,
-  });
 }

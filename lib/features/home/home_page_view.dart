@@ -1,12 +1,13 @@
 // lib\features\home_page\home_page_view.dart
 
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
+import 'package:auto_parts_online/common/layouts/base_screen.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
-import 'package:auto_parts_online/common/widgets/default_navigation_bar.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:auto_parts_online/features/home_page/bloc/home_page_bloc.dart';
-import 'package:auto_parts_online/features/home_page/bloc/home_page_state.dart';
+import 'package:auto_parts_online/features/home/bloc/home_page_bloc.dart';
+import 'package:auto_parts_online/features/home/bloc/home_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/setup_dependencies.dart';
@@ -24,105 +25,57 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logger = getIt<ILogger>();
-    return BlocBuilder<HomePageBloc, HomePageState>(builder: (context, state) {
-      if (state is HomePageInitial) {
-        logger.debug("init HomePage");
-        context.read<HomePageBloc>().add(LoadHomePageData());
+    return BaseScreen(
+      selectedIndex: 0,
+      child:
+          BlocBuilder<HomePageBloc, HomePageState>(builder: (context, state) {
+        if (state is HomePageInitial) {
+          logger.debug("init HomePage");
+          context.read<HomePageBloc>().add(LoadHomePageData());
+          return const DefaultLoadingWidget();
+        } else if (state is HomePageLoading) {
+          logger.debug("HomePage Loading");
+          return Scaffold(
+            appBar: HomePageAppBar(
+              onCartTap: () {},
+              isLoading: true,
+              title: AppLocalizations.of(context)!
+                  .homePageTitle, // Localized title
+            ),
+            backgroundColor: Theme.of(context).brightness == Brightness.light
+                ? AppColors.primaryForegroundDark
+                : AppColors.primaryForegroundLight,
+            body: const SkeletonLoader(),
+          );
+        } else if (state is HomePageLoaded) {
+          logger.debug("HomePage Loaded State");
+          return Scaffold(
+            appBar: HomePageAppBar(
+              onCartTap: () {},
+              noOfItemsInCart: 3,
+              isLoading: false,
+              title: AppLocalizations.of(context)!
+                  .homePageTitle, // Localized title
+            ),
+            backgroundColor: Theme.of(context).brightness == Brightness.light
+                ? AppColors.primaryForegroundDark
+                : AppColors.primaryForegroundLight,
+            body: homePageBodyAfterLoading(context, logger),
+          );
+        } else if (state is HomePageError) {
+          return Center(
+            child: PrimaryButton(
+              logger: logger,
+              text: AppLocalizations.of(context)!.reloadPage,
+              onPressed: () {
+                context.read<HomePageBloc>().add(LoadHomePageData());
+              },
+            ),
+          );
+        }
         return const DefaultLoadingWidget();
-      } else if (state is HomePageLoading) {
-        logger.debug("HomePage Loading");
-        return Scaffold(
-          appBar: HomePageAppBar(
-            onCartTap: () {},
-            isLoading: true,
-            title:
-                AppLocalizations.of(context)!.homePageTitle, // Localized title
-          ),
-          backgroundColor: Theme.of(context).brightness == Brightness.light
-              ? AppColors.primaryForegroundDark
-              : AppColors.primaryForegroundLight,
-          body: const SkeletonLoader(),
-          bottomNavigationBar: BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                label: AppLocalizations.of(context)!
-                    .bottomNavHome, // Localized text
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.category),
-                label: AppLocalizations.of(context)!
-                    .bottomNavProducts, // Localized text
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.shopping_cart),
-                label: AppLocalizations.of(context)!
-                    .bottomNavCart, // Localized text
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.account_circle),
-                label: AppLocalizations.of(context)!
-                    .bottomNavAccount, // Localized text
-              ),
-            ],
-            selectedItemColor: AppColors.primaryLight,
-            unselectedItemColor: AppColors.secondaryForegroundLight,
-          ),
-        );
-      } else if (state is HomePageLoaded) {
-        logger.debug("HomePage Loaded State");
-        return Scaffold(
-          appBar: HomePageAppBar(
-            onCartTap: () {},
-            noOfItemsInCart: 3,
-            isLoading: false,
-            title:
-                AppLocalizations.of(context)!.homePageTitle, // Localized title
-          ),
-          backgroundColor: Theme.of(context).brightness == Brightness.light
-              ? AppColors.primaryForegroundDark
-              : AppColors.primaryForegroundLight,
-          body: homePageBodyAfterLoading(context, logger),
-          bottomNavigationBar: DefaultNavigationBar(
-            selectedIndex: 0,
-            onItemTapped: (_) {},
-            items: [
-              NavigationItem(
-                icon: const Icon(Icons.home_outlined),
-                activeIcon: Icons.home,
-                label: AppLocalizations.of(context)!.home,
-              ),
-              NavigationItem(
-                icon: const Icon(Icons.category_outlined),
-                activeIcon: Icons.category,
-                label: AppLocalizations.of(context)!.products,
-              ),
-              NavigationItem(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                activeIcon: Icons.shopping_cart,
-                label: AppLocalizations.of(context)!.cart,
-              ),
-              NavigationItem(
-                icon: const Icon(Icons.account_circle_outlined),
-                activeIcon: Icons.account_circle,
-                label: AppLocalizations.of(context)!.account,
-              ),
-            ],
-          ),
-        );
-      } else if (state is HomePageError) {
-        return Center(
-          child: PrimaryButton(
-            logger: logger,
-            text: AppLocalizations.of(context)!.reloadPage,
-            onPressed: () {
-              context.read<HomePageBloc>().add(LoadHomePageData());
-            },
-          ),
-        );
-      }
-      return const DefaultLoadingWidget();
-    });
+      }),
+    );
   }
 
   Widget homePageBodyAfterLoading(BuildContext context, ILogger logger) {
@@ -139,7 +92,9 @@ class HomePageView extends StatelessWidget {
                     .buttonTesting, // Localized text
                 buttonSize: ButtonSize.small,
                 onPressed: () {
-                  context.read<NavigationCubit>().goToProductPage();
+                  context
+                      .read<NavigationCubit>()
+                      .navigateTo(NavigationProductPageState());
                 },
               ),
               SecondaryButton(

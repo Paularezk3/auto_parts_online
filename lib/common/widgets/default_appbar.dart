@@ -18,6 +18,9 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(title);
+    final titleColor = Theme.of(context).brightness == Brightness.dark
+        ? (isLoading ? AppColors.primaryGrey : AppColors.primaryDark)
+        : (isLoading ? AppColors.primaryGrey : AppColors.primaryLight);
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
@@ -47,21 +50,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     style: isArabic
                         ? GoogleFonts.cairo(
                             textStyle: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? isLoading
-                                      ? AppColors.primaryGrey
-                                      : AppColors.primaryDark
-                                  : isLoading
-                                      ? AppColors.primaryGrey
-                                      : AppColors.primaryLight,
+                              color: titleColor,
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
                           )
                         : GoogleFonts.inter(
-                            textStyle: const TextStyle(
-                              color: Colors.white,
+                            textStyle: TextStyle(
+                              color: titleColor,
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
