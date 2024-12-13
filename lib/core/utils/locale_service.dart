@@ -5,8 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LocaleService {
   Future<Locale> getDeviceLocale() async {
     final Locale deviceLocale = PlatformDispatcher.instance.locale;
-    return AppLocalizations.supportedLocales.contains(deviceLocale)
-        ? deviceLocale
-        : const Locale('ar');
+
+    // Check if any supported locale matches the device locale's language code
+    final Locale matchingLocale = AppLocalizations.supportedLocales.firstWhere(
+      (locale) => locale.languageCode == deviceLocale.languageCode,
+      orElse: () => const Locale('ar'), // Fallback locale
+    );
+
+    return matchingLocale;
   }
 }
