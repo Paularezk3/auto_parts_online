@@ -67,5 +67,21 @@
   "reloadPage": "Reload Page",
   "@reloadPage": {
     "description": "Text indexing for user to reload the page"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "First Page"
+  },
+  "products": "Products",
+  "@products": {
+    "description": "Place that have all our Products"
+  },
+  "cart": "Cart",
+  "@cart": {
+    "description": "Place that customer has all his buyings"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "his account details"
   }
 }

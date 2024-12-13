@@ -2,6 +2,7 @@
 
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
+import 'package:auto_parts_online/common/widgets/default_navigation_bar.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:auto_parts_online/features/home_page/bloc/home_page_bloc.dart';
@@ -82,31 +83,31 @@ class HomePageView extends StatelessWidget {
               ? AppColors.primaryForegroundDark
               : AppColors.primaryForegroundLight,
           body: homePageBodyAfterLoading(context, logger),
-          bottomNavigationBar: BottomNavigationBar(
+          bottomNavigationBar: DefaultNavigationBar(
+            selectedIndex: 0,
+            onItemTapped: (_) {},
             items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                label: AppLocalizations.of(context)!
-                    .bottomNavHome, // Localized text
+              NavigationItem(
+                icon: const Icon(Icons.home_outlined),
+                activeIcon: Icons.home,
+                label: AppLocalizations.of(context)!.home,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.category),
-                label: AppLocalizations.of(context)!
-                    .bottomNavProducts, // Localized text
+              NavigationItem(
+                icon: const Icon(Icons.category_outlined),
+                activeIcon: Icons.category,
+                label: AppLocalizations.of(context)!.products,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.shopping_cart),
-                label: AppLocalizations.of(context)!
-                    .bottomNavCart, // Localized text
+              NavigationItem(
+                icon: const Icon(Icons.shopping_cart_outlined),
+                activeIcon: Icons.shopping_cart,
+                label: AppLocalizations.of(context)!.cart,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.account_circle),
-                label: AppLocalizations.of(context)!
-                    .bottomNavAccount, // Localized text
+              NavigationItem(
+                icon: const Icon(Icons.account_circle_outlined),
+                activeIcon: Icons.account_circle,
+                label: AppLocalizations.of(context)!.account,
               ),
             ],
-            selectedItemColor: AppColors.primaryLight,
-            unselectedItemColor: AppColors.secondaryForegroundLight,
           ),
         );
       } else if (state is HomePageError) {
