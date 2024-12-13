@@ -16,6 +16,9 @@ class DefaultNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert(
+        items.length >= 2, 'DefaultNavigationBar requires at least two items.');
+
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final primaryColor =
         isDarkMode ? AppColors.primaryDark : AppColors.primaryLight;
