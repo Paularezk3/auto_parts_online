@@ -1,4 +1,6 @@
-import 'package:auto_parts_online/app/routes/navigation_bloc.dart';
+// lib\features\home_page\home_page_view.dart
+
+import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
@@ -6,6 +8,7 @@ import 'package:auto_parts_online/features/home_page/bloc/home_page_bloc.dart';
 import 'package:auto_parts_online/features/home_page/bloc/home_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../app/setup_dependencies.dart';
 import '../../common/components/default_buttons.dart';
 import '../../common/widgets/default_appbar.dart';
 import '../../core/constants/app_colors.dart';
@@ -19,13 +22,14 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logger = getIt<ILogger>();
     return BlocBuilder<HomePageBloc, HomePageState>(builder: (context, state) {
       if (state is HomePageInitial) {
-        AppLogger.debug("init HomePage");
+        logger.debug("init HomePage");
         context.read<HomePageBloc>().add(LoadHomePageData());
         return const DefaultLoadingWidget();
       } else if (state is HomePageLoading) {
-        AppLogger.debug("HomePage Loading");
+        logger.debug("HomePage Loading");
         return Scaffold(
           appBar: HomePageAppBar(
             onCartTap: () {},
@@ -65,7 +69,7 @@ class HomePageView extends StatelessWidget {
           ),
         );
       } else if (state is HomePageLoaded) {
-        AppLogger.log("HomePage Loaded");
+        logger.debug("HomePage Loaded State");
         return Scaffold(
           appBar: HomePageAppBar(
             onCartTap: () {},
@@ -77,7 +81,7 @@ class HomePageView extends StatelessWidget {
           backgroundColor: Theme.of(context).brightness == Brightness.light
               ? AppColors.primaryForegroundDark
               : AppColors.primaryForegroundLight,
-          body: homePageBodyAfterLoading(context),
+          body: homePageBodyAfterLoading(context, logger),
           bottomNavigationBar: BottomNavigationBar(
             items: [
               BottomNavigationBarItem(
@@ -108,6 +112,7 @@ class HomePageView extends StatelessWidget {
       } else if (state is HomePageError) {
         return Center(
           child: PrimaryButton(
+            logger: logger,
             text: AppLocalizations.of(context)!.reloadPage,
             onPressed: () {
               context.read<HomePageBloc>().add(LoadHomePageData());
@@ -119,7 +124,7 @@ class HomePageView extends StatelessWidget {
     });
   }
 
-  Widget homePageBodyAfterLoading(BuildContext context) {
+  Widget homePageBodyAfterLoading(BuildContext context, ILogger logger) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,6 +133,7 @@ class HomePageView extends StatelessWidget {
           Row(
             children: [
               PrimaryButton(
+                logger: logger,
                 text: AppLocalizations.of(context)!
                     .buttonTesting, // Localized text
                 buttonSize: ButtonSize.small,
@@ -136,6 +142,7 @@ class HomePageView extends StatelessWidget {
                 },
               ),
               SecondaryButton(
+                logger: logger,
                 text: AppLocalizations.of(context)!
                     .buttonTesting, // Localized text
                 onPressed: () {},
@@ -146,12 +153,14 @@ class HomePageView extends StatelessWidget {
           Row(
             children: [
               PrimaryButton(
+                logger: logger,
                 text: AppLocalizations.of(context)!
                     .buttonTesting, // Localized text
                 isEnabled: false,
                 onPressed: () {},
               ),
               OutlinedPrimaryButton(
+                logger: logger,
                 text: AppLocalizations.of(context)!
                     .buttonTesting, // Localized text
                 isEnabled: false,
@@ -161,6 +170,7 @@ class HomePageView extends StatelessWidget {
             ],
           ),
           OutlinedPrimaryButton(
+            logger: logger,
             text: AppLocalizations.of(context)!.buttonTesting, // Localized text
             isEnabled: true,
             buttonSize: ButtonSize.big,

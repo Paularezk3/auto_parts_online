@@ -1,24 +1,32 @@
 import 'package:logger/logger.dart';
 
-class AppLogger {
-  static final Logger _logger = Logger(
-    printer: PrettyPrinter(
-      // Customize the logger's output
-      methodCount: 2,
-      errorMethodCount: 5,
-      lineLength: 120,
-      colors: true,
-      printEmojis: true,
-      dateTimeFormat: DateTimeFormat.dateAndTime,
-    ),
-  );
+abstract class ILogger {
+  void log(Level level, dynamic message);
+  void debug(dynamic message);
+  void info(dynamic message);
+  void warning(dynamic message);
+  void error(dynamic message);
+}
 
-  static void log(dynamic message, {Level level = Level.info}) {
+class AppLogger implements ILogger {
+  final Logger _logger;
+
+  AppLogger({required Logger logger}) : _logger = logger;
+
+  @override
+  void log(Level level, dynamic message) {
     _logger.log(level, message);
   }
 
-  static void debug(dynamic message) => log(message, level: Level.debug);
-  static void info(dynamic message) => log(message, level: Level.info);
-  static void warning(dynamic message) => log(message, level: Level.warning);
-  static void error(dynamic message) => log(message, level: Level.error);
+  @override
+  void debug(dynamic message) => log(Level.debug, message);
+
+  @override
+  void info(dynamic message) => log(Level.info, message);
+
+  @override
+  void warning(dynamic message) => log(Level.warning, message);
+
+  @override
+  void error(dynamic message) => log(Level.error, message);
 }

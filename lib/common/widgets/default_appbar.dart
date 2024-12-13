@@ -230,7 +230,7 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = RegExp(r'[؀-ۿ]').hasMatch(title);
+    final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(title);
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark

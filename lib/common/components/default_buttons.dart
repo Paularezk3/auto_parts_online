@@ -1,4 +1,6 @@
+import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:flutter/material.dart';
+import '../../app/setup_dependencies.dart';
 import '../../core/constants/app_colors.dart';
 
 enum ButtonSize { small, big }
@@ -12,6 +14,7 @@ mixin ButtonStyles {
     required bool isPrimary,
   }) {
     final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(text);
+    final logger = getIt<ILogger>();
     return TextStyle(
       fontSize: buttonSize == ButtonSize.big ? 18 : 14,
       fontWeight: FontWeight.bold,
@@ -53,6 +56,17 @@ mixin ButtonStyles {
       size == ButtonSize.big ? 27 : 19,
     );
   }
+
+  static VoidCallback? onPressed(VoidCallback? onPressed, ILogger logger) {
+    return onPressed != null
+        ? () {
+            logger.debug("Button Pressed");
+            onPressed();
+          }
+        : () {
+            logger.debug("onPressed is $onPressed");
+          };
+  }
 }
 
 class PrimaryButton extends StatelessWidget {
@@ -62,9 +76,11 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
   final double? padding;
+  final ILogger logger;
 
   const PrimaryButton({
     required this.text,
+    required this.logger,
     this.isEnabled = true,
     this.isLoading = false,
     this.onPressed,
@@ -104,7 +120,9 @@ class PrimaryButton extends StatelessWidget {
             elevation: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.pressed) ? 0 : 2),
           ),
-          onPressed: isEnabled && !isLoading ? onPressed : null,
+          onPressed: isEnabled && !isLoading
+              ? ButtonStyles.onPressed(onPressed, logger)
+              : null,
           child: isLoading
               ? SizedBox.fromSize(
                   size: ButtonStyles.getCircularLoadingSize(buttonSize),
@@ -135,9 +153,11 @@ class OutlinedPrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
   final double? padding;
+  final ILogger logger;
 
   const OutlinedPrimaryButton({
     required this.text,
+    required this.logger,
     this.isEnabled = true,
     this.isLoading = false,
     this.onPressed,
@@ -177,7 +197,9 @@ class OutlinedPrimaryButton extends StatelessWidget {
               return null;
             }),
           ),
-          onPressed: isEnabled && !isLoading ? onPressed : null,
+          onPressed: isEnabled && !isLoading
+              ? ButtonStyles.onPressed(onPressed, logger)
+              : null,
           child: isLoading
               ? SizedBox.fromSize(
                   size: ButtonStyles.getCircularLoadingSize(buttonSize),
@@ -208,9 +230,11 @@ class SecondaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
   final double? padding;
+  final ILogger logger;
 
   const SecondaryButton({
     required this.text,
+    required this.logger,
     this.isEnabled = true,
     this.isLoading = false,
     this.onPressed,
@@ -247,7 +271,9 @@ class SecondaryButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          onPressed: isEnabled && !isLoading ? onPressed : null,
+          onPressed: isEnabled && !isLoading
+              ? ButtonStyles.onPressed(onPressed, logger)
+              : null,
           child: isLoading
               ? SizedBox.fromSize(
                   size: ButtonStyles.getCircularLoadingSize(buttonSize),
