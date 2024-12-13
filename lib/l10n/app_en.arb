@@ -1,0 +1,71 @@
+{
+  "@@locale": "en",
+  "homePageTitle": "Home Page",
+  "@homePageTitle": {
+    "description": "Title of the home page"
+  },
+  "buttonTesting": "Testing",
+  "@buttonTesting": {
+    "description": "Text displayed on a testing button"
+  },
+  "welcomeMessage": "Welcome to Our Platform!",
+  "@welcomeMessage": {
+    "description": "Greeting message on the home page"
+  },
+  "searchHint": "Search for Product or Category",
+  "@searchHint": {
+    "description": "Placeholder text in the search bar"
+  },
+  "featuredProducts": "Featured Products",
+  "@featuredProducts": {
+    "description": "Heading for featured products section"
+  },
+  "productTitle": "Product Title {index}",
+  "@productTitle": {
+    "description": "The title of a product with its index",
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "productPrice": "$${price}",
+  "@productPrice": {
+    "description": "The price of a product",
+    "placeholders": {
+      "price": {
+        "type": "double",
+        "example": "99.99"
+      }
+    }
+  },
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Button text for adding a product to the cart"
+  },
+  "footerMessage": "© 2024 Your Company Name",
+  "@footerMessage": {
+    "description": "Footer copyright message"
+  },
+  "bottomNavHome": "Home",
+  "@bottomNavHome": {
+    "description": "Label for home in bottom navigation bar"
+  },
+  "bottomNavProducts": "Products",
+  "@bottomNavProducts": {
+    "description": "Label for products in bottom navigation bar"
+  },
+  "bottomNavCart": "Cart",
+  "@bottomNavCart": {
+    "description": "Label for cart in bottom navigation bar"
+  },
+  "bottomNavAccount": "Account",
+  "@bottomNavAccount": {
+    "description": "Label for account in bottom navigation bar"
+  },
+  "reloadPage": "Reload Page",
+  "@reloadPage": {
+    "description": "Text indexing for user to reload the page"
+  }
+}

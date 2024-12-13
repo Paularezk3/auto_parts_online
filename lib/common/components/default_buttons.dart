@@ -84,7 +84,7 @@ class PrimaryButton extends StatelessWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.resolveWith((states) {
-              return isEnabled
+              return (isEnabled && onPressed != null)
                   ? (theme.brightness == Brightness.dark
                       ? AppColors.primaryDark
                       : AppColors.primaryLight)
@@ -116,7 +116,7 @@ class PrimaryButton extends StatelessWidget {
                   text,
                   style: ButtonStyles.getTextStyle(
                     text: text,
-                    isEnabled: isEnabled,
+                    isEnabled: (isEnabled && onPressed != null),
                     theme: theme,
                     buttonSize: buttonSize,
                     isPrimary: true,
@@ -158,7 +158,7 @@ class OutlinedPrimaryButton extends StatelessWidget {
           style: ButtonStyle(
             side: WidgetStateProperty.resolveWith(
               (states) => ButtonStyles.getBorderSide(
-                isEnabled: isEnabled,
+                isEnabled: (isEnabled && onPressed != null),
                 theme: theme,
               ),
             ),
@@ -189,7 +189,7 @@ class OutlinedPrimaryButton extends StatelessWidget {
                   text,
                   style: ButtonStyles.getTextStyle(
                     text: text,
-                    isEnabled: isEnabled,
+                    isEnabled: (isEnabled && onPressed != null),
                     theme: theme,
                     buttonSize: buttonSize,
                     isPrimary: false,
@@ -225,7 +225,7 @@ class SecondaryButton extends StatelessWidget {
     final textStyle = TextStyle(
       fontSize: buttonSize == ButtonSize.big ? 18 : 14,
       fontWeight: FontWeight.bold,
-      color: isEnabled
+      color: (isEnabled && onPressed != null)
           ? (Theme.of(context).brightness == Brightness.dark
               ? AppColors.primaryDark
               : AppColors.primaryLight)
@@ -239,7 +239,9 @@ class SecondaryButton extends StatelessWidget {
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: isEnabled ? Colors.white : AppColors.secondaryGrey,
+            backgroundColor: (isEnabled && onPressed != null)
+                ? Colors.white
+                : AppColors.secondaryGrey,
             disabledBackgroundColor: AppColors.secondaryGrey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -251,7 +253,7 @@ class SecondaryButton extends StatelessWidget {
                   size: ButtonStyles.getCircularLoadingSize(buttonSize),
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      isEnabled
+                      (isEnabled && onPressed != null)
                           ? (Theme.of(context).brightness == Brightness.dark
                               ? AppColors.primaryDark
                               : AppColors.primaryLight)

@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({super.key});
+class DefaultLoadingWidget extends StatelessWidget {
+  const DefaultLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CircularProgressIndicator();
+    return const SizedBox(
+        width: 50, height: 50, child: CircularProgressIndicator());
   }
 }

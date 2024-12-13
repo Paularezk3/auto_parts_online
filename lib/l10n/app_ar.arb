@@ -1,0 +1,71 @@
+{
+  "@@locale": "ar",
+  "homePageTitle": "الصفحة الرئيسية",
+  "@homePageTitle": {
+    "description": "عنوان الصفحة الرئيسية"
+  },
+  "buttonTesting": "اختبار",
+  "@buttonTesting": {
+    "description": "النص المعروض على زر الاختبار"
+  },
+  "welcomeMessage": "مرحبًا بك في منصتنا!",
+  "@welcomeMessage": {
+    "description": "رسالة الترحيب في الصفحة الرئيسية"
+  },
+  "searchHint": "ابحث عن منتج او فئة",
+  "@searchHint": {
+    "description": "النص الإرشادي في شريط البحث"
+  },
+  "featuredProducts": "منتجات مميزة",
+  "@featuredProducts": {
+    "description": "عنوان قسم المنتجات المميزة"
+  },
+  "productTitle": "عنوان المنتج {index}",
+  "@productTitle": {
+    "description": "عنوان المنتج مع رقم المنتج",
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "productPrice": "{price} د.إ",
+  "@productPrice": {
+    "description": "سعر المنتج",
+    "placeholders": {
+      "price": {
+        "type": "double",
+        "example": "99.99"
+      }
+    }
+  },
+  "addToCart": "أضف إلى السلة",
+  "@addToCart": {
+    "description": "النص الموجود على زر إضافة المنتج إلى السلة"
+  },
+  "footerMessage": "© 2024 اسم شركتك",
+  "@footerMessage": {
+    "description": "رسالة حقوق النشر في التذييل"
+  },
+  "bottomNavHome": "الرئيسية",
+  "@bottomNavHome": {
+    "description": "التسمية للرئيسية في شريط التنقل السفلي"
+  },
+  "bottomNavProducts": "المنتجات",
+  "@bottomNavProducts": {
+    "description": "التسمية للمنتجات في شريط التنقل السفلي"
+  },
+  "bottomNavCart": "السلة",
+  "@bottomNavCart": {
+    "description": "التسمية للسلة في شريط التنقل السفلي"
+  },
+  "bottomNavAccount": "الحساب",
+  "@bottomNavAccount": {
+    "description": "التسمية للحساب في شريط التنقل السفلي"
+  },
+  "reloadPage": "اعادة التحميل",
+  "@reloadPage": {
+    "description": "عبارة تشير للمستخدم ليعيد تحميل الصفحة"
+  }
+}

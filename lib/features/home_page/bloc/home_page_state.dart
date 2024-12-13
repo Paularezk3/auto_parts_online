@@ -1,4 +1,4 @@
-import '../model/home_page_model.dart';
+import '../home_page_model.dart';
 
 abstract class HomePageState {}
 
