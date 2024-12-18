@@ -26,8 +26,8 @@ class DefaultNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: isDarkMode
-          ? AppColors.secondaryForegroundDark
-          : AppColors.secondaryForegroundLight,
+          ? AppColors.primaryForegroundLight
+          : AppColors.primaryForegroundDark,
       selectedItemColor: primaryColor,
       unselectedItemColor: AppColors.primaryGrey,
       selectedLabelStyle: _textStyle(context),

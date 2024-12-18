@@ -9,6 +9,11 @@ class AppColors {
   static const primaryForegroundLight = Color(0xFF000000);
   static const primaryForegroundDark = Color(0xFFFFFFFF);
 
+  static const primaryTextDark = Color(0xFFFFFFFF);
+  static const primaryTextLight = Color(0xFF000000);
+  static const primaryTextOnSurfaceLight = Color(0xFFFFFFFF);
+  static const primaryTextOnSurfaceDark = Color(0xFF000000);
+
   // Secondary Colors
   static const secondaryLight = Color(0xFF020024);
   static const secondaryDark = Color(0xFFDDDBFF);
@@ -25,4 +30,5 @@ class AppColors {
   static const primaryGrey = Colors.grey;
   static final secondaryGrey = Colors.grey[350];
   static final secondaryDarkerGrey = Colors.grey[600];
+  static final accentDarkGrey = Colors.grey[900];
 }

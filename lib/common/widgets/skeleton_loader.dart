@@ -1,6 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+class ShimmerBox extends StatelessWidget {
+  final double width;
+  final double height;
+  final BorderRadius borderRadius;
+
+  const ShimmerBox({
+    super.key,
+    required this.width,
+    required this.height,
+    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: borderRadius,
+        ),
+      ),
+    );
+  }
+}
+
 class SkeletonLoader extends StatelessWidget {
   const SkeletonLoader({super.key});
 
@@ -15,41 +44,18 @@ class SkeletonLoader extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(4, (index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(
-                      width: 80,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                  ),
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: ShimmerBox(width: 80, height: 40),
                 );
               }),
             ),
           ),
 
           // Text Skeleton
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                height: 20,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: ShimmerBox(width: 200, height: 20),
           ),
 
           // Grid Skeleton
@@ -65,26 +71,48 @@ class SkeletonLoader extends StatelessWidget {
             ),
             itemCount: 6,
             itemBuilder: (context, index) {
-              return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              );
+              return const ShimmerBox(
+                  width: double.infinity, height: double.infinity);
             },
           ),
 
           // Footer Skeleton
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: ShimmerBox(width: double.infinity, height: 50),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchSkeletonLoader extends StatelessWidget {
+  const SearchSkeletonLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Search Bar Skeleton
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: ShimmerBox(width: double.infinity, height: 40),
+          ),
+
+          // Search Results Skeleton
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: ShimmerBox(width: double.infinity, height: 60),
+              );
+            },
           ),
         ],
       ),

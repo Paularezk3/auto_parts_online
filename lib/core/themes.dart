@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'constants/app_colors.dart';
 
 class AppThemes {
@@ -17,10 +18,11 @@ class AppThemes {
       error: Color(0xffB3261E),
       onError: Color(0xffffffff),
     ),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: AppColors.primaryForegroundLight),
-      bodyMedium: TextStyle(color: AppColors.primaryForegroundLight),
-      headlineLarge: TextStyle(color: AppColors.primaryForegroundLight),
+    textTheme: TextTheme(
+      bodyLarge: GoogleFonts.montserrat(color: AppColors.primaryTextLight),
+      bodyMedium: GoogleFonts.montserrat(color: AppColors.primaryTextLight),
+      headlineLarge: GoogleFonts.inter(color: AppColors.primaryTextLight),
+      headlineMedium: GoogleFonts.inter(color: AppColors.primaryTextLight),
     ),
   );
 
@@ -39,10 +41,13 @@ class AppThemes {
       error: Color(0xffF2B8B5),
       onError: Color(0xff601410),
     ),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: AppColors.primaryForegroundDark),
-      bodyMedium: TextStyle(color: AppColors.primaryForegroundDark),
-      headlineLarge: TextStyle(color: AppColors.primaryForegroundDark),
+    textTheme: TextTheme(
+      bodyLarge: GoogleFonts.montserrat(color: AppColors.primaryTextDark),
+      bodyMedium: GoogleFonts.montserrat(
+        color: AppColors.primaryTextDark,
+      ),
+      headlineLarge: GoogleFonts.inter(color: AppColors.primaryTextDark),
+      headlineMedium: GoogleFonts.inter(color: AppColors.primaryTextDark),
     ),
   );
 }

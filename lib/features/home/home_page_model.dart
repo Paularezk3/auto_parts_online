@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-class HomePageModel {
+abstract class HomePageModel {
+  final int noOfItemsInCart;
+
+  HomePageModel({required this.noOfItemsInCart});
+}
+
+class HomePageData extends HomePageModel {
   final String title;
   final String description;
   final List<HomePageItem> items;
-  final int noOfItemsInCart;
-
-  HomePageModel(
+  HomePageData(
       {required this.title,
       required this.description,
       required this.items,
-      required this.noOfItemsInCart});
+      required super.noOfItemsInCart});
 }
 
 class HomePageItem {
@@ -31,4 +35,20 @@ class UserProfile {
     required this.userAddress,
     required this.userPhoto,
   });
+}
+
+class SearchData extends HomePageModel {
+  final List<HomePageItem> data;
+  SearchData({required this.data, required super.noOfItemsInCart});
+}
+
+class SearchTappedDetails extends HomePageModel {
+  final List<String> popularSearches;
+  SearchTappedDetails(
+      {required this.popularSearches, required super.noOfItemsInCart});
+}
+
+class SparePartsCategory {
+  final String partName;
+  SparePartsCategory(this.partName);
 }

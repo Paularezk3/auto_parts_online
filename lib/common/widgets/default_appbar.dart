@@ -1,31 +1,41 @@
+// lib\common\widgets\default_appbar.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../features/home/bloc/home_page_bloc.dart';
+import '../../features/home/bloc/home_page_event.dart';
 
 class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool isLoading;
   final int noOfItemsInCart;
   final void Function()? onCartTap;
-  const HomePageAppBar(
-      {required this.isLoading,
-      required this.title,
-      this.noOfItemsInCart = 0,
-      required this.onCartTap,
-      super.key});
+
+  const HomePageAppBar({
+    required this.isLoading,
+    required this.title,
+    this.noOfItemsInCart = 0,
+    required this.onCartTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(title);
+
     final titleColor = Theme.of(context).brightness == Brightness.dark
         ? (isLoading ? AppColors.primaryGrey : AppColors.primaryDark)
         : (isLoading ? AppColors.primaryGrey : AppColors.primaryLight);
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.secondaryForegroundDark
-            : AppColors.secondaryForegroundLight,
+            ? AppColors.primaryForegroundLight
+            : AppColors.primaryForegroundDark,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -44,7 +54,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Home Page Text
+                  // Title
                   Text(
                     title,
                     style: isArabic
@@ -63,7 +73,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                             ),
                           ),
                   ),
-                  //Cart Icon
+                  // Cart Icon
                   GestureDetector(
                     onTap: onCartTap,
                     child: Stack(
@@ -81,7 +91,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                                       : AppColors.primaryDark
                                   : isLoading
                                       ? AppColors.secondaryDarkerGrey!
-                                      : AppColors.primaryLight, // Border color
+                                      : AppColors.primaryLight,
                               width: 2,
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -127,75 +137,96 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
-              Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.secondaryForegroundLight
-                      : AppColors
-                          .secondaryForegroundDark, // Search bar background color
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Icon(
-                        Icons.search,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppColors.primaryDark
-                            : AppColors.primaryLight, // Search icon color
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        style: isArabic
-                            ? GoogleFonts.cairo(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? Colors.white
-                                      : Colors.black54,
-                                  fontSize: 16,
-                                ),
-                              )
-                            : GoogleFonts.inter(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? Colors.white
-                                      : Colors.black54,
-                                  fontSize: 16,
-                                ),
+              // Search Anchor with SearchBar
+              SearchAnchor(
+                builder: (BuildContext context, SearchController controller) {
+                  return SearchBar(
+                    controller: controller,
+                    hintText: AppLocalizations.of(context)!.searchHint,
+                    hintStyle: WidgetStateProperty.all<TextStyle>(
+                      isArabic
+                          ? GoogleFonts.cairo(
+                              textStyle: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black54,
+                                fontSize: 16,
                               ),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: AppLocalizations.of(context)!.searchHint,
-                            hintStyle: isArabic
-                                ? GoogleFonts.cairo(
-                                    textStyle: TextStyle(
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? Colors.white
-                                        : Colors.black54, // Placeholder color
-                                    fontSize: 16,
-                                  ))
-                                : GoogleFonts.inter(
-                                    textStyle: TextStyle(
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? Colors.white
-                                        : Colors.black54, // Placeholder color
-                                    fontSize: 16,
-                                  ))),
+                            )
+                          : GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.white
+                                    : Colors.black54,
+                                fontSize: 16,
+                              ),
+                            ),
+                    ),
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.secondaryForegroundLight
+                          : AppColors.secondaryForegroundDark,
+                    ),
+                    leading: Icon(
+                      Icons.search,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.primaryDark
+                          : AppColors.primaryLight,
+                    ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                  ],
-                ),
+                    padding: WidgetStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ), // Adjust vertical padding
+                    ),
+                    constraints:
+                        const BoxConstraints(maxHeight: 80, minHeight: 40),
+                    onTap: () => context
+                        .read<HomePageBloc>()
+                        .add(SearchHomePageTappedEvent()),
+                    onChanged: (query) {
+                      if (query.isNotEmpty) {
+                        context
+                            .read<HomePageBloc>()
+                            .add(SearchHomePageDataEvent(query));
+                      } else {
+                        context
+                            .read<HomePageBloc>()
+                            .add(SearchHomePageTappedEvent());
+                      }
+                    },
+                    onSubmitted: (query) {
+                      if (query.isNotEmpty) {
+                        context
+                            .read<HomePageBloc>()
+                            .add(SearchHomePageDataEvent(query));
+                      }
+                    },
+                  );
+                },
+                suggestionsBuilder:
+                    (BuildContext context, SearchController controller) {
+                  final query = controller.text;
+                  return List<Widget>.generate(
+                    query.isEmpty ? 0 : 5, // Example suggestions count
+                    (int index) => ListTile(
+                      title: Text('$query suggestion $index'),
+                      onTap: () {
+                        controller.closeView(query);
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),
