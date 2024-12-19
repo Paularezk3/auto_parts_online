@@ -48,7 +48,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (_) => HomePageBloc()),
         BlocProvider(create: (_) => ProductsPageBloc()),
-        BlocProvider(create: (_) => SearchPageBloc()),
+        BlocProvider(
+          create: (_) => SearchPageBloc(),
+        ),
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),

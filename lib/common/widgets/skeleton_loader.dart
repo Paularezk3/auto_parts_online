@@ -96,12 +96,6 @@ class SearchSkeletonLoader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Search Bar Skeleton
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: ShimmerBox(width: double.infinity, height: 40),
-          ),
-
           // Search Results Skeleton
           ListView.builder(
             shrinkWrap: true,
@@ -110,7 +104,7 @@ class SearchSkeletonLoader extends StatelessWidget {
             itemBuilder: (context, index) {
               return const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ShimmerBox(width: double.infinity, height: 60),
+                child: ShimmerBox(width: double.infinity, height: 80),
               );
             },
           ),

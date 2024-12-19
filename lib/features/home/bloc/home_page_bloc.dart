@@ -1,6 +1,5 @@
 // lib\features\home_page\bloc\home_page_bloc.dart
 import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:auto_parts_online/features/home/home_page_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/setup_dependencies.dart';
 import '../mock_home_page_service.dart';
@@ -14,8 +13,6 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc() : super(HomePageInitial()) {
     // Register the event handlers
     on<LoadHomePageDataEvent>(_onLoadHomePageData);
-    // on<SearchHomePageDataEvent>(_onSearchHomePageData);
-    // on<SearchHomePageTappedEvent>(_onSearchHomePageTapped);
     on<ExitSearchModeEvent>((event, emit) => emit(HomePageInitial()));
   }
 

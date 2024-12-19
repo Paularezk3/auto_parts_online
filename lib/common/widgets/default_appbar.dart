@@ -15,14 +15,16 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onCartTap;
   final void Function()? onSearchBarTap;
   final bool isSearchMode;
+  final void Function(String)? onSearchFieldChanged;
 
   const HomePageAppBar({
     required this.isLoading,
     required this.title,
     this.noOfItemsInCart = 0,
-    required this.onCartTap,
+    this.onCartTap,
     this.onSearchBarTap,
     required this.isSearchMode,
+    this.onSearchFieldChanged,
     super.key,
   });
 
@@ -190,6 +192,11 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                         return SearchBar(
                           controller: controller,
                           hintText: AppLocalizations.of(context)!.searchHint,
+                          onChanged: onSearchFieldChanged,
+                          onSubmitted: (query) {
+                            FocusScope.of(context)
+                                .unfocus(); // Closes the keyboard
+                          },
                           hintStyle: WidgetStateProperty.all<TextStyle>(
                             isArabic
                                 ? GoogleFonts.cairo(
@@ -237,6 +244,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                           constraints: const BoxConstraints(
                               maxHeight: 80, minHeight: 40),
                           onTap: onSearchBarTap,
+                          keyboardType: TextInputType.text,
                         );
                       },
                       suggestionsBuilder:

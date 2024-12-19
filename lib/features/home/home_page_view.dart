@@ -3,7 +3,6 @@
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
-import 'package:auto_parts_online/common/widgets/confirmation_dialog.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
@@ -43,7 +42,7 @@ class HomePageView extends StatelessWidget {
         } else if (state is HomePageLoading) {
           logger.debug("HomePage Loading");
           return _buildHomePageLoadingUI(
-              homePageTitle, homePageBackgroundColor);
+              context, homePageTitle, homePageBackgroundColor);
         } else if (state is HomePageLoaded) {
           logger.debug("HomePage Loaded State");
           return _buildHomePageLoadedUI(
@@ -76,8 +75,8 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  Scaffold _buildHomePageLoadingUI(
-      String homePageTitle, Color homePageBackgroundColor) {
+  Scaffold _buildHomePageLoadingUI(BuildContext context, String homePageTitle,
+      Color homePageBackgroundColor) {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return Scaffold(
       appBar: HomePageAppBar(
@@ -86,6 +85,9 @@ class HomePageView extends StatelessWidget {
         onCartTap: () {},
         isLoading: true,
         title: homePageTitle, // Localized title
+        onSearchBarTap: () => context
+            .read<NavigationCubit>()
+            .navigateTo(NavigationSearchPageState()),
       ),
       backgroundColor: homePageBackgroundColor,
       body: const SkeletonLoader(),
