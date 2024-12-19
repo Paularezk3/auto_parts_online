@@ -18,6 +18,7 @@ class SearchPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<SearchPageBloc>().add(EnterSearchPage());
     final logger = getIt<ILogger>();
     final String homePageTitle = AppLocalizations.of(context)!.homePageTitle;
     final homePageBackgroundColor =
@@ -27,12 +28,25 @@ class SearchPageView extends StatelessWidget {
     final theme = Theme.of(context);
     final onCartTap = () {};
     final isDarkMode = theme.brightness == Brightness.dark;
+    final navigatorKey = getIt<GlobalKey<NavigatorState>>();
 
-    return BlocBuilder(
+    return BlocBuilder<SearchPageBloc, SearchPageState>(
       builder: (context, state) {
-        if (state is SearchBarTapped) {
+        if (state is SearchPageInactive) {
+          logger.debug("init SearchPage");
           return Scaffold(
             appBar: HomePageAppBar(
+                key: navigatorKey,
+                isLoading: false,
+                title: "Home Page",
+                onCartTap: () {},
+                isSearchMode: true),
+          );
+        } else if (state is SearchBarTapped) {
+          return Scaffold(
+            appBar: HomePageAppBar(
+              key: navigatorKey,
+              isSearchMode: true,
               isLoading: false,
               title: homePageTitle,
               onCartTap: onCartTap,
@@ -43,7 +57,7 @@ class SearchPageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Recent Searches Section (Chips with Long Press to Delete)
+// Recent Searches Section (Chips with Long Press to Delete)
                     if (state.recentSearches.isNotEmpty) ...[
                       Text(
                         "Recent Searches",
@@ -57,7 +71,7 @@ class SearchPageView extends StatelessWidget {
                         children: state.recentSearches.map((search) {
                           return GestureDetector(
                             onLongPress: () {
-                              // Remove item on long press
+// Remove item on long press
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -73,7 +87,7 @@ class SearchPageView extends StatelessWidget {
                                         });
                                   });
 
-                              // Trigger UI refresh via BLoC or setState in a StatefulWidget
+// Trigger UI refresh via BLoC or setState in a StatefulWidget
                             },
                             child: Chip(
                               padding: const EdgeInsets.symmetric(
@@ -104,7 +118,7 @@ class SearchPageView extends StatelessWidget {
                       const SizedBox(height: 16),
                     ],
 
-                    // Popular Searches Section
+// Popular Searches Section
                     if (state
                         .searchTappedDetails.popularSearches.isNotEmpty) ...[
                       Text(
@@ -132,7 +146,7 @@ class SearchPageView extends StatelessWidget {
                       const SizedBox(height: 16),
                     ],
 
-                    // Spare Parts Suggestions Section
+// Spare Parts Suggestions Section
                     if (state.sparePartsCategorySuggestions.isNotEmpty) ...[
                       Text(
                         "Spare Parts Suggestions",
@@ -169,7 +183,14 @@ class SearchPageView extends StatelessWidget {
             backgroundColor: homePageBackgroundColor,
           );
         }
-        return const DefaultLoadingWidget();
+        return Scaffold(
+          appBar: HomePageAppBar(
+              key: navigatorKey,
+              isLoading: false,
+              title: "Home Page",
+              onCartTap: () {},
+              isSearchMode: true),
+        );
       },
     );
   }

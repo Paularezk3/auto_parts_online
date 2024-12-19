@@ -13,14 +13,6 @@ class SearchHomePageDataEvent extends HomePageEvent {
 
 class SearchHomePageTappedEvent extends HomePageEvent {}
 
-class DeleteRecentSearchEvent extends HomePageEvent {
-  final String search;
-
-  DeleteRecentSearchEvent(this.search);
-
-  List<Object> get props => [search];
-}
-
 class EnterSearchModeEvent extends HomePageEvent {}
 
 class ExitSearchModeEvent extends HomePageEvent {}

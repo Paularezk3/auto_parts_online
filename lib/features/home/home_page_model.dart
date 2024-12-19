@@ -36,19 +36,3 @@ class UserProfile {
     required this.userPhoto,
   });
 }
-
-class SearchData extends HomePageModel {
-  final List<HomePageItem> data;
-  SearchData({required this.data, required super.noOfItemsInCart});
-}
-
-class SearchTappedDetails extends HomePageModel {
-  final List<String> popularSearches;
-  SearchTappedDetails(
-      {required this.popularSearches, required super.noOfItemsInCart});
-}
-
-class SparePartsCategory {
-  final String partName;
-  SparePartsCategory(this.partName);
-}

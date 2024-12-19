@@ -14,9 +14,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc() : super(HomePageInitial()) {
     // Register the event handlers
     on<LoadHomePageDataEvent>(_onLoadHomePageData);
-    on<SearchHomePageDataEvent>(_onSearchHomePageData);
-    on<SearchHomePageTappedEvent>(_onSearchHomePageTapped);
-    on<DeleteRecentSearchEvent>(_onDeleteRecentSearch);
+    // on<SearchHomePageDataEvent>(_onSearchHomePageData);
+    // on<SearchHomePageTappedEvent>(_onSearchHomePageTapped);
+    on<ExitSearchModeEvent>((event, emit) => emit(HomePageInitial()));
   }
 
   Future<void> _onLoadHomePageData(
@@ -49,76 +49,6 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       }
 
       emit(HomePageError("Failed to load data"));
-    }
-  }
-
-  Future<void> _onSearchHomePageTapped(
-      SearchHomePageTappedEvent event, Emitter<HomePageState> emit) async {
-    logger.info("SearchTapped");
-
-    // Set the intent before emitting the loading state
-    if (isStillInState(SearchBarTapped)) {
-      emit(SearchLoading());
-    }
-
-    try {
-      final data = await mockHomeService.fetchSearchTappedDetails();
-
-      // Check if the user is still waiting for search results
-      if (isStillInState(SearchLoading)) {
-        logger.warning(
-            "Skipped emitting SearchBarTapped as user intent changed.");
-        return;
-      }
-
-      logger.info("BLoC Search Results Loaded");
-      emit(data);
-    } catch (error) {
-      logger.error("Search Tapped failed: $error");
-
-      emit(HomePageError("Failed to load Search Tapped Details"));
-    }
-  }
-
-  Future<void> _onSearchHomePageData(
-      SearchHomePageDataEvent event, Emitter<HomePageState> emit) async {
-    logger.info("BLoC Searching HomePage Data for query: ${event.query}");
-
-    emit(SearchLoading()); // Show a loading state while searching
-    try {
-      // Simulate fetching search results
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (isStillInState(SearchLoading)) {
-        logger.warning("Skipped emitting SearchData as user intent changed.");
-        return;
-      }
-
-      final searchResults = SearchData(
-          data: [HomePageItem(title: "title", subtitle: "subtitle")],
-          noOfItemsInCart: 3);
-
-      logger.info("BLoC Search Results Loaded");
-      emit(SearchLoaded(searchResults));
-    } catch (error) {
-      logger.error("Search failed: $error");
-      emit(HomePageError("Failed to load search results"));
-    }
-  }
-
-  Future<void> _onDeleteRecentSearch(
-      DeleteRecentSearchEvent event, Emitter<HomePageState> emit) async {
-    final currentState = state;
-    if (currentState is SearchBarTapped) {
-      final updatedRecentSearches =
-          List<String>.from(currentState.recentSearches)..remove(event.search);
-
-      emit(SearchBarTapped(
-        recentSearches: updatedRecentSearches,
-        searchTappedDetails: currentState.searchTappedDetails,
-        sparePartsCategorySuggestions:
-            currentState.sparePartsCategorySuggestions,
-      ));
     }
   }
 

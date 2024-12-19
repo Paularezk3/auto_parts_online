@@ -27,6 +27,8 @@ class NavigationCubit extends HydratedCubit<NavigationState> {
         return NavigationAccountPageState();
       case 'NavigationCartPageState':
         return NavigationCartPageState();
+      case 'NavigationSearchPageState':
+        return NavigationSearchPageState();
       default:
         return NavigationHomePageState();
     }

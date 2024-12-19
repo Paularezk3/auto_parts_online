@@ -3,6 +3,7 @@
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:auto_parts_online/features/home/home_page_view.dart';
 import 'package:auto_parts_online/features/products/products_page_view.dart';
+import 'package:auto_parts_online/features/search/search_page_view.dart';
 import 'package:flutter/material.dart';
 import '../../features/account/account_page_view.dart';
 import '../../features/cart/cart_page_view.dart';
@@ -54,6 +55,8 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
       case const (NavigationAccountPageState):
         return const MaterialPage(
             child: AccountPageView(), name: 'AccountPage');
+      case const (NavigationSearchPageState):
+        return const MaterialPage(child: SearchPageView(), name: 'SearchPage');
       default:
         return const MaterialPage(child: HomePageView(), name: 'HomePage');
     }

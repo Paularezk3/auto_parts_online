@@ -7,3 +7,5 @@ class NavigationProductPageState extends NavigationState {}
 class NavigationCartPageState extends NavigationState {}
 
 class NavigationAccountPageState extends NavigationState {}
+
+class NavigationSearchPageState extends NavigationState {}

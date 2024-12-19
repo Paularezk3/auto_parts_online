@@ -50,16 +50,6 @@ class HomePageView extends StatelessWidget {
               homePageTitle, homePageBackgroundColor, context, logger);
         } else if (state is HomePageError) {
           return _buildErrorUI(logger, context);
-        } else if (state is SearchLoading) {
-          logger.debug("HomePage Search Loading");
-          return _buildSearchLoadingUI(homePageTitle, homePageBackgroundColor);
-        } else if (state is SearchLoaded) {
-          logger.debug("Search Loaded");
-          return _buildSearchLoadedUI(
-              homePageTitle, homePageBackgroundColor, context, state);
-        } else if (state is SearchBarTapped) {
-          return _buildSearchBarOnTap(homePageTitle, homePageBackgroundColor,
-              context, state, onCartTapped, logger);
         }
         return const DefaultLoadingWidget();
       }),
@@ -68,12 +58,18 @@ class HomePageView extends StatelessWidget {
 
   Scaffold _buildHomePageLoadedUI(String homePageTitle,
       Color homePageBackgroundColor, BuildContext context, ILogger logger) {
+    final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return Scaffold(
       appBar: HomePageAppBar(
+        key: navigatorKey,
+        isSearchMode: false,
         onCartTap: () {},
         noOfItemsInCart: 3,
         isLoading: false,
         title: homePageTitle, // Localized title
+        onSearchBarTap: () => context
+            .read<NavigationCubit>()
+            .navigateTo(NavigationSearchPageState()),
       ),
       backgroundColor: homePageBackgroundColor,
       body: homePageBodyAfterLoading(context, logger),
@@ -82,37 +78,17 @@ class HomePageView extends StatelessWidget {
 
   Scaffold _buildHomePageLoadingUI(
       String homePageTitle, Color homePageBackgroundColor) {
+    final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return Scaffold(
       appBar: HomePageAppBar(
+        key: navigatorKey,
+        isSearchMode: false,
         onCartTap: () {},
         isLoading: true,
         title: homePageTitle, // Localized title
       ),
       backgroundColor: homePageBackgroundColor,
       body: const SkeletonLoader(),
-    );
-  }
-
-  Scaffold _buildSearchLoadedUI(String homePageTitle,
-      Color homePageBackgroundColor, BuildContext context, SearchLoaded state) {
-    return Scaffold(
-      appBar: HomePageAppBar(
-          isLoading: false, title: homePageTitle, onCartTap: () {}),
-      backgroundColor: homePageBackgroundColor,
-      body: homePageAfterSearching(context, state),
-    );
-  }
-
-  Scaffold _buildSearchLoadingUI(
-      String homePageTitle, Color homePageBackgroundColor) {
-    return Scaffold(
-      appBar: HomePageAppBar(
-        onCartTap: () {},
-        isLoading: true,
-        title: homePageTitle, // Localized title
-      ),
-      backgroundColor: homePageBackgroundColor,
-      body: const SearchSkeletonLoader(),
     );
   }
 
@@ -124,30 +100,6 @@ class HomePageView extends StatelessWidget {
         onPressed: () {
           context.read<HomePageBloc>().add(LoadHomePageDataEvent());
         },
-      ),
-    );
-  }
-
-  Widget homePageAfterSearching(BuildContext context, SearchLoaded state) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-            itemCount: state.data.data.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Column(
-                  children: [
-                    Text(state.data.data[index].title),
-                    Text(state.data.data[index].subtitle),
-                  ],
-                ),
-              );
-            },
-          )
-        ],
       ),
     );
   }
@@ -337,151 +289,6 @@ class HomePageView extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSearchBarOnTap(
-      String homePageTitle,
-      Color homePageBackgroundColor,
-      BuildContext context,
-      SearchBarTapped state,
-      void Function()? onCartTap,
-      ILogger logger) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
-
-    return Scaffold(
-      appBar: HomePageAppBar(
-        isLoading: false,
-        title: homePageTitle,
-        onCartTap: onCartTap,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Recent Searches Section (Chips with Long Press to Delete)
-              if (state.recentSearches.isNotEmpty) ...[
-                Text(
-                  "Recent Searches",
-                  style: theme.textTheme.headlineMedium!.copyWith(
-                      fontWeight: FontWeight.bold, letterSpacing: 0.7),
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: state.recentSearches.map((search) {
-                    return GestureDetector(
-                      onLongPress: () {
-                        // Remove item on long press
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return ConfirmationDialog(
-                                  title: "Warning",
-                                  message:
-                                      "You are about to delete Recent Search",
-                                  onConfirm: () {
-                                    context
-                                        .read<HomePageBloc>()
-                                        .add(DeleteRecentSearchEvent(search));
-                                    logger
-                                        .info("Deleted Recent Search: $search");
-                                  });
-                            });
-
-                        // Trigger UI refresh via BLoC or setState in a StatefulWidget
-                      },
-                      child: Chip(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 2),
-                        label: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.history,
-                                size: 24,
-                                color: isDarkMode
-                                    ? AppColors.accentDark
-                                    : AppColors.accentLight),
-                            const SizedBox(width: 4),
-                            Text(
-                              search,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        backgroundColor:
-                            isDarkMode ? Colors.grey[800] : Colors.grey[200],
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 16),
-              ],
-
-              // Popular Searches Section
-              if (state.searchTappedDetails.popularSearches.isNotEmpty) ...[
-                Text(
-                  "Popular Searches",
-                  style: theme.textTheme.headlineMedium!.copyWith(
-                      fontWeight: FontWeight.bold, letterSpacing: 0.7),
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children:
-                      state.searchTappedDetails.popularSearches.map((search) {
-                    return Chip(
-                      label: Text(
-                        search,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      backgroundColor:
-                          isDarkMode ? Colors.grey[800] : Colors.grey[200],
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 16),
-              ],
-
-              // Spare Parts Suggestions Section
-              if (state.sparePartsCategorySuggestions.isNotEmpty) ...[
-                Text(
-                  "Spare Parts Suggestions",
-                  style: theme.textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 8),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.sparePartsCategorySuggestions.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      child: ListTile(
-                        title: Text(state
-                            .sparePartsCategorySuggestions[index].partName),
-                        trailing: const Icon(Icons.arrow_forward),
-                        onTap: () {
-                          logger.info(
-                            "Tapped on Spare Part Suggestion: ${state.sparePartsCategorySuggestions[index].partName}",
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: homePageBackgroundColor,
     );
   }
 }
