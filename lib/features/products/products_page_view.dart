@@ -17,7 +17,7 @@ class ProductsPageView extends StatelessWidget {
       onPopInvokedWithResult: (didPop, result) {
         context.read<NavigationCubit>().navigateTo(NavigationHomePageState());
         if (didPop) {
-          logger.debug("ProductsPage Didn't Ppp");
+          logger.debug("ProductsPage Didn't Pop", StackTrace.current);
         }
       },
       child: Scaffold(

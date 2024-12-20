@@ -28,17 +28,18 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
   @override
   Widget build(BuildContext context) {
     final logger = getIt<ILogger>();
-    logger.debug('Navigator Rebuilding with State: ${navigationCubit.state}');
+    logger.trace('Navigator Rebuilding with State: ${navigationCubit.state}',
+        StackTrace.current);
 
     final page = _mapStateToPage(navigationCubit.state);
 
-    logger.debug('Current Page: $page');
+    logger.debug('Current Page: $page', StackTrace.current);
     return Navigator(
       key: navigatorKey,
       pages: [page],
       onPopPage: (route, result) {
         if (!route.didPop(result)) return false;
-        logger.debug('Pop Page Triggered');
+        logger.debug('Pop Page Triggered', StackTrace.current);
         navigationCubit.navigateTo(NavigationHomePageState());
         return true;
       },

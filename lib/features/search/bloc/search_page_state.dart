@@ -6,7 +6,10 @@ class SearchPageInactive extends SearchPageState {}
 
 class EmptySearchLoading extends SearchPageState {}
 
-class FilledSearchLoading extends SearchPageState {}
+class FilledSearchLoading extends SearchPageState {
+  final String? query;
+  FilledSearchLoading({this.query});
+}
 
 class SearchBarActiveWithoutTyping extends SearchPageState {
   final List<String> recentSearches;
@@ -25,5 +28,6 @@ class SearchPageError extends SearchPageState {
 
 class SearchResultsLoaded extends SearchPageState {
   final List<ProductCardDetails> data;
-  SearchResultsLoaded({required this.data});
+  final String? searchBarText;
+  SearchResultsLoaded({required this.data, this.searchBarText});
 }

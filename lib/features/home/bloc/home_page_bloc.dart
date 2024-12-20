@@ -18,7 +18,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
 
   Future<void> _onLoadHomePageData(
       LoadHomePageDataEvent event, Emitter<HomePageState> emit) async {
-    logger.info("BLoC HomePage Loading");
+    logger.info("BLoC HomePage Loading", StackTrace.current);
 
     // Set the intent before emitting the loading state
     emit(HomePageLoading());
@@ -28,20 +28,21 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
 
       // Check if the user is still waiting for home page data
       if (state is! HomePageLoading) {
-        logger
-            .warning("Skipped emitting HomePageLoaded as user intent changed.");
+        logger.warning(
+            "Skipped emitting HomePageLoaded as user intent changed.",
+            StackTrace.current);
         return;
       }
 
-      logger.info("BLoC HomePage Loaded");
+      logger.info("BLoC HomePage Loaded", StackTrace.current);
       emit(HomePageLoaded(data));
     } catch (error) {
-      logger.error("Failed to load data: $error");
+      logger.error("Failed to load data: $error", StackTrace.current);
 
       // Check if the user is still waiting for home page data
       if (state is! HomePageLoading) {
-        logger
-            .warning("Skipped emitting HomePageError as user intent changed.");
+        logger.warning("Skipped emitting HomePageError as user intent changed.",
+            StackTrace.current);
         return;
       }
 

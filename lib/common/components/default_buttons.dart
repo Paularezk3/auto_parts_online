@@ -58,11 +58,11 @@ mixin ButtonStyles {
   static VoidCallback? onPressed(VoidCallback? onPressed, ILogger logger) {
     return onPressed != null
         ? () {
-            logger.debug("Button Pressed");
+            logger.debug("Button Pressed", StackTrace.current);
             onPressed();
           }
         : () {
-            logger.debug("onPressed is $onPressed");
+            logger.debug("onPressed is $onPressed", StackTrace.current);
           };
   }
 }

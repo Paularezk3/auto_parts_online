@@ -1,7 +1,9 @@
 import 'package:auto_parts_online/common/components/default_buttons.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
+import 'package:auto_parts_online/core/utils/hive_helper.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_state.dart';
 import 'package:auto_parts_online/features/search/search_page_model.dart';
+import 'package:auto_parts_online/features/search/search_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,17 +34,24 @@ class SearchPageView extends StatelessWidget {
     // Access the already provided BLoC
     final searchPageBloc = context.read<SearchPageBloc>();
 
+    final hiveHelper = HiveHelper();
+    hiveHelper.init(); // Initialize the helper
+    final SearchPageViewModel searchPageViewModel =
+        SearchPageViewModel(hiveHelper: hiveHelper, logger: logger);
+
     // Ensure the event is dispatched outside the build phase
     if (searchPageBloc.state is SearchPageInactive) {
-      logger.debug(
-          "Current State: ${searchPageBloc.state}\nAdding EnterSearchPage event");
+      logger.trace(
+          "Current State: ${searchPageBloc.state}\nAdding EnterSearchPage event",
+          StackTrace.current);
       searchPageBloc.add(EnterSearchPage());
     }
+
     return BlocBuilder<SearchPageBloc, SearchPageState>(
       builder: (context, state) {
         if (state is SearchPageInactive) {
-          logger.debug("init SearchPage");
-          return emptyLoadingScaffold(navigatorKey);
+          logger.trace("init SearchPage", StackTrace.current);
+          return emptyLoadingScaffold(navigatorKey, context);
         } else if (state is SearchBarActiveWithoutTyping) {
           return searchBarActiveWithoutTypingScaffold(
               navigatorKey,
@@ -54,17 +63,20 @@ class SearchPageView extends StatelessWidget {
               isDarkMode,
               homePageBackgroundColor);
         } else if (state is EmptySearchLoading) {
-          logger.debug("Loading SearchPageView");
-          return emptyLoadingScaffold(navigatorKey);
+          logger.trace("Loading SearchPageView", StackTrace.current);
+          return emptyLoadingScaffold(navigatorKey, context);
         } else if (state is SearchPageError) {
-          logger.debug("Error SearchPage Building");
+          logger.trace("Error SearchPage Building", StackTrace.current);
           return errorScaffold(navigatorKey, logger);
         } else if (state is FilledSearchLoading) {
-          logger.debug("Loading FilledSearchPageView");
-          return emptyLoadingScaffold(navigatorKey);
+          logger.trace("Loading FilledSearchPageView", StackTrace.current);
+          return emptyLoadingScaffold(navigatorKey, context,
+              query: state.query);
         } else if (state is SearchResultsLoaded) {
-          return _buildResultsList(state.data, navigatorKey, context);
+          return _buildResultsList(state.data, navigatorKey, context,
+              searchPageViewModel, state.searchBarText);
         }
+        logger.warning("Current State is $state", StackTrace.current);
         return Scaffold(
           appBar: HomePageAppBar(
               key: navigatorKey,
@@ -76,17 +88,31 @@ class SearchPageView extends StatelessWidget {
     );
   }
 
-  Widget _buildResultsList(List<ProductCardDetails> products,
-      GlobalKey<NavigatorState> navigatorKey, BuildContext context) {
+  Widget _buildResultsList(
+      List<ProductCardDetails> products,
+      GlobalKey<NavigatorState> navigatorKey,
+      BuildContext context,
+      SearchPageViewModel searchPageViewModel,
+      String? searchBarText) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: HomePageAppBar(
         isLoading: false,
-        title: "Home Page",
+        title: AppLocalizations.of(context)!.homePageTitle,
         isSearchMode: true,
         key: navigatorKey,
         onSearchFieldChanged: (query) => query.isEmpty
             ? context.read<SearchPageBloc>().add(EmptySearchField())
-            : context.read<SearchPageBloc>().add(FilledSearchBarChanged(query)),
+            : (searchBarText != null
+                ? context.read<SearchPageBloc>().add(EmptySearchField())
+                : context
+                    .read<SearchPageBloc>()
+                    .add(FilledSearchBarChanged(query))),
+        onSearchSubmitted: (query) {
+          FocusScope.of(context).unfocus(); // Closes the keyboard
+          searchPageViewModel.onSearchSubmitted(query);
+        },
+        searchText: searchBarText,
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(12.0),
@@ -101,10 +127,14 @@ class SearchPageView extends StatelessWidget {
           final product = products[index];
           return Card(
             elevation: 4,
-            shadowColor: Colors.grey.shade200,
+            shadowColor:
+                isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            color: isDarkMode
+                ? AppColors.accentDarkGrey
+                : AppColors.secondaryForegroundLight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -116,7 +146,7 @@ class SearchPageView extends StatelessWidget {
                     ),
                     child: Image.network(
                       product.productImage,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                           Icons.broken_image,
                           size: 64,
@@ -127,28 +157,33 @@ class SearchPageView extends StatelessWidget {
 
                 // Product Details
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Product Name
-                      Text(
-                        product.productName,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
+                      Text(product.productName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: isDarkMode
+                                      ? AppColors.primaryTextDark
+                                      : AppColors.primaryTextLight)),
                       const SizedBox(height: 8),
 
                       // Product Price
                       Text(
-                        "${product.productPrice.toStringAsFixed(2)} E£",
-                        style: const TextStyle(
+                        AppLocalizations.of(context)!.localeName == "ar"
+                            ? "ج.م. ${product.productPrice.toStringAsFixed(2)}"
+                            : "${product.productPrice.toStringAsFixed(2)} E£",
+                        style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black87,
+                          color: isDarkMode
+                              ? AppColors.secondaryGrey
+                              : Colors.black87,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -161,7 +196,7 @@ class SearchPageView extends StatelessWidget {
                           color: product.stockAvailability.toLowerCase() ==
                                   "in stock"
                               ? Colors.green
-                              : Colors.orange,
+                              : Colors.red,
                         ),
                       ),
                     ],
@@ -170,11 +205,12 @@ class SearchPageView extends StatelessWidget {
 
                 // Add to Cart Button
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 8.0),
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
+                      backgroundColor: isDarkMode
+                          ? AppColors.primaryDark
+                          : AppColors.primaryLight,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -182,42 +218,20 @@ class SearchPageView extends StatelessWidget {
                     onPressed: () {
                       // Add to cart logic
                     },
-                    child: const Text("Add to Cart"),
+                    child: Text(
+                      "Add to Cart",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMode
+                              ? AppColors.primaryTextOnSurfaceDark
+                              : AppColors.primaryTextOnSurfaceLight),
+                    ),
                   ),
                 ),
               ],
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.search_off, size: 64, color: Colors.grey),
-          const SizedBox(height: 16),
-          const Text(
-            "No results found for your search.",
-            style: TextStyle(fontSize: 18, color: Colors.grey),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              // Clear filters logic
-            },
-            child: const Text("Clear Filters"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Browse categories logic
-            },
-            child: const Text("Browse Categories"),
-          ),
-        ],
       ),
     );
   }
@@ -270,6 +284,9 @@ class SearchPageView extends StatelessWidget {
                     runSpacing: 8,
                     children: state.recentSearches.map((search) {
                       return GestureDetector(
+                        onTap: () => context
+                            .read<SearchPageBloc>()
+                            .add(RecentSearchChosed(search)),
                         onLongPress: () {
 // Remove item on long press
                           showDialog(
@@ -284,7 +301,8 @@ class SearchPageView extends StatelessWidget {
                                           .read<SearchPageBloc>()
                                           .add(DeleteRecentSearchEvent(search));
                                       logger.info(
-                                          "Deleted Recent Search: $search");
+                                          "Deleted Recent Search: $search",
+                                          StackTrace.current);
                                     });
                               });
 
@@ -365,6 +383,7 @@ class SearchPageView extends StatelessWidget {
                         onTap: () {
                           logger.info(
                             "Tapped on Spare Part Suggestion: ${state.sparePartsCategorySuggestions[index].partName}",
+                            StackTrace.current,
                           );
                         },
                       ),
@@ -380,13 +399,24 @@ class SearchPageView extends StatelessWidget {
     );
   }
 
-  Scaffold emptyLoadingScaffold(GlobalKey<NavigatorState> navigatorKey) {
+  Scaffold emptyLoadingScaffold(
+      GlobalKey<NavigatorState> navigatorKey, BuildContext context,
+      {String? query}) {
     return Scaffold(
         appBar: HomePageAppBar(
-            key: navigatorKey,
-            isLoading: false,
-            title: "Home Page",
-            isSearchMode: true),
+          key: navigatorKey,
+          isLoading: false,
+          title: "Home Page",
+          isSearchMode: true,
+          onSearchFieldChanged: (query) {
+            if (query.isNotEmpty) {
+              context.read<SearchPageBloc>().add(FilledSearchBarChanged(query));
+            } else {
+              context.read<SearchPageBloc>().add(EmptySearchField());
+            }
+          },
+          searchText: query,
+        ),
         body: const SearchSkeletonLoader());
   }
 

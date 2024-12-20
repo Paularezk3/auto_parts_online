@@ -1,11 +1,11 @@
 import 'package:logger/logger.dart';
 
 abstract class ILogger {
-  void log(Level level, dynamic message);
-  void debug(dynamic message);
-  void info(dynamic message);
-  void warning(dynamic message);
-  void error(dynamic message);
+  void debug(dynamic message, StackTrace? stackTrace);
+  void info(dynamic message, StackTrace? stackTrace);
+  void warning(dynamic message, StackTrace? stackTrace);
+  void error(dynamic message, StackTrace? stackTrace);
+  void trace(dynamic message, StackTrace? stackTrace);
 }
 
 class AppLogger implements ILogger {
@@ -13,20 +13,27 @@ class AppLogger implements ILogger {
 
   AppLogger({required Logger logger}) : _logger = logger;
 
-  @override
-  void log(Level level, dynamic message) {
-    _logger.log(level, message);
+  void log(Level level, dynamic message, StackTrace? stackTrace) {
+    _logger.log(level, message, stackTrace: stackTrace);
   }
 
   @override
-  void debug(dynamic message) => log(Level.debug, message);
+  void debug(dynamic message, StackTrace? stackTrace) =>
+      log(Level.debug, message, stackTrace);
 
   @override
-  void info(dynamic message) => log(Level.info, message);
+  void info(dynamic message, StackTrace? stackTrace) =>
+      log(Level.info, message, stackTrace);
 
   @override
-  void warning(dynamic message) => log(Level.warning, message);
+  void warning(dynamic message, StackTrace? stackTrace) =>
+      log(Level.warning, message, stackTrace);
 
   @override
-  void error(dynamic message) => log(Level.error, message);
+  void error(dynamic message, StackTrace? stackTrace) =>
+      log(Level.error, message, stackTrace);
+
+  @override
+  void trace(dynamic message, StackTrace? stackTrace) =>
+      log(Level.trace, message, stackTrace);
 }

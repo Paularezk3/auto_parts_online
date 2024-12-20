@@ -4,13 +4,18 @@ abstract class SearchPageEvent {
 
 class EnterSearchPage extends SearchPageEvent {}
 
-class ExitSearchModeEvent extends SearchPageEvent {}
+// class ExitSearchModeEvent extends SearchPageEvent {}
 
 class EmptySearchField extends SearchPageEvent {}
 
 class FilledSearchBarChanged extends SearchPageEvent {
   final String query;
   FilledSearchBarChanged(this.query);
+}
+
+class RecentSearchChosed extends SearchPageEvent {
+  final String query;
+  RecentSearchChosed(this.query);
 }
 
 class DeleteRecentSearchEvent extends SearchPageEvent {

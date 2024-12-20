@@ -29,22 +29,22 @@ class HomePageView extends StatelessWidget {
     final homePageBackgroundColor =
         Theme.of(context).brightness == Brightness.light
             ? AppColors.secondaryForegroundLight
-            : AppColors.primaryForegroundLight;
+            : const Color.fromARGB(255, 10, 10, 10);
     final onCartTapped = () {};
     return BaseScreen(
       selectedIndex: 0,
       child:
           BlocBuilder<HomePageBloc, HomePageState>(builder: (context, state) {
         if (state is HomePageInitial) {
-          logger.debug("init HomePage");
+          logger.trace("init HomePage", StackTrace.current);
           context.read<HomePageBloc>().add(LoadHomePageDataEvent());
           return const DefaultLoadingWidget();
         } else if (state is HomePageLoading) {
-          logger.debug("HomePage Loading");
+          logger.trace("HomePage Loading", StackTrace.current);
           return _buildHomePageLoadingUI(
               context, homePageTitle, homePageBackgroundColor);
         } else if (state is HomePageLoaded) {
-          logger.debug("HomePage Loaded State");
+          logger.trace("HomePage Loaded State", StackTrace.current);
           return _buildHomePageLoadedUI(
               homePageTitle, homePageBackgroundColor, context, logger);
         } else if (state is HomePageError) {

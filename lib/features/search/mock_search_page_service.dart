@@ -1,26 +1,26 @@
 import 'dart:math';
 
+import 'package:auto_parts_online/core/utils/hive_helper.dart';
+
 import 'bloc/search_page_state.dart';
 import 'search_page_model.dart';
 
 abstract class IMockSearchPageService {
   IMockSearchPageService();
 
-  Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails();
+  Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails(
+      HiveHelper hivehelper);
 
   Future<List<ProductCardDetails>> fetchSearchResultDetails();
 }
 
 class MockSearchPageService implements IMockSearchPageService {
   @override
-  Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails() async {
+  Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails(
+      HiveHelper hiveHelper) async {
     await Future.delayed(Duration(seconds: getRandomNumber()));
     return SearchBarActiveWithoutTyping(
-      recentSearches: List.generate(
-          4,
-          (index) => index % 3 == 0
-              ? "This long Recent Search $index"
-              : "Recent Search $index"),
+      recentSearches: hiveHelper.getRecentSearches(),
       searchTappedDetails: SearchTappedDetails(
         popularSearches: List.generate(
             6,

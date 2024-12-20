@@ -4,6 +4,7 @@ import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import '../../app/routes/navigation_cubit.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,6 +17,8 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onSearchBarTap;
   final bool isSearchMode;
   final void Function(String)? onSearchFieldChanged;
+  final ValueChanged<String>? onSearchSubmitted;
+  final String? searchText;
 
   const HomePageAppBar({
     required this.isLoading,
@@ -25,6 +28,8 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onSearchBarTap,
     required this.isSearchMode,
     this.onSearchFieldChanged,
+    this.onSearchSubmitted,
+    this.searchText,
     super.key,
   });
 
@@ -40,6 +45,12 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
         isSearchMode ? 115.0 : 150.0; // Shrink height for search
     const Duration animationDuration = Duration(milliseconds: 500);
     const Curve curve = Curves.easeInOutCubic;
+    SearchController? searchController;
+    Logger().t(searchText, stackTrace: StackTrace.empty);
+    if (searchText != null) {
+      searchController = SearchController();
+      searchController.text = searchText!;
+    }
 
     return AnimatedContainer(
       duration: animationDuration,
@@ -47,7 +58,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       height: appBarHeight,
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.primaryForegroundLight
+            ? const Color.fromARGB(255, 29, 16, 0)
             : AppColors.primaryForegroundDark,
         boxShadow: [
           BoxShadow(
@@ -193,10 +204,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                           controller: controller,
                           hintText: AppLocalizations.of(context)!.searchHint,
                           onChanged: onSearchFieldChanged,
-                          onSubmitted: (query) {
-                            FocusScope.of(context)
-                                .unfocus(); // Closes the keyboard
-                          },
+                          onSubmitted: onSearchSubmitted,
                           hintStyle: WidgetStateProperty.all<TextStyle>(
                             isArabic
                                 ? GoogleFonts.cairo(
@@ -247,6 +255,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                           keyboardType: TextInputType.text,
                         );
                       },
+                      searchController: searchController,
                       suggestionsBuilder:
                           (BuildContext context, SearchController controller) {
                         final query = controller.text;

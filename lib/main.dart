@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -19,13 +20,16 @@ void main() async {
 
     debugPrint('Using storage directory: ${directory.path}');
 
+    await Hive.initFlutter();
+    await Hive.openBox<List<String>>("recentSearchBox");
+
     final storage = await HydratedStorage.build(
       storageDirectory: directory,
     );
 
-    setupDependencies();
     HydratedBloc.storage = storage;
 
+    setupDependencies();
     runApp(const MyApp());
   } catch (e, stackTrace) {
     debugPrint('Failed to initialize HydratedStorage: $e');

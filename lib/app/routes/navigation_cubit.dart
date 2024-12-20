@@ -9,7 +9,7 @@ class NavigationCubit extends HydratedCubit<NavigationState> {
 
   @override
   void emit(NavigationState state) {
-    logger.debug('State Emitted: $state');
+    logger.trace('State Emitted: $state', StackTrace.current);
     super.emit(state);
   }
 
