@@ -24,7 +24,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     emit(HomePageLoading());
 
     try {
-      final data = await mockHomeService.fetchHomePageData();
+      final homePageData = await mockHomeService.fetchHomePageData();
 
       // Check if the user is still waiting for home page data
       if (state is! HomePageLoading) {
@@ -35,7 +35,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       }
 
       logger.info("BLoC HomePage Loaded", StackTrace.current);
-      emit(HomePageLoaded(data));
+      emit(HomePageLoaded(homePageData));
     } catch (error) {
       logger.error("Failed to load data: $error", StackTrace.current);
 

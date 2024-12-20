@@ -1,3 +1,5 @@
+import 'package:auto_parts_online/common/models/stock_level.dart';
+
 class SearchPageModel {}
 
 class SearchTappedDetails extends SearchPageModel {
@@ -9,10 +11,10 @@ class ProductCardDetails {
   final String productImage;
   final String productName;
   final double productPrice;
-  final String stockAvailability;
-  final String carBrandName;
+  final StockLevel stockAvailability;
+  final String carBrandImage;
   ProductCardDetails(
-      {required this.carBrandName,
+      {required this.carBrandImage,
       required this.productImage,
       required this.productPrice,
       required this.stockAvailability,

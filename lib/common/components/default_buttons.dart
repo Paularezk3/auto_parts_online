@@ -58,11 +58,11 @@ mixin ButtonStyles {
   static VoidCallback? onPressed(VoidCallback? onPressed, ILogger logger) {
     return onPressed != null
         ? () {
-            logger.debug("Button Pressed", StackTrace.current);
+            logger.trace("Button Pressed", StackTrace.current);
             onPressed();
           }
         : () {
-            logger.debug("onPressed is $onPressed", StackTrace.current);
+            logger.trace("onPressed is $onPressed", StackTrace.current);
           };
   }
 }
@@ -156,7 +156,7 @@ class OutlinedPrimaryButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
-  final double? padding;
+  final EdgeInsets? padding;
   final ILogger logger;
 
   const OutlinedPrimaryButton({
@@ -175,7 +175,7 @@ class OutlinedPrimaryButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: EdgeInsets.all(padding ?? 15),
+      padding: padding ?? const EdgeInsets.all(15),
       child: SizedBox.fromSize(
         size: ButtonStyles.getButtonSize(buttonSize),
         child: OutlinedButton(
@@ -237,7 +237,7 @@ class SecondaryButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
-  final double? padding;
+  final EdgeInsets? padding;
   final ILogger logger;
 
   const SecondaryButton({
@@ -256,6 +256,7 @@ class SecondaryButton extends StatelessWidget {
     final isArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(text);
     final textStyle = TextStyle(
       fontSize: buttonSize == ButtonSize.big ? 18 : 14,
+      overflow: TextOverflow.fade,
       fontWeight: FontWeight.bold,
       color: (isEnabled && onPressed != null)
           ? (Theme.of(context).brightness == Brightness.dark
@@ -264,9 +265,10 @@ class SecondaryButton extends StatelessWidget {
           : AppColors.secondaryDarkerGrey,
       fontFamily: isArabic ? 'Cairo' : 'Montserrat',
     );
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: EdgeInsets.all(padding ?? 15),
+      padding: padding ?? const EdgeInsets.all(15),
       child: SizedBox.fromSize(
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(
@@ -274,7 +276,9 @@ class SecondaryButton extends StatelessWidget {
             minimumSize:
                 ButtonStyles.getButtonSize(buttonSize), // Added minimumSize
             backgroundColor: (isEnabled && onPressed != null)
-                ? Colors.white
+                ? (isDarkMode
+                    ? AppColors.secondaryForegroundDark
+                    : Colors.white)
                 : AppColors.secondaryGrey,
             disabledBackgroundColor: AppColors.secondaryGrey,
             shape: RoundedRectangleBorder(
@@ -290,7 +294,7 @@ class SecondaryButton extends StatelessWidget {
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
                       (isEnabled && onPressed != null)
-                          ? (Theme.of(context).brightness == Brightness.dark
+                          ? (isDarkMode
                               ? AppColors.primaryDark
                               : AppColors.primaryLight)
                           : Colors.white,
@@ -299,6 +303,8 @@ class SecondaryButton extends StatelessWidget {
                 )
               : Text(
                   text,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: textStyle,
                 ),
         ),

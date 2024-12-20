@@ -87,5 +87,57 @@
   "recentSearchEmpty": "Your recent searches will appear here. Start by searching for a product!",
   "@recentSearchEmpty": {
     "description": "this message appear when the recent search is empty"
+  },
+  "inStock": "In Stock",
+  "@inStock": {
+    "description": "This is an indicator of high stock availability."
+  },
+  "outOfStock": "Out of Stock",
+  "@outOfStock": {
+    "description": "This is an indicator that the item is currently unavailable."
+  },
+  "limitedStock": "Limited Stock",
+  "@limitedStock": {
+    "description": "This indicates a low quantity of the item is available."
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "A list of product categories for easy navigation."
+  },
+  "signUpPromo": "Sign up today to get exclusive offers!",
+  "@signUpPromo": {
+    "description": "A call-to-action encouraging users to sign up for special deals."
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "A button or action allowing users to log into their accounts."
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "A button or action allowing users to create an account."
+  },
+  "recentSearches": "Recent Searches",
+  "@recentSearches": {
+    "description": "A list of search queries the user has recently entered."
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "A general warning or alert message to notify the user."
+  },
+  "deleteRecentSearchPrompt": "Are you sure you want to delete this recent search?",
+  "@deleteRecentSearchPrompt": {
+    "description": "A confirmation prompt for deleting a recent search entry."
+  },
+  "popularSearches": "Popular Searches",
+  "@popularSearches": {
+    "description": "A list of commonly searched terms or products."
+  },
+  "sparePartsSuggestions": "Spare Parts Suggestions",
+  "@sparePartsSuggestions": {
+    "description": "Recommendations for spare parts based on user preferences or trends."
+  },
+  "reloadError": "An error occurred. Please try reloading the page.",
+  "@reloadError": {
+    "description": "An error message indicating something went wrong and suggesting a page reload."
   }
 }

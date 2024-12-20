@@ -1,4 +1,5 @@
 import 'package:auto_parts_online/common/components/default_buttons.dart';
+import 'package:auto_parts_online/common/components/default_product_card.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/hive_helper.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_state.dart';
@@ -67,21 +68,21 @@ class SearchPageView extends StatelessWidget {
           return emptyLoadingScaffold(navigatorKey, context);
         } else if (state is SearchPageError) {
           logger.trace("Error SearchPage Building", StackTrace.current);
-          return errorScaffold(navigatorKey, logger);
+          return errorScaffold(navigatorKey, logger, context);
         } else if (state is FilledSearchLoading) {
           logger.trace("Loading FilledSearchPageView", StackTrace.current);
           return emptyLoadingScaffold(navigatorKey, context,
               query: state.query);
         } else if (state is SearchResultsLoaded) {
           return _buildResultsList(state.data, navigatorKey, context,
-              searchPageViewModel, state.searchBarText);
+              searchPageViewModel, state.searchBarText, logger);
         }
         logger.warning("Current State is $state", StackTrace.current);
         return Scaffold(
           appBar: HomePageAppBar(
               key: navigatorKey,
               isLoading: false,
-              title: "Home Page",
+              title: AppLocalizations.of(context)!.homePageTitle,
               isSearchMode: true),
         );
       },
@@ -93,7 +94,8 @@ class SearchPageView extends StatelessWidget {
       GlobalKey<NavigatorState> navigatorKey,
       BuildContext context,
       SearchPageViewModel searchPageViewModel,
-      String? searchBarText) {
+      String? searchBarText,
+      ILogger logger) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: HomePageAppBar(
@@ -125,112 +127,15 @@ class SearchPageView extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
-          return Card(
-            elevation: 4,
-            shadowColor:
-                isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: isDarkMode
-                ? AppColors.accentDarkGrey
-                : AppColors.secondaryForegroundLight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Product Image
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(12),
-                    ),
-                    child: Image.network(
-                      product.productImage,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.broken_image,
-                          size: 64,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-
-                // Product Details
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Product Name
-                      Text(product.productName,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color: isDarkMode
-                                      ? AppColors.primaryTextDark
-                                      : AppColors.primaryTextLight)),
-                      const SizedBox(height: 8),
-
-                      // Product Price
-                      Text(
-                        AppLocalizations.of(context)!.localeName == "ar"
-                            ? "ج.م. ${product.productPrice.toStringAsFixed(2)}"
-                            : "${product.productPrice.toStringAsFixed(2)} E£",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: isDarkMode
-                              ? AppColors.secondaryGrey
-                              : Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-
-                      // Stock Availability
-                      Text(
-                        product.stockAvailability,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: product.stockAvailability.toLowerCase() ==
-                                  "in stock"
-                              ? Colors.green
-                              : Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Add to Cart Button
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isDarkMode
-                          ? AppColors.primaryDark
-                          : AppColors.primaryLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () {
-                      // Add to cart logic
-                    },
-                    child: Text(
-                      "Add to Cart",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode
-                              ? AppColors.primaryTextOnSurfaceDark
-                              : AppColors.primaryTextOnSurfaceLight),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
+          return DefaultProductCard(
+              productImage: product.productImage,
+              productName: product.productName,
+              productPrice: product.productPrice,
+              stockAvailability: product.stockAvailability,
+              brandLogoUrl: product.carBrandImage,
+              onAddToCart: () {},
+              isDarkMode: isDarkMode,
+              logger: logger);
         },
       ),
     );
@@ -268,7 +173,7 @@ class SearchPageView extends StatelessWidget {
 // Recent Searches Section (Chips with Long Press to Delete)
               if (state.recentSearches.isNotEmpty) ...[
                 Text(
-                  "Recent Searches",
+                  AppLocalizations.of(context)!.recentSearches,
                   style: theme.textTheme.headlineMedium!.copyWith(
                       fontWeight: FontWeight.bold, letterSpacing: 0.7),
                 ),
@@ -293,9 +198,10 @@ class SearchPageView extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return ConfirmationDialog(
-                                    title: "Warning",
-                                    message:
-                                        "You are about to delete Recent Search",
+                                    title:
+                                        AppLocalizations.of(context)!.warning,
+                                    message: AppLocalizations.of(context)!
+                                        .deleteRecentSearchPrompt,
                                     onConfirm: () {
                                       context
                                           .read<SearchPageBloc>()
@@ -338,7 +244,7 @@ class SearchPageView extends StatelessWidget {
 // Popular Searches Section
               if (state.searchTappedDetails.popularSearches.isNotEmpty) ...[
                 Text(
-                  "Popular Searches",
+                  AppLocalizations.of(context)!.popularSearches,
                   style: theme.textTheme.headlineMedium!.copyWith(
                       fontWeight: FontWeight.bold, letterSpacing: 0.7),
                 ),
@@ -364,7 +270,7 @@ class SearchPageView extends StatelessWidget {
 // Spare Parts Suggestions Section
               if (state.sparePartsCategorySuggestions.isNotEmpty) ...[
                 Text(
-                  "Spare Parts Suggestions",
+                  AppLocalizations.of(context)!.sparePartsSuggestions,
                   style: theme.textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 8),
@@ -406,7 +312,7 @@ class SearchPageView extends StatelessWidget {
         appBar: HomePageAppBar(
           key: navigatorKey,
           isLoading: false,
-          title: "Home Page",
+          title: AppLocalizations.of(context)!.homePageTitle,
           isSearchMode: true,
           onSearchFieldChanged: (query) {
             if (query.isNotEmpty) {
@@ -420,18 +326,21 @@ class SearchPageView extends StatelessWidget {
         body: const SearchSkeletonLoader());
   }
 
-  Scaffold errorScaffold(
-      GlobalKey<NavigatorState> navigatorKey, ILogger logger) {
+  Scaffold errorScaffold(GlobalKey<NavigatorState> navigatorKey, ILogger logger,
+      BuildContext context) {
     return Scaffold(
-      appBar: const HomePageAppBar(
-          isLoading: true, title: "Home Page", isSearchMode: true),
+      appBar: HomePageAppBar(
+          isLoading: true,
+          title: AppLocalizations.of(context)!.homePageTitle,
+          isSearchMode: true),
       body: Column(
         children: [
-          const Text("Error Just Happened, Try Reloading the Page"),
+          Text(AppLocalizations.of(context)!.reloadError),
           const SizedBox(
             height: 12,
           ),
-          PrimaryButton(text: "Reload Page", logger: logger),
+          PrimaryButton(
+              text: AppLocalizations.of(context)!.reloadPage, logger: logger),
         ],
       ),
     );

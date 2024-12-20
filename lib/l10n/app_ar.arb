@@ -87,5 +87,57 @@
   "recentSearchEmpty": "ستظهر عمليات البحث الأخيرة هنا. ابدأ بالبحث عن منتج!",
   "@recentSearchEmpty": {
     "description": "تظهر هذه الرسالة عندما يكون البحث الأخير فارغًا"
+  },
+  "inStock": "متوفر في المخزن",
+  "@inStock": {
+    "description": "مؤشر لتوافر المخزون بكميات كبيرة."
+  },
+  "outOfStock": "غير متوفر في المخزن",
+  "@outOfStock": {
+    "description": "مؤشر على أن العنصر غير متوفر حاليًا."
+  },
+  "limitedStock": "كمية محدودة",
+  "@limitedStock": {
+    "description": "يشير إلى أن كمية قليلة من العنصر متوفرة."
+  },
+  "categories": "الفئات",
+  "@categories": {
+    "description": "قائمة بفئات المنتجات لتسهيل التنقل."
+  },
+  "signUpPromo": "قم بالتسجيل اليوم للحصول على عروض حصرية!",
+  "@signUpPromo": {
+    "description": "دعوة للتسجيل للحصول على صفقات خاصة."
+  },
+  "signIn": "تسجيل الدخول",
+  "@signIn": {
+    "description": "زر أو إجراء يسمح للمستخدمين بتسجيل الدخول إلى حساباتهم."
+  },
+  "signUp": "إنشاء حساب",
+  "@signUp": {
+    "description": "زر أو إجراء يسمح للمستخدمين بإنشاء حساب."
+  },
+  "recentSearches": "عمليات البحث الأخيرة",
+  "@recentSearches": {
+    "description": "قائمة بعمليات البحث التي أدخلها المستخدم مؤخرًا."
+  },
+  "warning": "تحذير",
+  "@warning": {
+    "description": "رسالة تحذير أو تنبيه عامة لإخطار المستخدم."
+  },
+  "deleteRecentSearchPrompt": "هل أنت متأكد أنك تريد حذف عملية البحث الأخيرة هذه؟",
+  "@deleteRecentSearchPrompt": {
+    "description": "مطالبة تأكيد لحذف إدخال بحث حديث."
+  },
+  "popularSearches": "عمليات البحث الشائعة",
+  "@popularSearches": {
+    "description": "قائمة بالمصطلحات أو المنتجات الشائعة البحث."
+  },
+  "sparePartsSuggestions": "اقتراحات قطع الغيار",
+  "@sparePartsSuggestions": {
+    "description": "توصيات لقطع الغيار بناءً على تفضيلات المستخدم أو الاتجاهات."
+  },
+  "reloadError": "حدث خطأ. يرجى إعادة تحميل الصفحة.",
+  "@reloadError": {
+    "description": "رسالة خطأ تشير إلى حدوث مشكلة وتقترح إعادة تحميل الصفحة."
   }
 }

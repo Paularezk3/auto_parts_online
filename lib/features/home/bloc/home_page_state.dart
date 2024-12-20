@@ -7,8 +7,8 @@ class HomePageInitial extends HomePageState {}
 class HomePageLoading extends HomePageState {}
 
 class HomePageLoaded extends HomePageState {
-  final HomePageData data;
-  HomePageLoaded(this.data);
+  final HomePageData homePageData;
+  HomePageLoaded(this.homePageData);
 }
 
 class HomePageError extends HomePageState {

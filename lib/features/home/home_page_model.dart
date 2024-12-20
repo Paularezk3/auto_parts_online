@@ -1,3 +1,4 @@
+import 'package:auto_parts_online/common/models/stock_level.dart';
 import 'package:flutter/material.dart';
 
 abstract class HomePageModel {
@@ -7,24 +8,14 @@ abstract class HomePageModel {
 }
 
 class HomePageData extends HomePageModel {
-  final String title;
-  final String description;
-  final List<HomePageItem> items;
+  final List<CarouselData>? carousel;
+  final List<FeaturedProducts> featuredProducts;
+  final List<CategoryData> categoryData;
   HomePageData(
-      {required this.title,
-      required this.description,
-      required this.items,
+      {this.carousel,
+      required this.featuredProducts,
+      required this.categoryData,
       required super.noOfItemsInCart});
-}
-
-class HomePageItem {
-  final String title;
-  final String subtitle;
-
-  HomePageItem({
-    required this.title,
-    required this.subtitle,
-  });
 }
 
 class UserProfile {
@@ -35,4 +26,30 @@ class UserProfile {
     required this.userAddress,
     required this.userPhoto,
   });
+}
+
+class CategoryData {
+  final String imageUrl;
+  final int productId;
+  CategoryData(this.imageUrl, this.productId);
+}
+
+class CarouselData {
+  final String imageUrl;
+  final int productId;
+  CarouselData(this.imageUrl, this.productId);
+}
+
+class FeaturedProducts {
+  final String productName;
+  final double productPrice;
+  final StockLevel stockLevel;
+  final String imageUrl;
+  final String brandImageUrl;
+  FeaturedProducts(
+      {required this.productName,
+      required this.productPrice,
+      required this.stockLevel,
+      required this.brandImageUrl,
+      required this.imageUrl});
 }

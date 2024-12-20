@@ -4,7 +4,6 @@ import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 import '../../app/routes/navigation_cubit.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,11 +45,11 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     const Duration animationDuration = Duration(milliseconds: 500);
     const Curve curve = Curves.easeInOutCubic;
     SearchController? searchController;
-    Logger().t(searchText, stackTrace: StackTrace.empty);
     if (searchText != null) {
       searchController = SearchController();
       searchController.text = searchText!;
     }
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return AnimatedContainer(
       duration: animationDuration,
@@ -117,8 +116,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 border: Border.all(
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
+                                  color: isDarkMode
                                       ? isLoading
                                           ? AppColors.secondaryDarkerGrey!
                                           : AppColors.primaryDark
@@ -184,14 +182,19 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     width: isSearchMode ? 45 : 0,
                     curve: curve,
                     child: IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_back,
-                        color: AppColors.primaryDark,
+                        color: isLoading
+                            ? AppColors.primaryGrey
+                            : isDarkMode
+                                ? AppColors.primaryDark
+                                : AppColors.primaryLight,
                       ),
                       onPressed: () {
                         context
                             .read<NavigationCubit>()
                             .navigateTo(NavigationHomePageState());
+                        FocusScope.of(context).unfocus();
                       },
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_parts_online/common/models/stock_level.dart';
 import 'package:auto_parts_online/core/utils/hive_helper.dart';
 
 import 'bloc/search_page_state.dart';
@@ -39,11 +40,18 @@ class MockSearchPageService implements IMockSearchPageService {
     return List.generate(
         getRandomNumber(number: 20),
         (index) => ProductCardDetails(
-            carBrandName: "Mercedes $index",
-            productImage:
-                "https://www.mercedes-benz.com.eg/content/dam/hq/passengercars/cars/bodytypes-landingpages/compact-cars/modeloverview/07-2023/images/mercedes-benz-compact-cars-modeloverview-692x392-07-2023.png",
+            carBrandImage: "https://via.placeholder.com/50x50",
+            productImage: getRandomNumber() % 2 == 0
+                ? (getRandomNumber() % 2 == 0
+                    ? "https://placehold.co/800@3x.png"
+                    : "https://via.placeholder.com/300x600")
+                : "https://via.placeholder.com/600x300",
             productPrice: getRandomDouble(index),
-            stockAvailability: "About to Finish",
+            stockAvailability: getRandomNumber() % 2 == 0
+                ? StockLevel.inStock
+                : getRandomNumber() % 2 == 0
+                    ? StockLevel.limited
+                    : StockLevel.outOfStock,
             productName: "Stabilizer Bar Link"));
   }
 
