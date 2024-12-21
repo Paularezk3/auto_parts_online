@@ -41,10 +41,10 @@ mixin ButtonStyles {
     );
   }
 
-  static Size getButtonSize(ButtonSize size) {
+  static Size getButtonSize(ButtonSize size, {double? width, double? height}) {
     return Size(
-      size == ButtonSize.big ? 160 : 120,
-      size == ButtonSize.big ? 52 : 38,
+      width ?? (size == ButtonSize.big ? 160 : 120),
+      height ?? (size == ButtonSize.big ? 52 : 38),
     );
   }
 
@@ -110,7 +110,7 @@ class PrimaryButton extends StatelessWidget {
             }),
             overlayColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.pressed)) {
-                return Colors.white.withOpacity(0.1);
+                return Colors.white.withValues(alpha: 0.1);
               }
               return null;
             }),
@@ -158,6 +158,8 @@ class OutlinedPrimaryButton extends StatelessWidget {
   final ButtonSize buttonSize;
   final EdgeInsets? padding;
   final ILogger logger;
+  final double? width;
+  final double? height;
 
   const OutlinedPrimaryButton({
     required this.text,
@@ -167,6 +169,8 @@ class OutlinedPrimaryButton extends StatelessWidget {
     this.onPressed,
     this.buttonSize = ButtonSize.big,
     this.padding,
+    this.height,
+    this.width,
     super.key,
   });
 
@@ -177,7 +181,8 @@ class OutlinedPrimaryButton extends StatelessWidget {
     return Padding(
       padding: padding ?? const EdgeInsets.all(15),
       child: SizedBox.fromSize(
-        size: ButtonStyles.getButtonSize(buttonSize),
+        size: ButtonStyles.getButtonSize(buttonSize,
+            width: width, height: height),
         child: OutlinedButton(
           style: ButtonStyle(
             minimumSize: WidgetStateProperty.all(
@@ -200,7 +205,7 @@ class OutlinedPrimaryButton extends StatelessWidget {
                 return (theme.brightness == Brightness.dark
                         ? AppColors.primaryDark
                         : AppColors.primaryLight)
-                    .withOpacity(0.1);
+                    .withValues(alpha: 0.1);
               }
               return null;
             }),

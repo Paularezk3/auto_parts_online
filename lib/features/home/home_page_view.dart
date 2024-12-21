@@ -4,7 +4,6 @@ import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/common/components/default_product_card.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
-import 'package:auto_parts_online/common/models/stock_level.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';

@@ -516,7 +516,7 @@
     </section>
 
     <section class="page">
-      <h2>Product Listing Page</h2>
+      <h2>Products Listing Page</h2>
       <div class="section">
         <h3>Purpose</h3>
         <p>
@@ -534,29 +534,51 @@
             <strong>Filters Panel:</strong>
             <ul class="component">
               <li>
-                <strong>Category:</strong> 
-                A dropdown or checkbox list for selecting product categories such as 
-                Engine, Body Parts, Accessories, etc. Multi-select functionality is 
-                included to enhance user experience.
+                <strong>Category:</strong>
+                A dropdown or checkbox list for selecting product categories such as Engine, Body Parts, Accessories, etc.
+                Multi-select functionality is included to enhance user experience. 
+                <ul>
+                  <li>
+                    - When the user clicks the "Select Categories" button, a pop-up dialog opens with a list of checkboxes. 
+                    - The user can select one or more categories. 
+                    - After pressing "Done," the selected categories are dynamically applied as filters, updating the product list in real-time.
+                  </li>
+                </ul>
               </li>
               <li>
                 <strong>Price Range Slider:</strong>
-                Allows users to specify minimum and maximum price values. Includes a
-                text input for precise entry.
+                Allows users to specify minimum and maximum price values. Includes a text input for precise entry.
+                <ul>
+                  <li>
+                    - As the user adjusts the slider, the displayed price range updates in real-time.
+                    - The product list is filtered dynamically to show only items within the selected price range.
+                  </li>
+                </ul>
               </li>
               <li>
-                <strong>Brand Selector:</strong> 
-                Dropdown menu featuring major car brands with a type-ahead search for
-                quick selection.
+                <strong>Brand Selector:</strong>
+                Dropdown menu featuring major car brands with a type-ahead search for quick selection.
+                <ul>
+                  <li>
+                    - When the user types into the dropdown's search bar, matching brand names are suggested.
+                    - Selecting a brand dynamically filters the product list to include only items from the selected brand.
+                  </li>
+                </ul>
               </li>
               <li>
-                <strong>Compatibility Selector:</strong> 
-                A dropdown for selecting car make, model, and year. Ensures accuracy
-                and usability with dependency filtering (e.g., model options depend on
-                selected make).
+                <strong>Compatibility Selector:</strong>
+                A dropdown for selecting car make, model, and year. Ensures accuracy and usability with dependency filtering (e.g., model options depend on selected make).
+                <ul>
+                  <li>
+                    - When a car make is selected, the models dropdown is populated with relevant options.
+                    - Once a model is chosen, the year dropdown adjusts to display only valid years for that model.
+                    - All selections dynamically filter the product list, showing only compatible parts.
+                  </li>
+                </ul>
               </li>
             </ul>
           </li>
+          
           <li>
             <strong>Product Cards:</strong> 
             Displayed in a responsive grid or list view. Each card contains:

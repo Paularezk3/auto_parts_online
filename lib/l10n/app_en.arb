@@ -104,6 +104,10 @@
   "@categories": {
     "description": "A list of product categories for easy navigation."
   },
+  "category": "Category",
+  "@category": {
+    "description": "A list of product categories for easy navigation."
+  },
   "signUpPromo": "Sign up today to get exclusive offers!",
   "@signUpPromo": {
     "description": "A call-to-action encouraging users to sign up for special deals."
@@ -139,5 +143,45 @@
   "reloadError": "An error occurred. Please try reloading the page.",
   "@reloadError": {
     "description": "An error message indicating something went wrong and suggesting a page reload."
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "the filteration of products for user to get his product easier"
+  },
+  "selectCategories": "Select Categories",
+  "@selectCategories": {
+    "description": "A label prompting the user to select product categories."
+  },
+  "done": "Done",
+  "@done": {
+    "description": "A confirmation or completion action."
+  },
+  "priceRange": "Price Range",
+  "@priceRange": {
+    "description": "A label indicating the range of product prices."
+  },
+  "brand": "Brand",
+  "@brand": {
+    "description": "A label for selecting a product brand."
+  },
+  "selectBrand": "Select Brand",
+  "@selectBrand": {
+    "description": "A prompt encouraging the user to choose a brand."
+  },
+  "model": "Model",
+  "@model": {
+    "description": "A label for selecting a product model."
+  },
+  "selectModel": "Select Model",
+  "@selectModel": {
+    "description": "A prompt encouraging the user to choose a model."
+  },
+  "year": "Year",
+  "@year": {
+    "description": "A label for selecting a year."
+  },
+  "selectYear": "Select Year",
+  "@selectYear": {
+    "description": "A prompt encouraging the user to choose a year."
   }
 }

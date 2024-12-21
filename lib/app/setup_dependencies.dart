@@ -1,6 +1,7 @@
 // lib\app\setup_dependencies.dart
 
 import 'package:auto_parts_online/features/home/mock_home_page_service.dart';
+import 'package:auto_parts_online/features/products/mock_products_page_service.dart';
 import 'package:auto_parts_online/features/search/mock_search_page_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,8 @@ void setupDependencies() {
       .registerLazySingleton<IMockHomePageService>(() => MockHomePageService());
   getIt.registerLazySingleton<IMockSearchPageService>(
       () => MockSearchPageService());
+  getIt.registerLazySingleton<IMockProductsPageService>(
+      () => MockProductsPageService());
   getIt.registerSingleton<GlobalKey<NavigatorState>>(
       GlobalKey<NavigatorState>());
 }
