@@ -515,82 +515,179 @@
       </div>
     </section>
 
-
     <section class="page">
       <h2>Product Listing Page</h2>
       <div class="section">
         <h3>Purpose</h3>
         <p>
-          Enable users to browse and filter car spare parts based on categories,
-          price range, and compatibility.
+          Enable users to browse and filter car spare parts effectively. This page
+          provides tools for filtering products based on various criteria such as
+          categories, price range, brands, and compatibility with specific car makes
+          and models. The design supports accessibility, usability, and multi-lingual
+          usage in English and Arabic. It adapts to dark and light mode preferences.
         </p>
       </div>
       <div class="section">
         <h3>Components</h3>
         <ul>
           <li>
-            Filters Panel:
+            <strong>Filters Panel:</strong>
             <ul class="component">
               <li>
-                Category: Dropdown or checkbox list (e.g., Engine, Body Parts).
+                <strong>Category:</strong> 
+                A dropdown or checkbox list for selecting product categories such as 
+                Engine, Body Parts, Accessories, etc. Multi-select functionality is 
+                included to enhance user experience.
               </li>
-              <li>Price Range Slider.</li>
-              <li>Brand Selector.</li>
-              <li>Compatibility Selector: Dropdown for car make and model.</li>
+              <li>
+                <strong>Price Range Slider:</strong>
+                Allows users to specify minimum and maximum price values. Includes a
+                text input for precise entry.
+              </li>
+              <li>
+                <strong>Brand Selector:</strong> 
+                Dropdown menu featuring major car brands with a type-ahead search for
+                quick selection.
+              </li>
+              <li>
+                <strong>Compatibility Selector:</strong> 
+                A dropdown for selecting car make, model, and year. Ensures accuracy
+                and usability with dependency filtering (e.g., model options depend on
+                selected make).
+              </li>
             </ul>
           </li>
           <li>
-            Product Cards: Displayed in a grid or list view with product
-            details.
+            <strong>Product Cards:</strong> 
+            Displayed in a responsive grid or list view. Each card contains:
+            <ul class="component">
+              <li>Product image with zoom functionality on hover.</li>
+              <li>
+                Title, short description, and price prominently displayed for quick
+                decision-making.
+              </li>
+              <li>
+                Action buttons for "Add to Cart" and "View Details." Includes a
+                wishlist icon.
+              </li>
+              <li>
+                Indicators for stock availability (e.g., "In Stock," "Out of Stock").
+              </li>
+            </ul>
           </li>
           <li>
-            Pagination: Buttons or infinite scroll for navigating large
-            datasets.
+            <strong>Pagination:</strong> 
+            Includes numbered buttons, "Next" and "Previous" options, and optional
+            infinite scrolling with a loading spinner.
           </li>
         </ul>
       </div>
       <div class="section">
         <h3>Layout</h3>
         <p>
-          Desktop: Filters are displayed on the left side, with products in a
-          grid on the right.<br />
-          Mobile: Filters are collapsible, and products are shown in a
-          single-column list.
+          The layout is designed to accommodate both desktop and mobile users:
+        </p>
+        <ul>
+          <li>
+            <strong>Desktop:</strong> 
+            Filters are displayed in a vertical sidebar on the left. Products are
+            arranged in a multi-column grid to utilize available screen space.
+          </li>
+          <li>
+            <strong>Mobile:</strong> 
+            Filters are collapsible and accessible via a button at the top. Products
+            are displayed in a single-column list to maximize readability on smaller
+            screens.
+          </li>
+          <li>
+            <strong>Dark and Light Modes:</strong>
+            The page dynamically adjusts its styling based on user preferences. Uses
+            WCAG-compliant contrast ratios to ensure readability.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Accessibility Features</h3>
+        <ul>
+          <li>
+            Full keyboard navigation support for all interactive components (e.g.,
+            dropdowns, sliders, buttons).
+          </li>
+          <li>ARIA roles and labels for screen readers.</li>
+          <li>High-contrast mode compatibility.</li>
+          <li>
+            Multi-lingual support with a language toggle for English and Arabic, with
+            right-to-left (RTL) styling for Arabic text.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>User Interaction Details</h3>
+        <p>
+          Filters and selections dynamically update the product list in real-time
+          without requiring a full page reload, ensuring a seamless user experience.
         </p>
       </div>
     </section>
-
+    
     <section class="page">
       <h2>Product Details Page</h2>
       <div class="section">
         <h3>Purpose</h3>
         <p>
-          Provide detailed information about a product to help users make
-          informed purchasing decisions.
+          Provide users with comprehensive information about a specific product, enabling them to make informed purchasing decisions. Includes details such as images, descriptions, compatibility, pricing, and customer reviews.
         </p>
       </div>
       <div class="section">
         <h3>Components</h3>
         <ul>
-          <li>Product Image Gallery: Carousel or static images.</li>
           <li>
-            Product Details Section:
+            <strong>Product Image Gallery:</strong> 
+            A carousel with zoom and swipe capabilities. Supports multiple images and videos where applicable. Includes alt text for accessibility.
+          </li>
+          <li>
+            <strong>Product Details Section:</strong>
             <ul class="component">
-              <li>Title, Price, and Stock Availability.</li>
-              <li>Compatibility Information.</li>
-              <li>Description: Full details about the product.</li>
+              <li>
+                <strong>Title:</strong> Prominent display with clear typography.
+              </li>
+              <li>
+                <strong>Price:</strong> Includes discount pricing and clear formatting (e.g., crossed-out original price).
+              </li>
+              <li>
+                <strong>Stock Availability:</strong> Real-time stock updates with visual indicators (e.g., "In Stock" in green, "Out of Stock" in red).
+              </li>
+              <li>
+                <strong>Compatibility Information:</strong> Specific car makes, models, and years the product is compatible with.
+              </li>
+              <li>
+                <strong>Description:</strong> A comprehensive overview of the product, including technical specifications and benefits.
+              </li>
             </ul>
           </li>
-          <li>"Add to Cart" Button.</li>
-          <li>Customer Reviews Section: List of reviews with ratings.</li>
+          <li>
+            <strong>"Add to Cart" Button:</strong> A large, prominent button with hover and focus states. Includes an "Added to Cart" confirmation.
+          </li>
+          <li>
+            <strong>Customer Reviews Section:</strong>
+            Displays a list of customer reviews with:
+            <ul class="component">
+              <li>Average star rating at the top.</li>
+              <li>Individual review text and customer names.</li>
+              <li>Ability to filter reviews by rating (e.g., 5-star, 4-star).</li>
+            </ul>
+          </li>
         </ul>
       </div>
       <div class="section">
         <h3>Layout</h3>
         <p>
-          Desktop: Two-column layout with images on the left and details on the
-          right.<br />
-          Mobile: Single-column stacked layout.
+          <strong>Desktop:</strong> A two-column layout with:
+          <ul>
+            <li>Image gallery prominently displayed on the left.</li>
+            <li>Product details, price, and actions (e.g., "Add to Cart") on the right.</li>
+          </ul>
+          <strong>Mobile:</strong> A single-column layout with a vertically stacked arrangement for ease of scrolling.
         </p>
       </div>
     </section>

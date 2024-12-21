@@ -93,32 +93,36 @@ flutter run
 ```bash
 lib/
 ├── app/
-│   ├── app.dart              // Entry point for the app widget tree
-│   ├── routes.dart           // Route management
-│   ├── themes.dart           // Theme management (includes colors if extensive)
+│   ├── app.dart                   // Entry point for the app widget tree
+│   ├── my_material_app.dart       // Custom MaterialApp widget
+│   ├── setup_dependencies.dart    // Dependency injection setup (using get_it)
+│   ├── route/                     // Route management
+│       ├── routes.dart            // Route definitions
+├── common/
+│   ├── components/                // Reusable components
+│   ├── layouts/                   // Common layouts
+│   ├── models/                    // Shared models
+│   ├── widgets/                   // Reusable widgets
 ├── core/
-│   ├── constants/
-│   │   ├── app_colors.dart   // App-wide color constants
-│   │   ├── app_strings.dart  // App-wide text/string constants
-│   │   ├── app_sizes.dart    // App-wide size constants (padding, margins)
-│   ├── utils/
-│       ├── validators.dart   // Common input validation utilities
-│       ├── helpers.dart      // Other reusable helpers
+│   ├── constants/                 // App-wide constants
+│   │   ├── app_colors.dart        // Color constants
+│   ├── keys/                      // Global cubit keys
+│       ├── global_keys.dart       // Keys used across the app
+│   ├── utils/                     // Utility functions and helpers
+│       ├── validators.dart        // Input validation utilities
+│       ├── helpers.dart           // Other reusable helpers
+│   ├── themes.dart                // Theme management
 ├── features/
-│   ├── feature1/
-│   │   ├── model/
-│   │   │   ├── feature1_model.dart  // Model for the feature
-│   │   ├── view/
-│   │   │   ├── feature1_screen.dart  // Feature screen UI
-│   │   │   ├── widgets/             // Custom widgets for the feature
-│   │   ├── view_model/
-│   │   │   ├── feature1_viewmodel.dart // Feature ViewModel
-│   │   ├── bloc/
-│   │       ├── feature1_bloc.dart    // BLoC implementation
-│   │       ├── feature1_event.dart   // BLoC events
-│   │       ├── feature1_state.dart   // BLoC states
-│   ├── feature2/...
-├── main.dart                    // Main entry point
+│   ├── account/                   // Account-related screens and logic
+│   ├── cart/                      // Cart-related screens and logic
+│   ├── home/                      // Home screen and related logic
+│   ├── products/                  // Products listing and management
+│   ├── search/                    // Search functionality
+│   ├── product_details/           // Product details screen and logic
+├── l10n/
+│   ├── app_ar.arb                 // Arabic translations
+│   ├── app_en.arb                 // English translations
+├── main.dart                      // Main entry point
 ```
 
 ## 📈 Analytics & Monitoring
