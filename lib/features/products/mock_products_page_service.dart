@@ -41,7 +41,28 @@ class MockProductsPageService implements IMockProductsPageService {
           stockLevel: StockLevel.outOfStock),
     ];
 
-    return ProductsPageData(cartData: cartData, productsItems: productsData);
+    return ProductsPageData(
+        cartData: cartData,
+        productsItems: productsData,
+        filterData: getFilterData());
+  }
+
+  FilterData getFilterData() {
+    return FilterData(
+        categories: ["Accessories", "Engine Parts"],
+        lowestPrice: 300,
+        highestPrice: 20000,
+        brands: ["Mercedes", "Hyundai"],
+        brandsModels: {
+          "Mercedes": {
+            "A-Class": [2010, 2011, 2012],
+            "B-Class": [2013, 2014, 2015]
+          },
+          "Hyundai": {
+            "Accent": [2010, 2011, 2012],
+            "Elantra": [2013, 2014, 2015]
+          },
+        });
   }
 
   int getRandomNumber({int? number}) {

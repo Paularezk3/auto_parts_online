@@ -14,17 +14,11 @@ class ProductsPageLoaded extends ProductsPageState {
 class ProductsPageError extends ProductsPageState {}
 
 class FilterUIUpdated extends ProductsPageState {
-  final bool isPriceRangeOn;
-  final List<String>? selectedCategories;
-  final Set<int>? priceRange;
-  final String? brandName;
-  final String? modelName;
-  final int? year;
-  FilterUIUpdated(
-      {required this.isPriceRangeOn,
-      this.brandName,
-      this.modelName,
-      this.priceRange,
-      this.selectedCategories,
-      this.year});
+  final ProductsPageData products; // Add products to this state
+  final SelectedFilterData selectedFilterData;
+
+  FilterUIUpdated({
+    required this.selectedFilterData,
+    required this.products,
+  });
 }
