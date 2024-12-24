@@ -1,6 +1,7 @@
 // lib\common\widgets\default_appbar.dart
 
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
+import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -308,7 +309,9 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(110);
+  Size get preferredSize {
+    return Size.fromHeight(isSearchMode ? 90.0 : 120.0);
+  }
 }
 
 class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -316,12 +319,14 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
   final void Function()? onBackTap;
   final bool isLoading;
+  final bool isTitleLoading;
 
   const OtherPageAppBar({
     required this.title,
     this.showBackButton = false,
     this.onBackTap,
     required this.isLoading,
+    this.isTitleLoading = false,
     super.key,
   });
 
@@ -349,12 +354,14 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(width: 16),
             ],
             Expanded(
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: AppBarStyle.titleTextStyle(
-                    title: title, context: context, isLoading: isLoading),
-              ),
+              child: isTitleLoading
+                  ? const ShimmerBox(width: 100, height: 50)
+                  : Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: AppBarStyle.titleTextStyle(
+                          title: title, context: context, isLoading: isLoading),
+                    ),
             ),
           ],
         ),

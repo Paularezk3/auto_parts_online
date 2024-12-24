@@ -128,6 +128,7 @@ class SearchPageView extends StatelessWidget {
         itemBuilder: (context, index) {
           final product = products[index];
           return DefaultProductCard(
+              onProductTap: () {},
               productImage: product.productImage,
               productName: product.productName,
               productPrice: product.productPrice,

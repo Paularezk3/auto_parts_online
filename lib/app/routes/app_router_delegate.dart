@@ -1,10 +1,11 @@
 // lib\app\routes\app_router_delegate.dart
 
-import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:auto_parts_online/features/home/home_page_view.dart';
-import 'package:auto_parts_online/features/products/products_page_view.dart';
-import 'package:auto_parts_online/features/search/search_page_view.dart';
 import 'package:flutter/material.dart';
+import '../../core/utils/app_logger.dart';
+import '../../features/home/home_page_view.dart';
+import '../../features/product_details_page/product_details_page_view.dart';
+import '../../features/products/products_page_view.dart';
+import '../../features/search/search_page_view.dart';
 import '../../features/account/account_page_view.dart';
 import '../../features/cart/cart_page_view.dart';
 import '../setup_dependencies.dart';
@@ -23,43 +24,93 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
   }
 
   @override
-  NavigationState? get currentConfiguration => navigationCubit.state;
+  NavigationState? get currentConfiguration => navigationCubit.currentState;
 
   @override
   Widget build(BuildContext context) {
     final logger = getIt<ILogger>();
-    logger.trace('Navigator Rebuilding with State: ${navigationCubit.state}',
-        StackTrace.current);
+    logger.trace(
+        'Navigator Rebuilding with State: ${navigationCubit.currentState}',
+        StackTrace.empty);
 
-    final page = _mapStateToPage(navigationCubit.state);
-
-    logger.debug('Current Page: $page', StackTrace.current);
-    return Navigator(
-      key: navigatorKey,
-      pages: [page],
-      onPopPage: (route, result) {
-        if (!route.didPop(result)) return false;
-        logger.debug('Pop Page Triggered', StackTrace.current);
-        navigationCubit.navigateTo(NavigationHomePageState());
-        return true;
-      },
+    return PopScope(
+      onPopInvokedWithResult: _handleBackButtonPress,
+      canPop: true,
+      child: Navigator(
+        key: navigatorKey,
+        pages: navigationCubit.state
+            .map((state) => _mapStateToPage(state))
+            .toList(),
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) return false;
+          logger.debug('Pop Page Triggered', StackTrace.empty);
+          return _navigateBack();
+        },
+      ),
     );
+  }
+
+  void _handleBackButtonPress(bool didPop, dynamic result) async {
+    final logger = getIt<ILogger>();
+    if (navigationCubit.state.length == 1) {
+      // Exit app if already on the home page
+      if (didPop) {
+        logger.debug('Back button pressed on Home Page - exiting app',
+            StackTrace.current);
+      }
+    } else {
+      // Navigate to home page or previous state
+      logger.debug(
+          'Back button pressed - navigating to Home Page', StackTrace.empty);
+      if (navigationCubit.currentState is NavigationSearchPageState) {
+        navigationCubit.navigateTo(NavigationHomePageState());
+      }
+      navigationCubit.pop();
+    }
+  }
+
+  bool _navigateBack() {
+    final logger = getIt<ILogger>();
+    if (navigationCubit.state.length > 1) {
+      navigationCubit.pop();
+      return true;
+    } else {
+      logger.debug('Already at base state, cannot pop', StackTrace.empty);
+      return false;
+    }
   }
 
   Page _mapStateToPage(NavigationState state) {
     switch (state.runtimeType) {
       case const (NavigationProductPageState):
         return const MaterialPage(
-            child: ProductsPageView(), name: 'ProductsPage');
+          child: ProductsPageView(),
+          name: 'ProductsPage',
+        );
+      case const (NavigationProductDetailsPageState):
+        final productId =
+            (state as NavigationProductDetailsPageState).productId;
+        return MaterialPage(
+          child: ProductDetailsPageView(productId: productId),
+          name: 'ProductDetailsPage',
+        );
       case const (NavigationCartPageState):
         return const MaterialPage(child: CartPageView(), name: 'CartPage');
       case const (NavigationAccountPageState):
         return const MaterialPage(
-            child: AccountPageView(), name: 'AccountPage');
+          child: AccountPageView(),
+          name: 'AccountPage',
+        );
       case const (NavigationSearchPageState):
-        return const MaterialPage(child: SearchPageView(), name: 'SearchPage');
+        return const MaterialPage(
+          child: SearchPageView(),
+          name: 'SearchPage',
+        );
       default:
-        return const MaterialPage(child: HomePageView(), name: 'HomePage');
+        return const MaterialPage(
+          child: HomePageView(),
+          name: 'HomePage',
+        );
     }
   }
 

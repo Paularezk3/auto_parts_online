@@ -44,25 +44,25 @@ class BaseScreen extends StatelessWidget {
         icon: const Icon(Icons.home_outlined),
         activeIcon: Icons.home,
         label: AppLocalizations.of(context)!.home,
-        navigate: (context) => cubit.navigateTo(NavigationHomePageState()),
+        navigate: (context) => cubit.push(NavigationHomePageState()),
       ),
       NavigationItemConfig(
         icon: const Icon(Icons.category_outlined),
         activeIcon: Icons.category,
         label: AppLocalizations.of(context)!.products,
-        navigate: (context) => cubit.navigateTo(NavigationProductPageState()),
+        navigate: (context) => cubit.push(NavigationProductPageState()),
       ),
       NavigationItemConfig(
         icon: const Icon(Icons.shopping_cart_outlined),
         activeIcon: Icons.shopping_cart,
         label: AppLocalizations.of(context)!.cart,
-        navigate: (context) => cubit.navigateTo(NavigationCartPageState()),
+        navigate: (context) => cubit.push(NavigationCartPageState()),
       ),
       NavigationItemConfig(
         icon: const Icon(Icons.account_circle_outlined),
         activeIcon: Icons.account_circle,
         label: AppLocalizations.of(context)!.account,
-        navigate: (context) => cubit.navigateTo(NavigationAccountPageState()),
+        navigate: (context) => cubit.push(NavigationAccountPageState()),
       ),
     ];
   }

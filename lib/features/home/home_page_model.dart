@@ -41,13 +41,15 @@ class CarouselData {
 }
 
 class FeaturedProducts {
+  final int productId;
   final String productName;
   final double productPrice;
   final StockLevel stockLevel;
   final String imageUrl;
   final String brandImageUrl;
   FeaturedProducts(
-      {required this.productName,
+      {required this.productId,
+      required this.productName,
       required this.productPrice,
       required this.stockLevel,
       required this.brandImageUrl,

@@ -1,32 +1,15 @@
-// import 'package:flutter/material.dart';
-// import '../bloc/home_page_bloc.dart';
-// import '../bloc/home_page_state.dart';
+import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
+import 'package:auto_parts_online/features/home/bloc/home_page_bloc.dart';
 
-// class HomePageViewModel extends ChangeNotifier {
-//   // final HomePageBloc _bloc;
+class HomePageViewModel {
+  final HomePageBloc bloc;
+  NavigationCubit navigationCubit;
+  HomePageViewModel({required this.navigationCubit, required this.bloc});
 
-//   String _message = '';
-//   bool _isLoading = false;
-//   String get message => _message;
-//   bool get isLoading => _isLoading;
+  onCartTapped() {}
 
-//   // HomePageViewModel(this._bloc) {
-//   //   // Listen to BLoC state changes
-//   //   _bloc.stream.listen((state) {
-//   //     if (state is HomePageLoading) {
-//   //       _isLoading = true;
-//   //       notifyListeners();
-//   //     } else if (state is HomePageLoaded) {
-//   //       _isLoading = false;
-//   //       _message = state.data.;
-//   //       notifyListeners();
-//   //     } else if (state is HomePageError) {
-//   //       _isLoading = false;
-//   //       _message = state.message;
-//   //       notifyListeners();
-//   //     }
-//   //   });
-//   // }
-
-//   void retry() {}
-// }
+  void onProductTapped(int productId) {
+    navigationCubit.push(NavigationProductDetailsPageState(productId));
+  }
+}

@@ -30,18 +30,21 @@ class MockHomePageService implements IMockHomePageService {
     // Generate fake featured products data
     final List<FeaturedProducts> featuredProductsData = [
       FeaturedProducts(
+          productId: 0,
           productName: "Spring Element",
           productPrice: 100,
           stockLevel: StockLevel.inStock,
           brandImageUrl: "https://via.placeholder.com/50x50",
           imageUrl: "https://via.placeholder.com/150x150"),
       FeaturedProducts(
+          productId: 2,
           productName: "Engine Mount",
           productPrice: 5000,
           stockLevel: StockLevel.limited,
           brandImageUrl: "https://via.placeholder.com/50x50",
           imageUrl: "https://via.placeholder.com/150x150"),
       FeaturedProducts(
+          productId: 1,
           productName: "Timing Gear",
           productPrice: 10000,
           stockLevel: StockLevel.outOfStock,

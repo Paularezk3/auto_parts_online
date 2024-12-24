@@ -82,9 +82,7 @@ void main() {
           activeIcon: Icons.home,
           label: 'Home',
           navigate: (context) {
-            context
-                .read<NavigationCubit>()
-                .navigateTo(NavigationHomePageState());
+            context.read<NavigationCubit>().push(NavigationHomePageState());
           },
         ),
         NavigationItemConfig(
@@ -92,9 +90,7 @@ void main() {
           activeIcon: Icons.category,
           label: 'Categories',
           navigate: (context) {
-            context
-                .read<NavigationCubit>()
-                .navigateTo(NavigationHomePageState());
+            context.read<NavigationCubit>().push(NavigationHomePageState());
           },
         ),
       ];

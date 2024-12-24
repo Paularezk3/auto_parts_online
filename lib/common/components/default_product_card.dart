@@ -16,6 +16,7 @@ class DefaultProductCard extends StatelessWidget {
   final VoidCallback onAddToCart;
   final bool isDarkMode;
   final ILogger logger;
+  final void Function() onProductTap;
 
   const DefaultProductCard(
       {super.key,
@@ -26,6 +27,7 @@ class DefaultProductCard extends StatelessWidget {
       required this.brandLogoUrl,
       required this.onAddToCart,
       required this.isDarkMode,
+      required this.onProductTap,
       required this.logger});
 
   @override
@@ -39,120 +41,131 @@ class DefaultProductCard extends StatelessWidget {
       color: isDarkMode
           ? AppColors.accentDarkGrey
           : AppColors.secondaryForegroundLight,
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Product Image
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
-                  ),
-                  child: Image.network(
-                    productImage,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                        Icons.broken_image,
-                        size: 64,
-                        color: Colors.grey),
+      child: InkWell(
+        onTap: onProductTap,
+        borderRadius: BorderRadius.circular(12),
+        splashColor: isDarkMode
+            ? Colors.white.withValues(alpha: 0.2)
+            : Colors.black.withValues(alpha: 0.1),
+        highlightColor: Colors.transparent,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Product Image
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: Image.network(
+                      productImage,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                          Icons.broken_image,
+                          size: 64,
+                          color: Colors.grey),
+                    ),
                   ),
                 ),
-              ),
 
-              // Product Details
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Product Name
-                    Text(productName,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: isDarkMode
-                                ? AppColors.primaryTextDark
-                                : AppColors.primaryTextLight)),
-                    const SizedBox(height: 8),
+                // Product Details
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Product Name
+                      Text(productName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: isDarkMode
+                                      ? AppColors.primaryTextDark
+                                      : AppColors.primaryTextLight)),
+                      const SizedBox(height: 8),
 
-                    // Product Price
-                    Text(
-                      AppLocalizations.of(context)!.localeName == "ar"
-                          ? "ج.م. ${productPrice.toStringAsFixed(2)}"
-                          : "${productPrice.toStringAsFixed(2)} E£",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: isDarkMode
-                            ? AppColors.secondaryGrey
-                            : Colors.black87,
+                      // Product Price
+                      Text(
+                        AppLocalizations.of(context)!.localeName == "ar"
+                            ? "ج.م. ${productPrice.toStringAsFixed(2)}"
+                            : "${productPrice.toStringAsFixed(2)} E£",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: isDarkMode
+                              ? AppColors.secondaryGrey
+                              : Colors.black87,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
+                      const SizedBox(height: 4),
 
-                    // Stock Availability
-                    Text(
-                      stockAvailability == StockLevel.inStock
-                          ? AppLocalizations.of(context)!.inStock
-                          : (stockAvailability == StockLevel.limited
-                              ? AppLocalizations.of(context)!.limitedStock
-                              : AppLocalizations.of(context)!.outOfStock),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: stockAvailability == StockLevel.inStock
-                            ? Colors.green
+                      // Stock Availability
+                      Text(
+                        stockAvailability == StockLevel.inStock
+                            ? AppLocalizations.of(context)!.inStock
                             : (stockAvailability == StockLevel.limited
-                                ? Colors.orange
-                                : Colors.red),
+                                ? AppLocalizations.of(context)!.limitedStock
+                                : AppLocalizations.of(context)!.outOfStock),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: stockAvailability == StockLevel.inStock
+                              ? Colors.green
+                              : (stockAvailability == StockLevel.limited
+                                  ? Colors.orange
+                                  : Colors.red),
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+
+                // Add to Cart Button
+                SecondaryButton(
+                  text: AppLocalizations.of(context)!.addToCart,
+                  logger: logger,
+                  buttonSize: ButtonSize.small,
+                  onPressed: onAddToCart,
+                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 12),
+                )
+              ],
+            ),
+
+            // Brand Logo
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isDarkMode ? Colors.black : Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                      offset: Offset(2, 2),
                     ),
                   ],
                 ),
-              ),
-
-              // Add to Cart Button
-              SecondaryButton(
-                text: AppLocalizations.of(context)!.addToCart,
-                logger: logger,
-                buttonSize: ButtonSize.small,
-                onPressed: onAddToCart,
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 12),
-              )
-            ],
-          ),
-
-          // Brand Logo
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDarkMode ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 4,
-                    offset: Offset(2, 2),
+                padding: const EdgeInsets.all(4),
+                child: Image.network(
+                  brandLogoUrl,
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.broken_image,
+                    size: 24,
+                    color: Colors.grey,
                   ),
-                ],
-              ),
-              padding: const EdgeInsets.all(4),
-              child: Image.network(
-                brandLogoUrl,
-                width: 32,
-                height: 32,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.broken_image,
-                  size: 24,
-                  color: Colors.grey,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

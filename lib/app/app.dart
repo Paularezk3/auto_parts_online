@@ -1,8 +1,10 @@
 // lib\app\app.dart
+import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_bloc.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/utils/locale_service.dart';
+import '../features/cart/app_level_cubit/cart_cubit.dart';
 import '../features/home/bloc/home_page_bloc.dart';
 
 import '../features/products/bloc/products_page_bloc.dart';
@@ -51,6 +53,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (_) => SearchPageBloc(),
         ),
+        BlocProvider(create: (_) => ProductDetailsPageBloc()),
+        BlocProvider(create: (_) => CartCubit()), // Provide CartCubit here
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),

@@ -9,6 +9,7 @@ import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_bloc.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_state.dart';
+import 'package:auto_parts_online/features/home/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/setup_dependencies.dart';
@@ -23,10 +24,11 @@ import 'home_page_model.dart';
 class HomePageView extends StatelessWidget {
   const HomePageView({super.key});
 
-  onCartTapped() {}
-
   @override
   Widget build(BuildContext context) {
+    final homePageViewModel = HomePageViewModel(
+        bloc: context.read<HomePageBloc>(),
+        navigationCubit: context.read<NavigationCubit>());
     final logger = getIt<ILogger>();
     final String homePageTitle = AppLocalizations.of(context)!.homePageTitle;
     final homePageBackgroundColor =
@@ -47,15 +49,21 @@ class HomePageView extends StatelessWidget {
             context,
             homePageTitle,
             homePageBackgroundColor,
-            onCartTapped,
+            homePageViewModel.onCartTapped,
           );
         } else if (state is HomePageLoaded) {
           logger.trace("HomePage Loaded State", StackTrace.current);
-          return _buildHomePageLoadedUI(homePageTitle, homePageBackgroundColor,
-              context, logger, onCartTapped, state.homePageData,
+          return _buildHomePageLoadedUI(
+              homePageTitle,
+              homePageBackgroundColor,
+              context,
+              logger,
+              homePageViewModel.onCartTapped,
+              state.homePageData,
               onSearchBarTap: () => context
                   .read<NavigationCubit>()
-                  .navigateTo(NavigationSearchPageState()));
+                  .navigateTo(NavigationSearchPageState()),
+              homePageViewModel.onProductTapped);
         } else if (state is HomePageError) {
           return _buildErrorUI(logger, context);
         }
@@ -71,6 +79,7 @@ class HomePageView extends StatelessWidget {
       ILogger logger,
       void Function()? onCartTap,
       HomePageData homePageData,
+      void Function(int productId) onProductTap,
       {void Function()? onSearchBarTap}) {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return Scaffold(
@@ -85,7 +94,8 @@ class HomePageView extends StatelessWidget {
         onSearchBarTap: onSearchBarTap,
       ),
       backgroundColor: homePageBackgroundColor,
-      body: homePageBodyAfterLoading(context, logger, homePageData),
+      body:
+          homePageBodyAfterLoading(context, logger, homePageData, onProductTap),
     );
   }
 
@@ -124,6 +134,7 @@ class HomePageView extends StatelessWidget {
     BuildContext context,
     ILogger logger,
     HomePageData homePageData,
+    void Function(int productId) onProductTap,
   ) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
@@ -135,8 +146,8 @@ class HomePageView extends StatelessWidget {
             _buildHeroSection(homePageData.carousel),
 
           // Featured Products Section
-          _buildFeaturedProductsSection(
-              isDarkMode, logger, homePageData.featuredProducts, context),
+          _buildFeaturedProductsSection(isDarkMode, logger,
+              homePageData.featuredProducts, context, onProductTap),
 
           // Categories Section
           _buildCategoriesSection(homePageData.categoryData, context),
@@ -174,8 +185,13 @@ class HomePageView extends StatelessWidget {
   }
 
   /// Featured Products Section: Horizontal scrollable product cards
-  Widget _buildFeaturedProductsSection(bool isDarkMode, ILogger logger,
-      List<FeaturedProducts> featuredProducts, BuildContext context) {
+  Widget _buildFeaturedProductsSection(
+    bool isDarkMode,
+    ILogger logger,
+    List<FeaturedProducts> featuredProducts,
+    BuildContext context,
+    void Function(int productId) onProductTap,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
       child: Column(
@@ -195,6 +211,8 @@ class HomePageView extends StatelessWidget {
                 return SizedBox(
                   width: 150,
                   child: DefaultProductCard(
+                    onProductTap: () =>
+                        onProductTap(featuredProducts[index].productId),
                     brandLogoUrl: featuredProducts[index].brandImageUrl,
                     productImage: featuredProducts[index].imageUrl,
                     productName: featuredProducts[index].productName,
