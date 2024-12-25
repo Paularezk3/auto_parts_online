@@ -739,34 +739,100 @@
     
 
     <section class="page">
-      <h2>Cart Page</h2>
-      <div class="section">
-        <h3>Purpose</h3>
-        <p>
-          Allow users to review their selected products, update quantities, and
-          proceed to checkout.
-        </p>
+      <h1>Cart Page</h1>
+
+      <div class="section" id="purpose">
+          <h3>Purpose</h3>
+          <p>The Cart Page allows users to review their selected products, update quantities, explore recommendations, and proceed to checkout.</p>
       </div>
-      <div class="section">
-        <h3>Components</h3>
-        <ul>
-          <li>
-            Product List: Includes product image, name, price, and quantity
-            selector.
-          </li>
-          <li>Cart Summary: Displays subtotal, tax, and total price.</li>
-          <li>"Proceed to Checkout" Button.</li>
-        </ul>
+
+      <div class="section" id="components">
+          <h3>Components</h3>
+          <ul>
+              <li>
+                  <h3>Product List Section</h3>
+                  <p>The Product List Section includes individual product cards for each item in the cart:</p>
+                  <ul>
+                      <li><strong>Product Card (Cart Item):</strong></li>
+                      <ul>
+                          <li><strong>Image:</strong> Positioned on the left side of the card, ensuring clear representation and responsive resizing.</li>
+                          <li>
+                              <strong>Details Column:</strong> Positioned to the right of the image and includes:
+                              <ul>
+                                  <li><strong>Product Name:</strong> Displayed in bold text. Clicking the name navigates to the Product Details Page.</li>
+                                  <li><strong>Price:</strong> Shows the original price (strikethrough) and discounted price (highlighted).</li>
+                                  <li>
+                                      <strong>Quantity Selector:</strong> Features increment (+) and decrement (-) buttons inline beside the quantity value. When the quantity is set to 1, the decrement button transforms into a trash icon, removing the product from the cart. 
+                                  </li>
+                                  <li><strong>Touch Action:</strong> The entire card is tappable, linking to the Product Details Page.</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Cart Summary Section</h3>
+                  <p>The Cart Summary Section provides a detailed breakdown:</p>
+                  <ul>
+                      <li><strong>Subtotal:</strong> Total of product prices before tax.</li>
+                      <li><strong>Tax:</strong> Displayed separately.</li>
+                      <li><strong>Total:</strong> Final price (Subtotal + Tax).</li>
+                      <li><strong>"Proceed to Checkout" Button:</strong> Prominently displayed, fixed at the bottom of the screen on mobile devices for accessibility.</li>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Products For You Section</h3>
+                  <p>Displays a recommendation carousel or grid:</p>
+                  <ul>
+                      <li>Horizontally scrollable list of recommended products.</li>
+                      <li>Each item includes an image, product name, price (original and discounted), and an "Add to Cart" button.</li>
+                      <li>Accessible from both desktop and mobile views.</li>
+                      <li>Heading: Clearly labeled as “Products for You.”</li>
+                  </ul>
+              </li>
+          </ul>
       </div>
-      <div class="section">
-        <h3>Layout</h3>
-        <p>
-          Desktop: Two-column layout with the product list on the left and
-          summary on the right.<br />
-          Mobile: Stacked layout with the summary below the product list.
-        </p>
+
+      <div class="section" id="layout">
+          <h3>Layout</h3>
+          <ul>
+              <li>
+                  <h3>Desktop View</h3>
+                  <p>Two-column layout:</p>
+                  <ul>
+                      <li><strong>Left Column:</strong> Product List.</li>
+                      <li><strong>Right Column:</strong> Cart Summary and Checkout Button, aligned vertically.</li>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Mobile View</h3>
+                  <p>Stacked layout:</p>
+                  <ul>
+                      <li>Product List appears first, followed by the Cart Summary.</li>
+                      <li>Cart Summary and "Proceed to Checkout" button are pinned to the bottom for better accessibility.</li>
+                  </ul>
+                  <p>Additional features for mobile:</p>
+                  <ul>
+                      <li>
+                          <strong>Condensed Product Cards:</strong>
+                          <ul>
+                              <li>Compact design with reduced padding and smaller font sizes.</li>
+                              <li>Align image and text in a single row for minimal scrolling.</li>
+                          </ul>
+                      </li>
+                      <li>
+                          <strong>Sticky Cart Summary:</strong>
+                          <ul>
+                              <li>Collapses into a floating button (e.g., "View Total") at the bottom when scrolling through the Product List.</li>
+                              <li>Expands into full details when tapped.</li>
+                          </ul>
+                      </li>
+                      <li><strong>One-Tap Usability:</strong> Optimized touch targets for buttons to ensure ease of use with one hand.</li>
+                  </ul>
+              </li>
+          </ul>
       </div>
-    </section>
+  </section>
 
     <section class="page">
       <h2>Checkout Page</h2>
