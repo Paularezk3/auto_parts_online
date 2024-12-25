@@ -1,4 +1,5 @@
 // lib\app\app.dart
+import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
 import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_bloc.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_bloc.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) => SearchPageBloc(),
         ),
         BlocProvider(create: (_) => ProductDetailsPageBloc()),
+        BlocProvider(create: (_) => CartPageBloc()),
         BlocProvider(create: (_) => CartCubit()),
         // Future BLoC providers can be added here
       ],

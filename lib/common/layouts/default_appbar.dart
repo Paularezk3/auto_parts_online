@@ -3,6 +3,7 @@
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../app/routes/navigation_cubit.dart';
@@ -83,11 +84,15 @@ mixin AppBarStyle {
     );
   }
 
+  static Color appbarColor({required context}) {
+    return isDarkMode(context: context)
+        ? const Color.fromARGB(255, 29, 16, 0)
+        : AppColors.primaryForegroundDark;
+  }
+
   static Decoration? appbarContainerDecoration({required context}) {
     return BoxDecoration(
-      color: isDarkMode(context: context)
-          ? const Color.fromARGB(255, 29, 16, 0)
-          : AppColors.primaryForegroundDark,
+      color: appbarColor(context: context),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withValues(alpha: 0.1),
@@ -135,6 +140,13 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       searchController = SearchController();
       searchController.text = searchText!;
     }
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          AppBarStyle.appbarColor(context: context), // Set the status bar color
+      statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+          ? Brightness.light
+          : Brightness.dark, // Adjust icon brightness
+    ));
 
     return SafeArea(
       bottom: false,
@@ -332,6 +344,14 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          AppBarStyle.appbarColor(context: context), // Set the status bar color
+      statusBarIconBrightness: Theme.of(context).brightness == Brightness.dark
+          ? Brightness.light
+          : Brightness.dark, // Adjust icon brightness
+    ));
+
     return SafeArea(
       bottom: false,
       child: Container(
