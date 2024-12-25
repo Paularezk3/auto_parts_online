@@ -44,7 +44,7 @@ class BaseScreen extends StatelessWidget {
         icon: const Icon(Icons.home_outlined),
         activeIcon: Icons.home,
         label: AppLocalizations.of(context)!.home,
-        navigate: (context) => cubit.push(NavigationHomePageState()),
+        navigate: (context) => cubit.navigateTo(NavigationHomePageState()),
       ),
       NavigationItemConfig(
         icon: const Icon(Icons.category_outlined),

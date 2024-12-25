@@ -116,10 +116,16 @@ class DefaultProductCard extends StatelessWidget {
 
                 // Add to Cart Button
                 SecondaryButton(
-                  text: AppLocalizations.of(context)!.addToCart,
+                  text: stockAvailability == StockLevel.outOfStock
+                      ? AppLocalizations.of(context)!.outOfStock
+                      : AppLocalizations.of(context)!.addToCart,
                   logger: logger,
                   buttonSize: ButtonSize.small,
-                  onPressed: onAddToCart,
+                  onPressed: stockAvailability != StockLevel.outOfStock
+                      ? onAddToCart
+                      : null,
+                  isEnabled:
+                      stockAvailability != StockLevel.outOfStock ? true : false,
                   padding: const EdgeInsets.fromLTRB(8, 4, 8, 12),
                 )
               ],

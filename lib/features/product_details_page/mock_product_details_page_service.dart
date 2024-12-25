@@ -100,6 +100,54 @@ class MockProductDetailsPageService implements IMockProductDetailsPageService {
           compatibility: [
             "Mercedes-Benz C-Class (W204) 2007-2014",
           ]),
+      ProductDetailsPageData(
+        stockLevel: StockLevel.outOfStock,
+        productId: 4,
+        title: "Engine Mount",
+        productName: "Engine Mount for Mercedes",
+        description: """
+<p>This Mercedes Engine Mount is a high-quality replacement part designed to reduce vibrations and ensure smooth engine operation. It is built to meet OEM standards for reliability and performance.</p>
+<ul>
+  <li>Durable construction for long-term use</li>
+  <li>Reduces engine vibration and noise</li>
+  <li>Ensures proper engine alignment</li>
+  <li>Direct fit for easy installation</li>
+  <li>Compatible with various Mercedes models</li>
+</ul>
+<p>Enhance your vehicle's performance and comfort with this premium engine mount, a reliable choice for your Mercedes.</p>
+""",
+        originalPrice: 4999.99,
+        carousel: carouselData3,
+        guaranteeLevel: GuaranteeLevel.high,
+        compatibility: [
+          "Mercedes-Benz C-Class (W204) 2007-2014",
+          "Mercedes-Benz E-Class (W212) 2010-2016",
+        ],
+      ),
+      ProductDetailsPageData(
+        stockLevel: StockLevel.inStock,
+        productId: 3,
+        title: "Ignition Coil",
+        productName: "Ignition Coil for Mercedes",
+        description: """
+<p>This Mercedes Ignition Coil ensures optimal engine performance by delivering a reliable spark for efficient combustion. It is manufactured to high standards for durability and consistency.</p>
+<ul>
+  <li>Ensures reliable ignition and performance</li>
+  <li>Manufactured to meet or exceed OEM specifications</li>
+  <li>Improves fuel efficiency and reduces emissions</li>
+  <li>Easy to install and compatible with multiple Mercedes models</li>
+</ul>
+<p>Upgrade your vehicle's ignition system with this top-quality ignition coil, designed to keep your engine running smoothly.</p>
+""",
+        originalPrice: 2399.99,
+        carousel: carouselData3,
+        guaranteeLevel: GuaranteeLevel.basic,
+        compatibility: [
+          "Mercedes-Benz C-Class (W204) 2007-2014",
+          "Mercedes-Benz E-Class (W212) 2010-2016",
+          "Mercedes-Benz S-Class (W221) 2006-2013",
+        ],
+      ),
     ];
     // Return fake product details
     return products.firstWhere((product) => product.productId == productId);

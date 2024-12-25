@@ -20,22 +20,32 @@ class MockProductsPageService implements IMockProductsPageService {
     // Generate fake featured products data
     final List<ProductsItems> productsData = [
       ProductsItems(
-        productName: "Engine Mount",
+        productId: 0,
+        productName: "Camshaft Column",
         imageUrl: "https://via.placeholder.com/800x400",
-        productPrice: 5000,
+        productPrice: 6999.99,
         brandImageUrl: "https://via.placeholder.com/50x50",
         stockLevel: StockLevel.inStock,
       ),
       ProductsItems(
+          productId: 2,
           productName: "Balance Bar Link",
           imageUrl: "https://via.placeholder.com/600x400",
-          productPrice: 2000,
+          productPrice: 1999.99,
           brandImageUrl: "https://via.placeholder.com/50x50",
-          stockLevel: StockLevel.limited),
+          stockLevel: StockLevel.outOfStock),
       ProductsItems(
+          productId: 3,
           productName: "Ignition Coil",
           imageUrl: "https://via.placeholder.com/600x300",
-          productPrice: 2400,
+          productPrice: 2399.99,
+          brandImageUrl: "https://via.placeholder.com/50x50",
+          stockLevel: StockLevel.inStock),
+      ProductsItems(
+          productId: 4,
+          productName: "Engine Mount",
+          imageUrl: "https://via.placeholder.com/600x300",
+          productPrice: 4999.99,
           brandImageUrl: "https://via.placeholder.com/50x50",
           stockLevel: StockLevel.outOfStock),
     ];

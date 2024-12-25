@@ -164,20 +164,20 @@ class ProductDetailsPageView extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     StockLevelText(stockLevel: product.stockLevel),
                     const SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        BlocBuilder<ProductDetailsPageBloc,
-                                ProductDetailsPageState>(
-                            buildWhen: (previous, current) {
-                          if (previous is ProductDetailsPageLoaded &&
-                              current is ProductDetailsPageLoaded) {
-                            return previous.quantityCounter !=
-                                current.quantityCounter;
-                          }
-                          return false;
-                        }, builder: (context, state) {
-                          return QuantityCounter(
+                    BlocBuilder<ProductDetailsPageBloc,
+                            ProductDetailsPageState>(
+                        buildWhen: (previous, current) {
+                      if (previous is ProductDetailsPageLoaded &&
+                          current is ProductDetailsPageLoaded) {
+                        return previous.quantityCounter !=
+                            current.quantityCounter;
+                      }
+                      return false;
+                    }, builder: (context, state) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          QuantityCounter(
                             counterValue: (state as ProductDetailsPageLoaded)
                                 .quantityCounter,
                             onDecrement: () => context
@@ -186,34 +186,40 @@ class ProductDetailsPageView extends StatelessWidget {
                             onIncrement: () => context
                                 .read<ProductDetailsPageBloc>()
                                 .add(IncrementQuantityCounter()),
-                          );
-                        }),
-                        const SizedBox(width: 16),
-                        PrimaryButton(
-                          padding: 0,
-                          logger: logger,
-                          onPressed: product.stockLevel == StockLevel.inStock ||
-                                  product.stockLevel == StockLevel.limited
-                              ? () {
-                                  context.read<CartCubit>().addToCart(CartItem(
-                                      id: product.productId,
-                                      name: product.productName,
-                                      price: product.discountedPrice ??
-                                          product.originalPrice,
-                                      quantity: state.quantityCounter));
-                                }
-                              : null,
-                          isEnabled: product.stockLevel == StockLevel.inStock ||
-                                  product.stockLevel == StockLevel.limited
-                              ? true
-                              : false,
-                          text: product.stockLevel == StockLevel.inStock ||
-                                  product.stockLevel == StockLevel.limited
-                              ? "Add to Cart"
-                              : "Out of Stock",
-                        ),
-                      ],
-                    ),
+                          ),
+                          const SizedBox(width: 16),
+                          PrimaryButton(
+                            padding: 0,
+                            logger: logger,
+                            onPressed: product.stockLevel ==
+                                        StockLevel.inStock ||
+                                    product.stockLevel == StockLevel.limited
+                                ? () {
+                                    logger.trace(
+                                        "product id: ${product.productId}, \nproduct price = ${product.discountedPrice ?? product.originalPrice}, \nquantity : ${state.quantityCounter}",
+                                        StackTrace.empty);
+                                    context.read<CartCubit>().addToCart(
+                                        CartItem(
+                                            id: product.productId,
+                                            name: product.productName,
+                                            price: product.discountedPrice ??
+                                                product.originalPrice,
+                                            quantity: state.quantityCounter));
+                                  }
+                                : null,
+                            isEnabled:
+                                product.stockLevel == StockLevel.inStock ||
+                                        product.stockLevel == StockLevel.limited
+                                    ? true
+                                    : false,
+                            text: product.stockLevel == StockLevel.inStock ||
+                                    product.stockLevel == StockLevel.limited
+                                ? "Add to Cart"
+                                : "Out of Stock",
+                          ),
+                        ],
+                      );
+                    }),
                     const SizedBox(height: 16.0),
                     if (product.compatibility.isNotEmpty)
                       CompatibilitySection(
@@ -244,7 +250,7 @@ class ProductDetailsPageView extends StatelessWidget {
               return const SizedBox.shrink(); // Hide button if cart is empty
             }
             return CartButton(
-                itemCount: cartState.items.length,
+                itemCount: cartState.totalItems,
                 totalPrice: cartState.totalPrice,
                 onTap: () => context
                     .read<NavigationCubit>()

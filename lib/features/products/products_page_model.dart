@@ -11,13 +11,15 @@ class ProductsPageData {
 }
 
 class ProductsItems {
+  final int productId;
   final String productName;
   final double productPrice;
   final StockLevel stockLevel;
   final String imageUrl;
   final String brandImageUrl;
   ProductsItems(
-      {required this.productName,
+      {required this.productId,
+      required this.productName,
       required this.productPrice,
       required this.stockLevel,
       required this.brandImageUrl,
