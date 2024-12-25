@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:auto_parts_online/features/product_details_page/product_details_page_model.dart';
 
-import '../../common/models/guarantee_level.dart';
-import '../../common/models/stock_level.dart';
+import '../../core/models/guarantee_level.dart';
+import '../../core/models/stock_level.dart';
 
 abstract class IMockProductDetailsPageService {
   IMockProductDetailsPageService();
@@ -39,7 +39,7 @@ class MockProductDetailsPageService implements IMockProductDetailsPageService {
 
     final products = [
       ProductDetailsPageData(
-          productId: 2,
+          productId: 1,
           stockLevel: StockLevel.limited,
           title: "Vacuum Cell",
           productName: "Turbo Vacuum Cell for m254",
@@ -52,12 +52,13 @@ class MockProductDetailsPageService implements IMockProductDetailsPageService {
       </ul>
       <p>Upgrade your vehicle with this top-of-the-line Turbo Vacuum Cell and experience the difference in performance and reliability.</p>
       """,
-          originalPrice: 199.99,
+          originalPrice: 999.99,
+          discountedPrice: 899.99,
           carousel: carouselData1,
           guaranteeLevel: GuaranteeLevel.basic,
           compatibility: ["Mercedes-Benz E-Class (W213) 2016-2021"]),
       ProductDetailsPageData(
-          productId: 1,
+          productId: 0,
           stockLevel: StockLevel.inStock,
           title: "Camshaft Column",
           productName: "Premium Camshaft Column",
@@ -70,15 +71,16 @@ class MockProductDetailsPageService implements IMockProductDetailsPageService {
       </ul>
       <p>Choose this Premium Camshaft Column for a reliable and efficient upgrade to your vehicle's engine system.</p>
       """,
-          originalPrice: 49.99,
+          originalPrice: 7999.99,
+          discountedPrice: 6999.99,
           carousel: carouselData2,
-          guaranteeLevel: GuaranteeLevel.high,
+          guaranteeLevel: GuaranteeLevel.none,
           compatibility: [
             "Mercedes-Benz C-Class (W205) 2014-2019",
           ]),
       ProductDetailsPageData(
           stockLevel: StockLevel.outOfStock,
-          productId: 0,
+          productId: 2,
           title: "Balance Bar",
           productName: "Balance Bar Link for Mercedes w204",
           description: """
@@ -92,9 +94,9 @@ class MockProductDetailsPageService implements IMockProductDetailsPageService {
       </ul>
       <p>Upgrade your vehicle's suspension system with this reliable and efficient balance bar link, ensuring a smooth and safe driving experience.</p>
       """,
-          originalPrice: 9.99,
+          originalPrice: 1999.99,
           carousel: carouselData3,
-          guaranteeLevel: GuaranteeLevel.none,
+          guaranteeLevel: GuaranteeLevel.high,
           compatibility: [
             "Mercedes-Benz C-Class (W204) 2007-2014",
           ]),

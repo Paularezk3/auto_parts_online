@@ -1,8 +1,8 @@
 import 'package:auto_parts_online/app/setup_dependencies.dart';
 import 'package:auto_parts_online/common/components/default_buttons.dart';
-import 'package:auto_parts_online/common/components/default_product_card.dart';
+import 'package:auto_parts_online/common/widgets/default_product_card.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
-import 'package:auto_parts_online/common/widgets/default_appbar.dart';
+import 'package:auto_parts_online/common/layouts/default_appbar.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/features/products/bloc/products_page_bloc.dart';
 import 'package:auto_parts_online/features/products/bloc/products_page_event.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/app_logger.dart';
-import '../../core/utils/hive_helper.dart';
 
 class ProductsPageView extends StatelessWidget {
   const ProductsPageView({super.key});
@@ -26,8 +25,6 @@ class ProductsPageView extends StatelessWidget {
     final productsPageBloc = context.read<ProductsPageBloc>();
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final hiveHelper = HiveHelper();
-    hiveHelper.init(); // Initialize the helper
     // Ensure the event is dispatched outside the build phase
     if (productsPageBloc.state is ProductsPageInitial) {
       logger.trace(

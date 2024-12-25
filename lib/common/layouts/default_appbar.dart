@@ -355,7 +355,7 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
             Expanded(
               child: isTitleLoading
-                  ? const ShimmerBox(width: 100, height: 50)
+                  ? const ShimmerBox(width: 20, height: 20)
                   : Text(
                       title,
                       textAlign: TextAlign.center,

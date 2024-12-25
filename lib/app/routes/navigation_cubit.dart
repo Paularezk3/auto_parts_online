@@ -25,12 +25,12 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
     }
     if (state.length > 1) {
       final updatedStack = List<NavigationState>.from(state)..removeLast();
-      logger.debug('Popped from stack, new top: ${updatedStack.last}',
-          StackTrace.current);
+      logger.debug(
+          'Popped from stack, new top: ${updatedStack.last}', StackTrace.empty);
       emit(updatedStack);
     } else {
       logger.debug(
-          'Cannot pop from stack, already at base state', StackTrace.current);
+          'Cannot pop from stack, already at base state', StackTrace.empty);
     }
   }
 

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:auto_parts_online/features/products/products_page_model.dart';
 
-import '../../common/models/stock_level.dart';
+import '../../core/models/stock_level.dart';
 
 abstract class IMockProductsPageService {
   IMockProductsPageService();
@@ -15,7 +15,6 @@ class MockProductsPageService implements IMockProductsPageService {
   Future<ProductsPageData> fetchProductsPageData() async {
     await Future.delayed(Duration(seconds: getRandomNumber()));
 
-    // Generate fake carousel data
     CartData cartData = CartData(3, 5400);
 
     // Generate fake featured products data

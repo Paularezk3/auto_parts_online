@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../../common/models/stock_level.dart';
+import '../../core/models/stock_level.dart';
 import 'home_page_model.dart';
 
 abstract class IMockHomePageService {
@@ -20,33 +20,27 @@ class MockHomePageService implements IMockHomePageService {
       CarouselData("https://via.placeholder.com/600x300", 1),
       CarouselData("https://via.placeholder.com/600x300", 1)
     ];
-    // List.generate(5, (index) {
-    //   return CarouselData(
-    //     "https://via.placeholder.com/800x400",
-    //     index + 1,
-    //   );
-    // });
 
     // Generate fake featured products data
     final List<FeaturedProducts> featuredProductsData = [
       FeaturedProducts(
           productId: 0,
-          productName: "Spring Element",
-          productPrice: 100,
+          productName: "Camshaft Column",
+          productPrice: 6999.99,
           stockLevel: StockLevel.inStock,
           brandImageUrl: "https://via.placeholder.com/50x50",
           imageUrl: "https://via.placeholder.com/150x150"),
       FeaturedProducts(
-          productId: 2,
-          productName: "Engine Mount",
-          productPrice: 5000,
+          productId: 1,
+          productName: "Vacuum Cell",
+          productPrice: 899.99,
           stockLevel: StockLevel.limited,
           brandImageUrl: "https://via.placeholder.com/50x50",
           imageUrl: "https://via.placeholder.com/150x150"),
       FeaturedProducts(
-          productId: 1,
-          productName: "Timing Gear",
-          productPrice: 10000,
+          productId: 2,
+          productName: "Balance Bar",
+          productPrice: 1999.99,
           stockLevel: StockLevel.outOfStock,
           brandImageUrl: "https://via.placeholder.com/50x50",
           imageUrl: "https://via.placeholder.com/150x150")

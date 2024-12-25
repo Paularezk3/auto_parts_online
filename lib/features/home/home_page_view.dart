@@ -2,7 +2,7 @@
 
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
-import 'package:auto_parts_online/common/components/default_product_card.dart';
+import 'package:auto_parts_online/common/widgets/default_product_card.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/setup_dependencies.dart';
 import '../../common/components/default_buttons.dart';
-import '../../common/widgets/default_appbar.dart';
+import '../../common/layouts/default_appbar.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

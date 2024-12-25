@@ -1,5 +1,6 @@
 import 'package:auto_parts_online/common/components/default_buttons.dart';
-import 'package:auto_parts_online/common/models/stock_level.dart';
+import 'package:auto_parts_online/common/components/stock_level_text.dart';
+import 'package:auto_parts_online/core/models/stock_level.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -93,7 +94,7 @@ class DefaultProductCard extends StatelessWidget {
                       Text(
                         AppLocalizations.of(context)!.localeName == "ar"
                             ? "ج.م. ${productPrice.toStringAsFixed(2)}"
-                            : "${productPrice.toStringAsFixed(2)} E£",
+                            : "E£ ${productPrice.toStringAsFixed(2)}",
                         style: TextStyle(
                           fontSize: 16,
                           color: isDarkMode
@@ -104,21 +105,11 @@ class DefaultProductCard extends StatelessWidget {
                       const SizedBox(height: 4),
 
                       // Stock Availability
-                      Text(
-                        stockAvailability == StockLevel.inStock
-                            ? AppLocalizations.of(context)!.inStock
-                            : (stockAvailability == StockLevel.limited
-                                ? AppLocalizations.of(context)!.limitedStock
-                                : AppLocalizations.of(context)!.outOfStock),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: stockAvailability == StockLevel.inStock
-                              ? Colors.green
-                              : (stockAvailability == StockLevel.limited
-                                  ? Colors.orange
-                                  : Colors.red),
-                        ),
-                      ),
+                      StockLevelText(
+                        stockLevel: stockAvailability,
+                        isBold: false,
+                        fontSize: 12,
+                      )
                     ],
                   ),
                 ),

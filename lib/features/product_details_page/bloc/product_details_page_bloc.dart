@@ -12,9 +12,9 @@ class ProductDetailsPageBloc
       getIt<IMockProductDetailsPageService>();
   ProductDetailsPageBloc() : super(ProductDetailsPageInitial()) {
     on<LoadProductDetailsPage>(_onLoadProductDetailsPage);
-    on<ReturnToInitialState>(
-      (event, emit) => emit(ProductDetailsPageInitial()),
-    );
+    on<ReturnToInitialState>(_onRetrunToInitialState);
+    on<IncrementQuantityCounter>(_incrementQuantityCounter);
+    on<DecrementQuantityCounter>(_decrementQuantityCounter);
   }
 
   Future<void> _onLoadProductDetailsPage(LoadProductDetailsPage event,
@@ -26,9 +26,32 @@ class ProductDetailsPageBloc
           "Fetching Product with ID: ${event.productId}", StackTrace.empty);
       final productDetails = await productDetailsService
           .fetchProductDetailsPageData(event.productId);
-      emit(ProductDetailsPageLoaded(productDetails));
+      emit(ProductDetailsPageLoaded(productDetails, 1));
     } catch (e) {
       emit(ProductDetailsPageError());
+    }
+  }
+
+  _onRetrunToInitialState(
+      ReturnToInitialState event, Emitter<ProductDetailsPageState> emit) {
+    emit(ProductDetailsPageInitial());
+  }
+
+  void _incrementQuantityCounter(
+      IncrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
+    if (state is ProductDetailsPageLoaded) {
+      final currentState = state as ProductDetailsPageLoaded;
+      emit(ProductDetailsPageLoaded(
+          currentState.product, currentState.quantityCounter + 1));
+    }
+  }
+
+  void _decrementQuantityCounter(
+      DecrementQuantityCounter event, Emitter<ProductDetailsPageState> emit) {
+    if (state is ProductDetailsPageLoaded) {
+      final currentState = state as ProductDetailsPageLoaded;
+      emit(ProductDetailsPageLoaded(
+          currentState.product, currentState.quantityCounter - 1));
     }
   }
 }

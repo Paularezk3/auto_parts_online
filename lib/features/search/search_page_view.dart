@@ -1,7 +1,7 @@
 import 'package:auto_parts_online/common/components/default_buttons.dart';
-import 'package:auto_parts_online/common/components/default_product_card.dart';
+import 'package:auto_parts_online/common/widgets/default_product_card.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
-import 'package:auto_parts_online/core/utils/hive_helper.dart';
+import 'package:auto_parts_online/core/cubits/recent_search_cubit.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_state.dart';
 import 'package:auto_parts_online/features/search/search_page_model.dart';
 import 'package:auto_parts_online/features/search/search_page_view_model.dart';
@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../app/setup_dependencies.dart';
 import '../../common/widgets/confirmation_dialog.dart';
-import '../../common/widgets/default_appbar.dart';
+import '../../common/layouts/default_appbar.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/app_logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,11 +34,10 @@ class SearchPageView extends StatelessWidget {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     // Access the already provided BLoC
     final searchPageBloc = context.read<SearchPageBloc>();
+    final recentSearchCubit = getIt<RecentSearchCubit>();
 
-    final hiveHelper = HiveHelper();
-    hiveHelper.init(); // Initialize the helper
-    final SearchPageViewModel searchPageViewModel =
-        SearchPageViewModel(hiveHelper: hiveHelper, logger: logger);
+    final SearchPageViewModel searchPageViewModel = SearchPageViewModel(
+        recentSearchCubit: recentSearchCubit, logger: logger);
 
     // Ensure the event is dispatched outside the build phase
     if (searchPageBloc.state is SearchPageInactive) {
@@ -62,7 +61,8 @@ class SearchPageView extends StatelessWidget {
               theme,
               logger,
               isDarkMode,
-              homePageBackgroundColor);
+              homePageBackgroundColor,
+              recentSearchCubit);
         } else if (state is EmptySearchLoading) {
           logger.trace("Loading SearchPageView", StackTrace.current);
           return emptyLoadingScaffold(navigatorKey, context);
@@ -74,6 +74,7 @@ class SearchPageView extends StatelessWidget {
           return emptyLoadingScaffold(navigatorKey, context,
               query: state.query);
         } else if (state is SearchResultsLoaded) {
+          searchPageViewModel.getRecentSearches();
           return _buildResultsList(state.data, navigatorKey, context,
               searchPageViewModel, state.searchBarText, logger);
         }
@@ -150,7 +151,8 @@ class SearchPageView extends StatelessWidget {
       ThemeData theme,
       ILogger logger,
       bool isDarkMode,
-      Color homePageBackgroundColor) {
+      Color homePageBackgroundColor,
+      RecentSearchCubit recentSearchCubit) {
     return Scaffold(
       appBar: HomePageAppBar(
         key: navigatorKey,
@@ -172,75 +174,91 @@ class SearchPageView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 // Recent Searches Section (Chips with Long Press to Delete)
-              if (state.recentSearches.isNotEmpty) ...[
-                Text(
-                  AppLocalizations.of(context)!.recentSearches,
-                  style: theme.textTheme.headlineMedium!.copyWith(
-                      fontWeight: FontWeight.bold, letterSpacing: 0.7),
-                ),
-                const SizedBox(height: 8),
-                if (state.recentSearches.isEmpty)
-                  Text(
-                    AppLocalizations.of(context)!.recentSearchEmpty,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                if (state.recentSearches.isNotEmpty)
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: state.recentSearches.map((search) {
-                      return GestureDetector(
-                        onTap: () => context
-                            .read<SearchPageBloc>()
-                            .add(RecentSearchChosed(search)),
-                        onLongPress: () {
-// Remove item on long press
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ConfirmationDialog(
-                                    title:
-                                        AppLocalizations.of(context)!.warning,
-                                    message: AppLocalizations.of(context)!
-                                        .deleteRecentSearchPrompt,
-                                    onConfirm: () {
-                                      context
-                                          .read<SearchPageBloc>()
-                                          .add(DeleteRecentSearchEvent(search));
-                                      logger.info(
-                                          "Deleted Recent Search: $search",
-                                          StackTrace.current);
-                                    });
-                              });
-
-// Trigger UI refresh via BLoC or setState in a StatefulWidget
-                        },
-                        child: Chip(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 2),
-                          label: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.history,
-                                  size: 24,
-                                  color: isDarkMode
-                                      ? AppColors.accentDark
-                                      : AppColors.accentLight),
-                              const SizedBox(width: 4),
-                              Text(
-                                search,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-                          backgroundColor:
-                              isDarkMode ? Colors.grey[800] : Colors.grey[200],
+              BlocProvider.value(
+                value: recentSearchCubit,
+                child: BlocBuilder<RecentSearchCubit, List<String>>(
+                    builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (state.isNotEmpty) ...[
+                        Text(
+                          AppLocalizations.of(context)!.recentSearches,
+                          style: theme.textTheme.headlineMedium!.copyWith(
+                              fontWeight: FontWeight.bold, letterSpacing: 0.7),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                const SizedBox(height: 16),
-              ],
+                        const SizedBox(height: 8),
+                        if (state.isEmpty)
+                          Text(
+                            AppLocalizations.of(context)!.recentSearchEmpty,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        if (state.isNotEmpty)
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: state.map((search) {
+                              return GestureDetector(
+                                onTap: () => context
+                                    .read<SearchPageBloc>()
+                                    .add(RecentSearchChosed(search)),
+                                onLongPress: () {
+                                  // Remove item on long press
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ConfirmationDialog(
+                                            title: AppLocalizations.of(context)!
+                                                .warning,
+                                            message:
+                                                AppLocalizations.of(context)!
+                                                    .deleteRecentSearchPrompt,
+                                            onConfirm: () {
+                                              context
+                                                  .read<SearchPageBloc>()
+                                                  .add(DeleteRecentSearchEvent(
+                                                      search));
+                                              logger.info(
+                                                  "Deleted Recent Search: $search",
+                                                  StackTrace.current);
+                                            });
+                                      });
+
+                                  // Trigger UI refresh via BLoC or setState in a StatefulWidget
+                                },
+                                child: Chip(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 2),
+                                  label: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.history,
+                                          size: 24,
+                                          color: isDarkMode
+                                              ? AppColors.accentDark
+                                              : AppColors.accentLight),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        search,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  backgroundColor: isDarkMode
+                                      ? Colors.grey[800]
+                                      : Colors.grey[200],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        const SizedBox(height: 16),
+                      ],
+                    ],
+                  );
+                }),
+              ),
 
 // Popular Searches Section
               if (state.searchTappedDetails.popularSearches.isNotEmpty) ...[

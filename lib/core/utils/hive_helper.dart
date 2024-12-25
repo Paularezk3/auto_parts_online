@@ -1,49 +1,58 @@
-import 'package:auto_parts_online/app/setup_dependencies.dart';
-import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'app_logger.dart';
 
 class HiveHelper {
-  static const String _boxName = 'recentSearchBox'; // Define the box name
-  late Box<List<String>> _box; // Correct type for the box
-  ILogger logger = getIt<ILogger>();
+  static const String _boxName = 'recentSearchBox';
+  late Box<List<String>> _box;
+  final ILogger _logger;
 
-  // Initialize the box (call this once during app initialization)
+  HiveHelper(this._logger);
+
+  // Initialize Hive box
   void init() {
-    _box = Hive.box<List<String>>(_boxName); // Open the box as List<String>
+    _box = Hive.box<List<String>>(_boxName);
+    _logger.trace('HiveHelper initialized', null);
   }
 
-  // Add a recent search
   Future<void> addRecentSearch(String newRecent) async {
-    // Fetch the current list of recent searches or use an empty list if not set
-    List<String> recents = _box.get("recentSearch", defaultValue: <String>[])!;
-    if (!recents.contains(newRecent)) {
-      // Avoid duplicates
-      recents.add(newRecent);
-      await _box.put("recentSearch", recents);
-    } else {
-      await _box.put("recentSearch", [newRecent]);
+    try {
+      final recents = getRecentSearches();
+      if (!recents.contains(newRecent)) {
+        recents.add(newRecent);
+        await _box.put('recentSearch', recents);
+      } else {
+        // Reordering to place the newRecent at the end
+        recents.remove(newRecent);
+        recents.add(newRecent);
+        await _box.put('recentSearch', recents);
+      }
+    } catch (e) {
+      _logger.error('Failed to add recent search $e', StackTrace.current);
     }
   }
 
-  // Get recent searches
   List<String> getRecentSearches() {
-    // Return the stored list or an empty list if the key doesn't exist
-
-    return _box.get("recentSearch", defaultValue: <String>[])!;
+    return _box.get('recentSearch', defaultValue: <String>[])!;
   }
 
-  // Delete a specific recent search or update the whole list
-  Future<void> deleteRecentSearch(
-      {List<String>? recents, String? deletedRecent}) async {
-    if (recents != null) {
-      // Replace the whole list
-      await _box.put("recentSearch", recents);
-    } else if (deletedRecent != null) {
-      // Remove a specific recent search
-      List<String> currentRecents = getRecentSearches();
-      currentRecents.remove(deletedRecent);
-      await _box.put("recentSearch", currentRecents);
-      logger.warning("init _box : ${getRecentSearches()}", StackTrace.current);
+  Future<void> deleteRecentSearch(String searchToDelete) async {
+    try {
+      final recents = getRecentSearches();
+      recents.remove(searchToDelete);
+      await _box.put('recentSearch', recents);
+      _logger.trace('Deleted recent search: $searchToDelete', null);
+    } catch (e) {
+      _logger.error('Failed to delete recent search: $e', StackTrace.current);
+    }
+  }
+
+  Future<void> clearRecentSearches() async {
+    try {
+      await _box.put('recentSearch', []);
+      _logger.trace('Cleared all recent searches', null);
+    } catch (e) {
+      _logger.error('Failed to clear recent searches: $e', StackTrace.current);
     }
   }
 }

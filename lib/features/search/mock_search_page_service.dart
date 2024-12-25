@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:auto_parts_online/common/models/stock_level.dart';
-import 'package:auto_parts_online/core/utils/hive_helper.dart';
+import 'package:auto_parts_online/core/cubits/recent_search_cubit.dart';
+import 'package:auto_parts_online/core/models/stock_level.dart';
 
 import 'bloc/search_page_state.dart';
 import 'search_page_model.dart';
@@ -10,7 +10,7 @@ abstract class IMockSearchPageService {
   IMockSearchPageService();
 
   Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails(
-      HiveHelper hivehelper);
+      RecentSearchCubit recentSearchCubit);
 
   Future<List<ProductCardDetails>> fetchSearchResultDetails();
 }
@@ -18,10 +18,10 @@ abstract class IMockSearchPageService {
 class MockSearchPageService implements IMockSearchPageService {
   @override
   Future<SearchBarActiveWithoutTyping> fetchSearchEmptyFieldDetails(
-      HiveHelper hiveHelper) async {
+      RecentSearchCubit recentSearchCubit) async {
     await Future.delayed(Duration(seconds: getRandomNumber()));
     return SearchBarActiveWithoutTyping(
-      recentSearches: hiveHelper.getRecentSearches(),
+      // recentSearches: recentSearchCubit.loadRecentSearches(),
       searchTappedDetails: SearchTappedDetails(
         popularSearches: List.generate(
             6,

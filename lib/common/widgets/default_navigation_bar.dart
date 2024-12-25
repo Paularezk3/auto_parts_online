@@ -1,4 +1,4 @@
-import 'package:auto_parts_online/common/models/navigation_item_config.dart';
+import 'package:auto_parts_online/core/models/navigation_item_config.dart';
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 

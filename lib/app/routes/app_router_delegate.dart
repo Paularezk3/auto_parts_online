@@ -43,7 +43,6 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
             .toList(),
         onPopPage: (route, result) {
           if (!route.didPop(result)) return false;
-          logger.debug('Pop Page Triggered', StackTrace.empty);
           return _navigateBack();
         },
       ),

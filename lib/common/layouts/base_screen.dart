@@ -2,7 +2,7 @@ import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/routes/navigation_cubit.dart';
-import '../models/navigation_item_config.dart';
+import '../../core/models/navigation_item_config.dart';
 import '../widgets/default_navigation_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

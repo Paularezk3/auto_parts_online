@@ -1,4 +1,4 @@
-import 'package:auto_parts_online/common/models/stock_level.dart';
+import 'package:auto_parts_online/core/models/stock_level.dart';
 
 class SearchPageModel {}
 

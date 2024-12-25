@@ -1,4 +1,4 @@
-import '../../common/models/stock_level.dart';
+import '../../core/models/stock_level.dart';
 
 class ProductsPageData {
   final CartData cartData;

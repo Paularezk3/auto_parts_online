@@ -1,21 +1,18 @@
+import 'package:auto_parts_online/core/cubits/recent_search_cubit.dart';
+
 import '../../core/utils/app_logger.dart';
-import '../../core/utils/hive_helper.dart';
 
 class SearchPageViewModel {
-  final HiveHelper hiveHelper;
+  final RecentSearchCubit recentSearchCubit;
   final ILogger logger;
-  SearchPageViewModel({required this.hiveHelper, required this.logger});
+  SearchPageViewModel({required this.recentSearchCubit, required this.logger});
+
   void onSearchSubmitted(String query) {
-    logger.debug(
-        "onSearchSubmitted invoked, will save $query", StackTrace.current);
-    hiveHelper.addRecentSearch(query);
+    logger.trace("onSearchSubmitted invoked, will save $query", null);
+    recentSearchCubit.addRecentSearch(query);
   }
 
-  List<String> getRecentSearches() {
-    List<String> recentSearches = hiveHelper.getRecentSearches();
-    logger.debug(
-        "getRecentSearches invoked, and here's the searches: ${recentSearches.iterator}",
-        StackTrace.current);
-    return recentSearches;
+  void getRecentSearches() {
+    logger.trace("getRecentSearches invoked", StackTrace.current);
   }
 }

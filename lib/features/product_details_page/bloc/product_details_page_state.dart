@@ -1,6 +1,6 @@
 import 'package:auto_parts_online/features/product_details_page/product_details_page_model.dart';
 
-class ProductDetailsPageState {}
+abstract class ProductDetailsPageState {}
 
 class ProductDetailsPageInitial extends ProductDetailsPageState {}
 
@@ -8,8 +8,8 @@ class ProductDetailsPageLoading extends ProductDetailsPageState {}
 
 class ProductDetailsPageLoaded extends ProductDetailsPageState {
   final ProductDetailsPageData product;
-
-  ProductDetailsPageLoaded(this.product);
+  final int quantityCounter;
+  ProductDetailsPageLoaded(this.product, this.quantityCounter);
 }
 
 class ProductDetailsPageError extends ProductDetailsPageState {

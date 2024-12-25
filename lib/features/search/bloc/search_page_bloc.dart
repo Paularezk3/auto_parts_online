@@ -1,10 +1,10 @@
 import 'package:auto_parts_online/app/setup_dependencies.dart';
-import 'package:auto_parts_online/core/utils/hive_helper.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_event.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_state.dart';
 import 'package:auto_parts_online/features/search/mock_search_page_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/cubits/recent_search_cubit.dart';
 import '../../../core/utils/app_logger.dart';
 
 class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
@@ -18,8 +18,8 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     on<FilledSearchBarChanged>(_filledSearchBarChanged);
     on<RecentSearchChosed>(_recentSearchChosed);
   }
+  final recentSearchCubit = getIt<RecentSearchCubit>();
 
-  final hiveHelper = HiveHelper()..init();
   String? _currentQueryToken;
 
   Future<void> _filledSearchBarChanged(
@@ -78,8 +78,8 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     emit(EmptySearchLoading());
 
     try {
-      final details =
-          await searchPageService.fetchSearchEmptyFieldDetails(hiveHelper);
+      final details = await searchPageService
+          .fetchSearchEmptyFieldDetails(recentSearchCubit);
       if (!isStillInState(EmptySearchLoading) &&
           _currentQueryToken != queryToken) {
         logger.warning(
@@ -88,7 +88,6 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
         return;
       }
       emit(SearchBarActiveWithoutTyping(
-        recentSearches: details.recentSearches,
         searchTappedDetails: details.searchTappedDetails,
         sparePartsCategorySuggestions: details.sparePartsCategorySuggestions,
       ));
@@ -107,8 +106,8 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     emit(EmptySearchLoading());
 
     try {
-      final details =
-          await searchPageService.fetchSearchEmptyFieldDetails(hiveHelper);
+      final details = await searchPageService
+          .fetchSearchEmptyFieldDetails(recentSearchCubit);
       if (!isStillInState(EmptySearchLoading) &&
           _currentQueryToken != queryToken) {
         logger.warning(
@@ -117,7 +116,6 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
         return;
       }
       emit(SearchBarActiveWithoutTyping(
-        recentSearches: details.recentSearches,
         searchTappedDetails: details.searchTappedDetails,
         sparePartsCategorySuggestions: details.sparePartsCategorySuggestions,
       ));
@@ -131,12 +129,9 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
       DeleteRecentSearchEvent event, Emitter<SearchPageState> emit) async {
     final currentState = state;
     if (currentState is SearchBarActiveWithoutTyping) {
-      await hiveHelper.deleteRecentSearch(deletedRecent: event.search);
-      final updatedRecentSearches =
-          List<String>.from(currentState.recentSearches)..remove(event.search);
+      await recentSearchCubit.deleteRecentSearch(event.search);
 
       emit(SearchBarActiveWithoutTyping(
-        recentSearches: updatedRecentSearches,
         searchTappedDetails: currentState.searchTappedDetails,
         sparePartsCategorySuggestions:
             currentState.sparePartsCategorySuggestions,
