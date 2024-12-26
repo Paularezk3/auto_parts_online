@@ -2,6 +2,7 @@
 
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
 import 'package:auto_parts_online/app/routes/navigation_state.dart';
+import 'package:auto_parts_online/common/layouts/error_page.dart';
 import 'package:auto_parts_online/common/widgets/default_product_card.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
@@ -9,7 +10,6 @@ import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/core/constants/app_gradients.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart';
-import 'package:auto_parts_online/features/cart/models/cart_model.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_bloc.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_state.dart';
 import 'package:auto_parts_online/features/home/home_page_view_model.dart';
@@ -68,9 +68,13 @@ class HomePageView extends StatelessWidget {
               onSearchBarTap: () => context
                   .read<NavigationCubit>()
                   .navigateTo(NavigationSearchPageState()),
-              homePageViewModel.onProductTapped);
+              homePageViewModel.onProductTapped,
+              homePageViewModel.onAddToCart);
         } else if (state is HomePageError) {
-          return _buildErrorUI(logger, context);
+          return ErrorPage("Error While Building the Page",
+              onButtonPressed: () {
+            context.read<HomePageBloc>().add(LoadHomePageDataEvent());
+          }, logger: logger);
         }
         return const DefaultLoadingWidget();
       }),
@@ -85,6 +89,8 @@ class HomePageView extends StatelessWidget {
       void Function(BuildContext) onCartTap,
       HomePageData homePageData,
       void Function(int productId) onProductTap,
+      void Function(int productId, int quantity, BuildContext context)
+          onAddToCart,
       {void Function()? onSearchBarTap}) {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return BlocBuilder<CartCubit, CartState>(builder: (context, state) {
@@ -93,7 +99,7 @@ class HomePageView extends StatelessWidget {
           key: navigatorKey,
           isSearchMode: false,
           onCartTap: () => onCartTap(context),
-          noOfItemsInCart: state.totalItems,
+          noOfItemsInCart: state is CartLoadingState ? 0 : state.totalItems,
           isLoading: false,
           title: homePageTitle, // Localized title
 
@@ -101,7 +107,7 @@ class HomePageView extends StatelessWidget {
         ),
         backgroundColor: homePageBackgroundColor,
         body: homePageBodyAfterLoading(
-            context, logger, homePageData, onProductTap),
+            context, logger, homePageData, onProductTap, onAddToCart),
       );
     });
   }
@@ -128,23 +134,13 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  Center _buildErrorUI(ILogger logger, BuildContext context) {
-    return Center(
-      child: PrimaryButton(
-        logger: logger,
-        text: AppLocalizations.of(context)!.reloadPage,
-        onPressed: () {
-          context.read<HomePageBloc>().add(LoadHomePageDataEvent());
-        },
-      ),
-    );
-  }
-
   Widget homePageBodyAfterLoading(
     BuildContext context,
     ILogger logger,
     HomePageData homePageData,
     void Function(int productId) onProductTap,
+    void Function(int productId, int quantity, BuildContext context)
+        onAddToCart,
   ) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
@@ -155,8 +151,13 @@ class HomePageView extends StatelessWidget {
           _buildCategoriesSection(homePageData.categoryData, context),
 
           // Featured Products Section
-          _buildFeaturedProductsSection(isDarkMode, logger,
-              homePageData.featuredProducts, context, onProductTap),
+          _buildFeaturedProductsSection(
+              isDarkMode,
+              logger,
+              homePageData.featuredProducts,
+              context,
+              onProductTap,
+              onAddToCart),
 
           // Hero Section: Carousel Slider
           if (homePageData.carousel != null)
@@ -196,12 +197,13 @@ class HomePageView extends StatelessWidget {
 
   /// Featured Products Section: Horizontal scrollable product cards
   Widget _buildFeaturedProductsSection(
-    bool isDarkMode,
-    ILogger logger,
-    List<FeaturedProducts> featuredProducts,
-    BuildContext context,
-    void Function(int productId) onProductTap,
-  ) {
+      bool isDarkMode,
+      ILogger logger,
+      List<FeaturedProducts> featuredProducts,
+      BuildContext context,
+      void Function(int productId) onProductTap,
+      void Function(int productId, int quantity, BuildContext context)
+          onAddToCart) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
       child: Column(
@@ -238,12 +240,8 @@ class HomePageView extends StatelessWidget {
                     productName: featuredProduct.productName,
                     productPrice: featuredProduct.productPrice,
                     stockAvailability: featuredProduct.stockLevel,
-                    onAddToCart: () => context.read<CartCubit>().addToCart(
-                        CartItem(
-                            quantity: 1,
-                            id: featuredProduct.productId,
-                            name: featuredProduct.productName,
-                            price: featuredProduct.productPrice)),
+                    onAddToCart: () =>
+                        onAddToCart(featuredProduct.productId, 1, context),
                     isDarkMode: isDarkMode,
                     logger: logger,
                   ),

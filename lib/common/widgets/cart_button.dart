@@ -1,3 +1,5 @@
+import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
+import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -6,9 +8,11 @@ class CartButton extends StatelessWidget {
   final int itemCount;
   final double totalPrice;
   final VoidCallback onTap;
+  final bool isLoading;
 
   const CartButton({
     super.key,
+    required this.isLoading,
     required this.itemCount,
     required this.totalPrice,
     required this.onTap,
@@ -49,46 +53,52 @@ class CartButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  // Container around the icon
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.shopping_cart,
-                    size: 20,
-                    color: isDarkMode
-                        ? AppColors.primaryTextOnSurfaceDark
-                        : AppColors.primaryTextOnSurfaceLight,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$itemCount items',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              // The Shopping Cart & Items
+              if (!isLoading)
+                Row(
+                  children: [
+                    // Container around the icon
+                    const SizedBox(width: 8),
+                    Icon(
+                      Icons.shopping_cart,
+                      size: 20,
                       color: isDarkMode
                           ? AppColors.primaryTextOnSurfaceDark
                           : AppColors.primaryTextOnSurfaceLight,
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '$itemCount items',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode
+                            ? AppColors.primaryTextOnSurfaceDark
+                            : AppColors.primaryTextOnSurfaceLight,
+                      ),
+                    ),
+                  ],
+                ),
+              if (isLoading) DefaultLoadingWidget(),
               Row(
                 children: [
-                  Text(
-                    '${totalPrice.toStringAsFixed(2)} E£',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkMode
-                          ? AppColors.primaryTextOnSurfaceDark
-                          : AppColors.primaryTextOnSurfaceLight,
+                  // Total Order
+                  if (!isLoading)
+                    Text(
+                      'E£ ${totalPrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode
+                            ? AppColors.primaryTextOnSurfaceDark
+                            : AppColors.primaryTextOnSurfaceLight,
+                      ),
                     ),
-                  ),
+                  if (isLoading) ShimmerBox(width: 20, height: 20),
                   SizedBox(
                     width: 8,
                   ),
-                  // Optional container around the final row
+                  // Arrow Container
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

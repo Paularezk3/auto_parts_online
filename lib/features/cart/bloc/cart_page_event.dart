@@ -18,3 +18,11 @@ class RemoveItemFromCart extends CartPageEvent {
 }
 
 class ClearCart extends CartPageEvent {}
+
+class ReduceItemFromCart extends CartPageEvent {
+  final int itemId;
+  final int quantity;
+  ReduceItemFromCart({required this.itemId, required this.quantity});
+}
+
+class LeaveCartPage extends CartPageEvent {}

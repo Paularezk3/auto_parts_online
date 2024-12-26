@@ -12,6 +12,7 @@ import '../core/cubits/recent_search_cubit.dart';
 import '../core/utils/conf/app_config_helper.dart';
 import '../core/utils/app_logger.dart';
 import '../core/utils/hive_helper.dart';
+import '../features/cart/mock_cart_page_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -26,6 +27,8 @@ void setupDependencies() {
       () => MockProductsPageService());
   getIt.registerLazySingleton<IMockProductDetailsPageService>(
       () => MockProductDetailsPageService());
+  getIt
+      .registerLazySingleton<IMockCartPageService>(() => MockCartPageService());
 
   getIt.registerLazySingleton<HiveHelper>(() {
     final helper = HiveHelper(getIt<ILogger>());

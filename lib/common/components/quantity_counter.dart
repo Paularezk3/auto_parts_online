@@ -1,11 +1,15 @@
+// lib\common\components\quantity_counter.dart
+
+import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:flutter/material.dart';
 
 class QuantityCounter extends StatelessWidget {
   final int counterValue;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
-
+  final bool isLoading;
   const QuantityCounter({
+    this.isLoading = false,
     required this.counterValue,
     required this.onIncrement,
     required this.onDecrement,
@@ -36,13 +40,24 @@ class QuantityCounter extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Text(
-            '${counterValue < 10 ? '0' : ''}$counterValue',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
+          !isLoading
+              ? Text(
+                  '${counterValue < 10 ? '0' : ''}$counterValue',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                )
+              : ShimmerBox(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  borderColor: const Color(0xFF5A5A5A),
+                  width: 18,
+                  height: 25,
+                  baseColor: isDarkMode ? const Color(0xFF5A5A5A) : null,
+                  highlightColor: isDarkMode
+                      ? const Color.fromARGB(255, 117, 117, 117)
+                      : null,
                 ),
-          ),
           SizedBox(
             width: 10,
           ),

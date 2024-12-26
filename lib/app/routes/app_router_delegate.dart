@@ -86,6 +86,7 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
           child: ProductsPageView(),
           name: 'ProductsPage',
         );
+
       case const (NavigationProductDetailsPageState):
         final productId =
             (state as NavigationProductDetailsPageState).productId;
@@ -93,18 +94,22 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
           child: ProductDetailsPageView(productId: productId),
           name: 'ProductDetailsPage',
         );
+
       case const (NavigationCartPageState):
         return const MaterialPage(child: CartPageView(), name: 'CartPage');
+
       case const (NavigationAccountPageState):
         return const MaterialPage(
           child: AccountPageView(),
           name: 'AccountPage',
         );
+
       case const (NavigationSearchPageState):
         return const MaterialPage(
           child: SearchPageView(),
           name: 'SearchPage',
         );
+
       default:
         return const MaterialPage(
           child: HomePageView(),

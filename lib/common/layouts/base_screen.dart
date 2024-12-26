@@ -9,10 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class BaseScreen extends StatelessWidget {
   final int selectedIndex;
   final Widget child;
+  final void Function()? anotherPageClicked;
 
   const BaseScreen({
     super.key,
     required this.selectedIndex,
+    this.anotherPageClicked,
     required this.child,
   });
 
@@ -25,6 +27,7 @@ class BaseScreen extends StatelessWidget {
         onItemTapped: (index) {
           if (index == selectedIndex) return;
           final config = _buildNavigationItems(context)[index];
+          if (anotherPageClicked != null) anotherPageClicked!();
           config.navigate(context);
         },
         items: _buildNavigationItems(context).map((config) {

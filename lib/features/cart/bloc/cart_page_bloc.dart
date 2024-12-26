@@ -1,53 +1,102 @@
 // lib/features/cart/bloc/cart_page_bloc.dart
+import 'package:auto_parts_online/app/setup_dependencies.dart';
+import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart';
+import 'package:auto_parts_online/features/cart/app_level_cubit/cart_state.dart';
+import 'package:auto_parts_online/features/cart/mock_cart_page_service.dart';
+import 'package:auto_parts_online/features/cart/models/cart_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../models/cart_model.dart';
 import 'cart_page_event.dart';
 import 'cart_page_state.dart';
 
 class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
-  CartPageBloc() : super(CartPageInitial()) {
+  final CartCubit cartCubit;
+  final IMockCartPageService cartPageService = getIt<IMockCartPageService>();
+
+  CartPageBloc(this.cartCubit) : super(CartPageInitial()) {
     on<LoadCartPage>(_loadCartPage);
     on<AddItemToCart>(_addItemToCart);
     on<RemoveItemFromCart>(_removeItemFromCart);
     on<ClearCart>(_clearCart);
+    on<ReduceItemFromCart>(_reduceItemFromCart);
+    on<LeaveCartPage>((event, emit) => emit(CartPageInitial()));
   }
 
-  void _loadCartPage(LoadCartPage event, Emitter<CartPageState> emit) {
+  void _loadCartPage(LoadCartPage event, Emitter<CartPageState> emit) async {
     emit(CartPageLoading());
-    // Simulate loading cart items.
-    final items = [
-      CartItem(id: 1, name: 'Sample Product', price: 10.0, quantity: 1),
-    ];
+
+    if (_isEmptyCart()) {
+      emit(CartPageEmpty());
+      return;
+    } else if (cartCubit.state is CartLoadingState) {
+      state is CartPageLoading ? null : emit(CartPageLoading());
+      return;
+    }
+
     emit(CartPageLoaded(
-        items: items,
-        totalPrice:
-            items.fold(0, (sum, item) => sum + (item.price * item.quantity))));
+      cartPageData: cartCubit.state.cartPageItems,
+    ));
   }
 
-  void _addItemToCart(AddItemToCart event, Emitter<CartPageState> emit) {
-    if (state is CartPageLoaded) {
-      final currentState = state as CartPageLoaded;
-      final updatedItems = [...currentState.items, event.item];
-      final totalPrice = updatedItems.fold(
-          0.0, (sum, item) => sum + (item.price * item.quantity));
-      emit(CartPageLoaded(items: updatedItems, totalPrice: totalPrice));
+  Future<void> _addItemToCart(
+      AddItemToCart event, Emitter<CartPageState> emit) async {
+    _emitLoadingForEditingCart(emit);
+
+    await cartCubit
+        .addToCart(CartItem(quantity: 1, productId: event.item.productId));
+    if (_isEmptyCart()) {
+      emit(CartPageEmpty());
+      return;
     }
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
   }
 
-  void _removeItemFromCart(
-      RemoveItemFromCart event, Emitter<CartPageState> emit) {
-    if (state is CartPageLoaded) {
-      final currentState = state as CartPageLoaded;
-      final updatedItems =
-          currentState.items.where((item) => item.id != event.itemId).toList();
-      final totalPrice = updatedItems.fold(
-          0.0, (sum, item) => sum + (item.price * item.quantity));
-      emit(CartPageLoaded(items: updatedItems, totalPrice: totalPrice));
+  Future<void> _removeItemFromCart(
+      RemoveItemFromCart event, Emitter<CartPageState> emit) async {
+    _emitLoadingForEditingCart(emit);
+
+    await cartCubit.removeFromCart(event.itemId);
+
+    if (_isEmptyCart()) {
+      emit(CartPageEmpty());
+      return;
     }
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
   }
 
-  void _clearCart(ClearCart event, Emitter<CartPageState> emit) {
-    emit(CartPageLoaded(items: [], totalPrice: 0));
+  Future<void> _reduceItemFromCart(
+      ReduceItemFromCart event, Emitter<CartPageState> emit) async {
+    _emitLoadingForEditingCart(emit);
+
+    await cartCubit.reduceItemFromCart(event.itemId, event.quantity);
+    if (_isEmptyCart()) {
+      emit(CartPageEmpty());
+      return;
+    }
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
+  }
+
+  Future<void> _clearCart(ClearCart event, Emitter<CartPageState> emit) async {
+    _emitLoadingForEditingCart(emit);
+
+    cartCubit.clearCart();
+    if (_isEmptyCart()) {
+      emit(CartPageEmpty());
+      return;
+    }
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
+  }
+
+  void _emitLoadingForEditingCart(Emitter<CartPageState> emit) {
+    emit(CartPageEditLoading(
+        cartPageData: state is CartPageLoaded
+            ? (state as CartPageLoaded).cartPageData
+            : (state as CartPageEditLoading).cartPageData));
+  }
+
+  bool _isEmptyCart() {
+    return cartCubit.state is CartLoadingState
+        ? false
+        : (cartCubit.state.cartPageItems == null ||
+            cartCubit.state.cartPageItems!.cartItems.isEmpty);
   }
 }

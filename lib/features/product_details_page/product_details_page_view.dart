@@ -12,7 +12,7 @@ import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart'
 import 'package:auto_parts_online/features/cart/models/cart_model.dart';
 import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_bloc.dart';
 import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_state.dart';
-import 'package:auto_parts_online/features/product_details_page/widgets/quantity_counter.dart';
+import 'package:auto_parts_online/common/components/quantity_counter.dart';
 import 'package:auto_parts_online/features/product_details_page/widgets/warranty_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -201,10 +201,7 @@ class ProductDetailsPageView extends StatelessWidget {
                                         StackTrace.empty);
                                     context.read<CartCubit>().addToCart(
                                         CartItem(
-                                            id: product.productId,
-                                            name: product.productName,
-                                            price: product.discountedPrice ??
-                                                product.originalPrice,
+                                            productId: product.productId,
                                             quantity: state.quantityCounter));
                                   }
                                 : null,
@@ -251,8 +248,9 @@ class ProductDetailsPageView extends StatelessWidget {
               return const SizedBox.shrink(); // Hide button if cart is empty
             }
             return CartButton(
+                isLoading: cartState is CartLoadingState,
                 itemCount: cartState.totalItems,
-                totalPrice: cartState.totalPrice,
+                totalPrice: cartState.totalPriceAfterDiscount,
                 onTap: () => context
                     .read<NavigationCubit>()
                     .push(NavigationCartPageState()));

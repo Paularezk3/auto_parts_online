@@ -55,8 +55,9 @@ class _MyAppState extends State<MyApp> {
           create: (_) => SearchPageBloc(),
         ),
         BlocProvider(create: (_) => ProductDetailsPageBloc()),
-        BlocProvider(create: (_) => CartPageBloc()),
         BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(
+            create: (context) => CartPageBloc(context.read<CartCubit>())),
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),

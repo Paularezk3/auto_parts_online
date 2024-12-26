@@ -5,9 +5,15 @@ class ShimmerBox extends StatelessWidget {
   final double width;
   final double height;
   final BorderRadius borderRadius;
+  final Color? baseColor;
+  final Color? highlightColor;
+  final Color? borderColor;
 
   const ShimmerBox({
     super.key,
+    this.baseColor,
+    this.borderColor,
+    this.highlightColor,
     required this.width,
     required this.height,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
@@ -15,14 +21,19 @@ class ShimmerBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: baseColor ??
+          (isDarkMode
+              ? Colors.white.withValues(alpha: 0.1)
+              : Colors.grey[300]!),
+      highlightColor:
+          highlightColor ?? (isDarkMode ? Colors.black12 : Colors.grey[100]!),
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: borderColor ?? (isDarkMode ? Colors.black : Colors.white),
           borderRadius: borderRadius,
         ),
       ),

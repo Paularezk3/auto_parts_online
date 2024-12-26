@@ -111,8 +111,9 @@ class ProductsPageView extends StatelessWidget {
           return const SizedBox.shrink();
         } else {
           return CartButton(
-              itemCount: cartState.items.length,
-              totalPrice: cartState.totalPrice,
+              isLoading: cartState is CartLoadingState,
+              itemCount: cartState.totalItems,
+              totalPrice: cartState.totalPriceAfterDiscount,
               onTap: () => context
                   .read<NavigationCubit>()
                   .push(NavigationCartPageState()));
@@ -317,10 +318,9 @@ class ProductsPageView extends StatelessWidget {
           stockAvailability: product.stockLevel,
           brandLogoUrl: product.brandImageUrl,
           onAddToCart: () => context.read<CartCubit>().addToCart(CartItem(
-              quantity: 1,
-              id: product.productId,
-              name: product.productName,
-              price: product.productPrice)),
+                quantity: 1,
+                productId: product.productId,
+              )),
           isDarkMode: isDarkMode,
           logger: logger,
         );
