@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../common/components/stock_level_text.dart';
 import '../../core/utils/app_logger.dart';
+import '../cart/app_level_cubit/cart_state.dart';
 import 'bloc/product_details_page_event.dart';
 import 'product_details_page_model.dart';
 

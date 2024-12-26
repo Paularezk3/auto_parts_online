@@ -30,8 +30,9 @@ class UserProfile {
 
 class CategoryData {
   final String imageUrl;
-  final int productId;
-  CategoryData(this.imageUrl, this.productId);
+  final int categoryId;
+  final String categoryName;
+  CategoryData(this.imageUrl, this.categoryId, this.categoryName);
 }
 
 class CarouselData {

@@ -48,9 +48,9 @@ class MockHomePageService implements IMockHomePageService {
 
     // Generate fake category data
     final List<CategoryData> categoryData = [
-      CategoryData("https://via.placeholder.com/800x400", 10),
-      CategoryData("https://via.placeholder.com/800x400", 2),
-      CategoryData("https://via.placeholder.com/800x400", 1)
+      CategoryData("https://via.placeholder.com/800x400", 0, "Engine Parts"),
+      CategoryData("https://via.placeholder.com/800x400", 2, "Accessories"),
+      CategoryData("https://via.placeholder.com/800x400", 1, "Electricity")
     ];
 
     return HomePageData(

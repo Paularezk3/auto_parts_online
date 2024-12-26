@@ -20,6 +20,7 @@ import '../../app/routes/navigation_state.dart';
 import '../../common/widgets/cart_button.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/app_logger.dart';
+import '../cart/app_level_cubit/cart_state.dart';
 
 class ProductsPageView extends StatelessWidget {
   const ProductsPageView({super.key});
@@ -41,7 +42,9 @@ class ProductsPageView extends StatelessWidget {
       selectedIndex: 1,
       child: Scaffold(
         appBar: OtherPageAppBar(
-            title: AppLocalizations.of(context)!.products, isLoading: false),
+            withShadow: false,
+            title: AppLocalizations.of(context)!.products,
+            isLoading: false),
         body: RefreshIndicator(
           onRefresh: () async {
             productsPageBloc.add(LoadProductsPage());

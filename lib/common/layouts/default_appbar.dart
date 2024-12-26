@@ -90,16 +90,19 @@ mixin AppBarStyle {
         : AppColors.primaryForegroundDark;
   }
 
-  static Decoration? appbarContainerDecoration({required context}) {
+  static Decoration? appbarContainerDecoration(
+      {required context, bool withShadow = true}) {
     return BoxDecoration(
       color: appbarColor(context: context),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.1),
-          offset: const Offset(0, 1),
-          blurRadius: 2,
-        ),
-      ],
+      boxShadow: withShadow
+          ? [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                offset: const Offset(0, 1),
+                blurRadius: 2,
+              ),
+            ]
+          : null,
     );
   }
 }
@@ -332,8 +335,10 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onBackTap;
   final bool isLoading;
   final bool isTitleLoading;
+  final bool? withShadow;
 
   const OtherPageAppBar({
+    this.withShadow,
     required this.title,
     this.showBackButton = false,
     this.onBackTap,
@@ -355,7 +360,8 @@ class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
     return SafeArea(
       bottom: false,
       child: Container(
-        decoration: AppBarStyle.appbarContainerDecoration(context: context),
+        decoration: AppBarStyle.appbarContainerDecoration(
+            context: context, withShadow: withShadow ?? true),
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(

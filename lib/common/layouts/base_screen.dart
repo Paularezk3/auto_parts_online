@@ -23,6 +23,7 @@ class BaseScreen extends StatelessWidget {
       bottomNavigationBar: DefaultNavigationBar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) {
+          if (index == selectedIndex) return;
           final config = _buildNavigationItems(context)[index];
           config.navigate(context);
         },

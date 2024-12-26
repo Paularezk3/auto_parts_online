@@ -1,5 +1,4 @@
 import 'package:auto_parts_online/common/components/default_buttons.dart';
-import 'package:auto_parts_online/common/components/stock_level_text.dart';
 import 'package:auto_parts_online/core/models/stock_level.dart';
 import 'package:flutter/material.dart';
 
@@ -56,24 +55,50 @@ class DefaultProductCard extends StatelessWidget {
               children: [
                 // Product Image
                 Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(12),
+                  child: Stack(alignment: Alignment.bottomCenter, children: [
+                    Positioned(
+                      bottom: 0,
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                        child: Image.network(
+                          productImage,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(Icons.broken_image,
+                                  size: 64, color: Colors.grey),
+                        ),
+                      ),
                     ),
-                    child: Image.network(
-                      productImage,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                          Icons.broken_image,
-                          size: 64,
-                          color: Colors.grey),
-                    ),
-                  ),
+                    Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                isDarkMode
+                                    ? AppColors.accentDarkGrey!
+                                    : AppColors.secondaryForegroundLight,
+                                isDarkMode
+                                    ? AppColors.accentDarkGrey!
+                                    : AppColors.secondaryForegroundLight,
+                              ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter)),
+                        ))
+                  ]),
                 ),
 
                 // Product Details
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -102,14 +127,14 @@ class DefaultProductCard extends StatelessWidget {
                               : Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      // const SizedBox(height: 4),
 
-                      // Stock Availability
-                      StockLevelText(
-                        stockLevel: stockAvailability,
-                        isBold: false,
-                        fontSize: 12,
-                      )
+                      // // Stock Availability
+                      // StockLevelText(
+                      //   stockLevel: stockAvailability,
+                      //   isBold: false,
+                      //   fontSize: 12,
+                      // )
                     ],
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:auto_parts_online/features/products/products_page_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../../common/components/default_buttons.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/app_logger.dart';
@@ -33,99 +32,114 @@ class FilterPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      color: isDarkMode
-          ? AppColors.accentDarkGrey
-          : AppColors.accentForegroundDark,
-      child: ExpansionTile(
-        expansionAnimationStyle: AnimationStyle(
-          duration: const Duration(milliseconds: 500),
-          reverseDuration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOutCubic,
-          reverseCurve: Curves.easeInOutCubic,
-        ),
-        trailing: Icon(
-          Icons.filter_alt,
-          color: isDarkMode ? AppColors.primaryDark : AppColors.primaryLight,
-        ),
-        title: Text(
-          AppLocalizations.of(context)!.filters,
-          style: TextStyle(
-            color: isDarkMode
-                ? AppColors.primaryTextDark
-                : AppColors.primaryTextLight,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-          ),
-        ),
-        collapsedShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        childrenPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        children: [
-          // Wrapping all children in a scrollable widget
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5, // Restrict height
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _categoryFilter(
-                      context,
-                      isDarkMode,
-                      logger,
-                      onCategoryChanged,
-                      selectedFilterData.selectedCategories,
-                      filterData.categories),
-                  const Divider(thickness: 1.0, color: Colors.grey),
-                  _priceRangeFilter(
-                      isDarkMode,
-                      context,
-                      onPriceRangeChanged,
-                      selectedFilterData.selectedLowestPrice ??
-                          filterData.lowestPrice,
-                      selectedFilterData.selectedHighestPrice ??
-                          filterData.highestPrice,
-                      onIsPriceRangeOn,
-                      selectedFilterData.isPriceRangeOn,
-                      filterData.lowestPrice,
-                      filterData.highestPrice),
-                  const Divider(thickness: 1.0, color: Colors.grey),
-                  _compatibilityFilter(
-                      isDarkMode,
-                      context,
-                      filterData.brands,
-                      selectedFilterData.selectedBrand != null
-                          ? filterData.getModelsForBrand(
-                              selectedFilterData.selectedBrand!)
-                          : [],
-                      selectedFilterData.selectedModel != null
-                          ? filterData.getYearsForModel(
-                              selectedFilterData.selectedBrand!,
-                              selectedFilterData.selectedModel!)
-                          : null,
-                      onBrandChanged,
-                      onModelChanged,
-                      onYearChanged),
-                  const SizedBox(height: 10),
-                  SecondaryButton(
-                    buttonSize: ButtonSize.small,
-                    text: "Reset Filter",
-                    logger: logger,
-                    onPressed: onResetFilterPressed,
-                  ),
-                ],
-              ),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color.fromARGB(255, 29, 16, 0)
+            : AppColors.primaryForegroundDark,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            offset: const Offset(0, 2),
+            blurRadius: 2,
           ),
         ],
+      ),
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        color: isDarkMode
+            ? AppColors.accentDarkGrey
+            : AppColors.accentForegroundDark,
+        child: ExpansionTile(
+          expansionAnimationStyle: AnimationStyle(
+            duration: const Duration(milliseconds: 500),
+            reverseDuration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOutCubic,
+            reverseCurve: Curves.easeInOutCubic,
+          ),
+          trailing: Icon(
+            Icons.filter_alt,
+            color: isDarkMode ? AppColors.primaryDark : AppColors.primaryLight,
+          ),
+          title: Text(
+            AppLocalizations.of(context)!.filters,
+            style: TextStyle(
+              color: isDarkMode
+                  ? AppColors.primaryTextDark
+                  : AppColors.primaryTextLight,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+            ),
+          ),
+          collapsedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          childrenPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          children: [
+            // Wrapping all children in a scrollable widget
+            SizedBox(
+              height:
+                  MediaQuery.of(context).size.height * 0.5, // Restrict height
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _categoryFilter(
+                        context,
+                        isDarkMode,
+                        logger,
+                        onCategoryChanged,
+                        selectedFilterData.selectedCategories,
+                        filterData.categories),
+                    const Divider(thickness: 1.0, color: Colors.grey),
+                    _priceRangeFilter(
+                        isDarkMode,
+                        context,
+                        onPriceRangeChanged,
+                        selectedFilterData.selectedLowestPrice ??
+                            filterData.lowestPrice,
+                        selectedFilterData.selectedHighestPrice ??
+                            filterData.highestPrice,
+                        onIsPriceRangeOn,
+                        selectedFilterData.isPriceRangeOn,
+                        filterData.lowestPrice,
+                        filterData.highestPrice),
+                    const Divider(thickness: 1.0, color: Colors.grey),
+                    _compatibilityFilter(
+                        isDarkMode,
+                        context,
+                        filterData.brands,
+                        selectedFilterData.selectedBrand != null
+                            ? filterData.getModelsForBrand(
+                                selectedFilterData.selectedBrand!)
+                            : [],
+                        selectedFilterData.selectedModel != null
+                            ? filterData.getYearsForModel(
+                                selectedFilterData.selectedBrand!,
+                                selectedFilterData.selectedModel!)
+                            : null,
+                        onBrandChanged,
+                        onModelChanged,
+                        onYearChanged),
+                    const SizedBox(height: 10),
+                    SecondaryButton(
+                      buttonSize: ButtonSize.small,
+                      text: "Reset Filter",
+                      logger: logger,
+                      onPressed: onResetFilterPressed,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

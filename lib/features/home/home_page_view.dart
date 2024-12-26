@@ -6,18 +6,23 @@ import 'package:auto_parts_online/common/widgets/default_product_card.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
 import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
+import 'package:auto_parts_online/core/constants/app_gradients.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
+import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart';
+import 'package:auto_parts_online/features/cart/models/cart_model.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_bloc.dart';
 import 'package:auto_parts_online/features/home/bloc/home_page_state.dart';
 import 'package:auto_parts_online/features/home/home_page_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../app/setup_dependencies.dart';
 import '../../common/components/default_buttons.dart';
 import '../../common/layouts/default_appbar.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../cart/app_level_cubit/cart_state.dart';
 import 'bloc/home_page_event.dart';
 import 'home_page_model.dart';
 
@@ -72,41 +77,46 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  Scaffold _buildHomePageLoadedUI(
+  Widget _buildHomePageLoadedUI(
       String homePageTitle,
       Color homePageBackgroundColor,
       BuildContext context,
       ILogger logger,
-      void Function()? onCartTap,
+      void Function(BuildContext) onCartTap,
       HomePageData homePageData,
       void Function(int productId) onProductTap,
       {void Function()? onSearchBarTap}) {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
-    return Scaffold(
-      appBar: HomePageAppBar(
-        key: navigatorKey,
-        isSearchMode: false,
-        onCartTap: onCartTap,
-        noOfItemsInCart: 3,
-        isLoading: false,
-        title: homePageTitle, // Localized title
+    return BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+      return Scaffold(
+        appBar: HomePageAppBar(
+          key: navigatorKey,
+          isSearchMode: false,
+          onCartTap: () => onCartTap(context),
+          noOfItemsInCart: state.totalItems,
+          isLoading: false,
+          title: homePageTitle, // Localized title
 
-        onSearchBarTap: onSearchBarTap,
-      ),
-      backgroundColor: homePageBackgroundColor,
-      body:
-          homePageBodyAfterLoading(context, logger, homePageData, onProductTap),
-    );
+          onSearchBarTap: onSearchBarTap,
+        ),
+        backgroundColor: homePageBackgroundColor,
+        body: homePageBodyAfterLoading(
+            context, logger, homePageData, onProductTap),
+      );
+    });
   }
 
-  Scaffold _buildHomePageLoadingUI(BuildContext context, String homePageTitle,
-      Color homePageBackgroundColor, void Function()? onCartTap) {
+  Scaffold _buildHomePageLoadingUI(
+      BuildContext context,
+      String homePageTitle,
+      Color homePageBackgroundColor,
+      void Function(BuildContext context) onCartTap) {
     final navigatorKey = getIt<GlobalKey<NavigatorState>>();
     return Scaffold(
       appBar: HomePageAppBar(
         key: navigatorKey,
         isSearchMode: false,
-        onCartTap: onCartTap,
+        onCartTap: () => onCartTap(context),
         isLoading: true,
         title: homePageTitle, // Localized title
         onSearchBarTap: () => context
@@ -141,16 +151,16 @@ class HomePageView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Hero Section: Carousel Slider
-          if (homePageData.carousel != null)
-            _buildHeroSection(homePageData.carousel),
+          // Categories Section
+          _buildCategoriesSection(homePageData.categoryData, context),
 
           // Featured Products Section
           _buildFeaturedProductsSection(isDarkMode, logger,
               homePageData.featuredProducts, context, onProductTap),
 
-          // Categories Section
-          _buildCategoriesSection(homePageData.categoryData, context),
+          // Hero Section: Carousel Slider
+          if (homePageData.carousel != null)
+            _buildHeroSection(homePageData.carousel),
 
           // Call-to-Action Section
           _buildCallToActionSection(logger, context),
@@ -197,28 +207,43 @@ class HomePageView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppLocalizations.of(context)!.featuredProducts,
-            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              AppLocalizations.of(context)!.featuredProducts,
+              style: GoogleFonts.inter(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w900,
+                foreground: Paint()
+                  ..shader = AppGradients.linearPrimaryAccent.createShader(
+                      Rect.fromLTWH(0, 0, 200, 0)), // Adjust width as needed
+              ),
+            ),
           ),
           const SizedBox(height: 8.0),
           SizedBox(
-            height: 220.0,
+            height: 300.0,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: featuredProducts.length, // Number of featured products
               itemBuilder: (context, index) {
+                final featuredProduct = featuredProducts[index];
                 return SizedBox(
-                  width: 150,
+                  width: 200,
                   child: DefaultProductCard(
                     onProductTap: () =>
                         onProductTap(featuredProducts[index].productId),
-                    brandLogoUrl: featuredProducts[index].brandImageUrl,
-                    productImage: featuredProducts[index].imageUrl,
-                    productName: featuredProducts[index].productName,
-                    productPrice: featuredProducts[index].productPrice,
-                    stockAvailability: featuredProducts[index].stockLevel,
-                    onAddToCart: () {},
+                    brandLogoUrl: featuredProduct.brandImageUrl,
+                    productImage: featuredProduct.imageUrl,
+                    productName: featuredProduct.productName,
+                    productPrice: featuredProduct.productPrice,
+                    stockAvailability: featuredProduct.stockLevel,
+                    onAddToCart: () => context.read<CartCubit>().addToCart(
+                        CartItem(
+                            quantity: 1,
+                            id: featuredProduct.productId,
+                            name: featuredProduct.productName,
+                            price: featuredProduct.productPrice)),
                     isDarkMode: isDarkMode,
                     logger: logger,
                   ),
@@ -244,33 +269,59 @@ class HomePageView extends StatelessWidget {
             style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8.0),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: categoryData.length, // Number of categories
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              childAspectRatio: 3 / 2,
-            ),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {},
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Image.network(
-                    categoryData[index].imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      Icons.broken_image,
-                      size: 64,
-                      color: Colors.grey,
-                    ),
+          SizedBox(
+            height: 120,
+            child: GridView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: categoryData.length, // Number of categories
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                mainAxisSpacing: 16,
+                mainAxisExtent: 120,
+                childAspectRatio: 3 / 2,
+              ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Image.network(
+                            categoryData[index].imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                              Icons.broken_image,
+                              size: 64,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Text(
+                          categoryData[index].categoryName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ],
       ),
