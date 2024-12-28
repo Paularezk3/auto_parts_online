@@ -18,6 +18,12 @@ class AppThemes {
       error: Color(0xffB3261E),
       onError: Color(0xffffffff),
     ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: NoPageTransition(),
+        TargetPlatform.iOS: NoPageTransition(),
+      },
+    ),
     textTheme: TextTheme(
       bodyLarge: GoogleFonts.montserrat(color: AppColors.primaryTextLight),
       bodyMedium: GoogleFonts.montserrat(color: AppColors.primaryTextLight),
@@ -50,4 +56,34 @@ class AppThemes {
       headlineMedium: GoogleFonts.inter(color: AppColors.primaryTextDark),
     ),
   );
+}
+
+class NoPageTransition extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return child;
+  }
+}
+
+class SlidePageTransition extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).animate(animation),
+      child: child,
+    );
+  }
 }

@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     if (_locale == null) {
       return MaterialApp(
         navigatorKey: navigatorKey,
+        theme: ThemeData.light(),
         home: const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
