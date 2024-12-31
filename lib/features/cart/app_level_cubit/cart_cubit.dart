@@ -16,8 +16,9 @@ class CartCubit extends Cubit<CartState> {
     try {
       final cartPageData = await _cartPageService.fetchCartPageData(items);
       final totalBeforeDiscount =
-          cartPageData.cartTotal.totalPriceBeforeDiscount;
-      final totalAfterDiscount = cartPageData.cartTotal.totalPriceAfterDiscount;
+          cartPageData.cartTotal.totalPriceBeforeProductsDiscount;
+      final totalAfterDiscount =
+          cartPageData.cartTotal.totalPriceAfterProductsDiscount;
       emit(CartState(
         items: items,
         totalPriceBeforeDiscount: totalBeforeDiscount,

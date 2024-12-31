@@ -1,21 +1,25 @@
 // lib/features/cart/cart_page_view.dart
+import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/app/setup_dependencies.dart';
-import 'package:auto_parts_online/common/components/default_buttons.dart';
-import 'package:auto_parts_online/common/components/quantity_counter.dart';
 import 'package:auto_parts_online/common/layouts/base_screen.dart';
 import 'package:auto_parts_online/common/layouts/default_appbar.dart';
 import 'package:auto_parts_online/common/layouts/error_page.dart';
+import 'package:auto_parts_online/common/widgets/default_loading_widget.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart';
 import 'package:auto_parts_online/features/cart/app_level_cubit/cart_state.dart';
 import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
 import 'package:auto_parts_online/features/cart/models/cart_model.dart';
+import 'package:auto_parts_online/features/cart/widgets/checkout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/app_logger.dart';
 import 'bloc/cart_page_event.dart';
 import 'bloc/cart_page_state.dart';
+import 'widgets/cart_page_product_card.dart';
+import 'widgets/order_details_widget.dart';
 
 class CartPageView extends StatelessWidget {
   const CartPageView({super.key});
@@ -95,216 +99,221 @@ class CartPageView extends StatelessWidget {
     final cartPageData = state is CartPageLoaded
         ? state.cartPageData
         : (state as CartPageEditLoading).cartPageData;
+
+    final TextEditingController promocodeController = TextEditingController();
     return Scaffold(
       appBar: OtherPageAppBar(
         title: "Cart",
         isLoading: false,
         withShadow: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
+      body: SingleChildScrollView(
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap:
+                  true, // Prevents the list view from expanding infinitely
+              physics:
+                  NeverScrollableScrollPhysics(), // Disable internal scrolling
               itemCount: cartPageData!.cartItems.length,
               itemBuilder: (context, index) {
                 final item = cartPageData.cartItems[index];
-                return Card(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  color:
-                      isDarkMode ? AppColors.accentDarkGrey : Colors.grey[200],
-                  child: ListTile(
-                    leading: Image.network(
-                      'https://via.placeholder.com/50x50',
-                      fit: BoxFit.cover,
-                    ),
-                    minTileHeight: 100,
-                    title: Text(
-                      item.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode
-                              ? AppColors.primaryTextDark
-                              : AppColors.primaryTextLight),
-                    ),
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (item.priceAfterDiscount != null) ...[
-                          Text(
-                            'E£ ${(item.priceAfterDiscount!).toStringAsFixed(2)}',
-                            style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                        Text(
-                          'E£ ${item.priceBeforeDiscount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              decoration: item.priceAfterDiscount != null
-                                  ? TextDecoration.lineThrough
-                                  : null,
-                              decorationColor: isDarkMode
-                                  ? AppColors.primaryTextDark
-                                  : AppColors.primaryTextLight,
-                              color: isDarkMode
-                                  ? AppColors.secondaryGrey
-                                  : AppColors.secondaryDarkerGrey),
-                        ),
-                      ],
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        IntrinsicWidth(
-                          child: QuantityCounter(
-                              isLoading: isLoading,
-                              counterValue: item.quantity,
-                              onIncrement: () {
-                                if (isLoading) return;
-                                context.read<CartPageBloc>().add(
-                                      AddItemToCart(
-                                        item: CartItem(
-                                            quantity: 1,
-                                            productId: item.productId),
-                                      ),
-                                    );
-                              },
-                              onDecrement: () {
-                                if (isLoading) return;
-                                if (item.quantity > 1) {
-                                  context.read<CartPageBloc>().add(
-                                        ReduceItemFromCart(
-                                            quantity: 1,
-                                            itemId: item.productId),
-                                      );
-                                } else {
-                                  context.read<CartPageBloc>().add(
-                                      RemoveItemFromCart(
-                                          itemId: item.productId));
-                                }
-                              }),
-                        ),
-                      ],
-                    ),
-                  ),
+                return CartPageProductCard(
+                  item: item,
+                  isLoading: isLoading,
                 );
               },
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (!isLoading) ...[
-                  _rowForTexts(
-                      "Items",
-                      "E£ ${cartPageData.cartTotal.totalPriceBeforeDiscount.toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      false),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _rowForTexts(
-                      "Discount",
-                      "- E£ ${(cartPageData.cartTotal.totalPriceBeforeDiscount - cartPageData.cartTotal.totalPriceAfterDiscount).toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      false),
-                  Divider(
-                    indent: 30,
-                    endIndent: 30,
-                    thickness: 1,
-                  ),
-                  _rowForTexts(
-                      "Total",
-                      "E£ ${cartPageData.cartTotal.totalPriceAfterDiscount.toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      true)
-                ],
-                if (isLoading) ...[
-                  _rowForTexts(
-                      "Items",
-                      "E£ ${cartPageData.cartTotal.totalPriceBeforeDiscount.toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      false,
-                      isLoading: true),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _rowForTexts(
-                      "Discount",
-                      "- E£ ${(cartPageData.cartTotal.totalPriceBeforeDiscount - cartPageData.cartTotal.totalPriceAfterDiscount).toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      false,
-                      isLoading: true),
-                  Divider(
-                    indent: 30,
-                    endIndent: 30,
-                    thickness: 1,
-                  ),
-                  _rowForTexts(
-                      "Total",
-                      "E£ ${cartPageData.cartTotal.totalPriceAfterDiscount.toStringAsFixed(2)}",
-                      context,
-                      isDarkMode,
-                      true,
-                      isLoading: true)
-                ],
-                const SizedBox(height: 8),
-                PrimaryButton(
-                  logger: logger,
-                  onPressed: () {},
-                  text: "Proceed to Checkout",
-                ),
-              ],
+            const SizedBox(height: 16),
+            const Divider(
+              indent: 8,
+              endIndent: 8,
+              color: AppColors.primaryGrey,
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row _rowForTexts(String leftText, String rightText, BuildContext context,
-      bool isDarkMode, bool isRightBold,
-      {bool? isLoading}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          leftText,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: isDarkMode
-                  ? AppColors.secondaryGrey
-                  : AppColors.secondaryDarkerGrey,
-              fontWeight: FontWeight.w500),
+            const SizedBox(height: 16),
+            // ListView for added promocodes
+            if (cartPageData.promocodeDetails.isNotEmpty)
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: cartPageData.promocodeDetails.length,
+                itemBuilder: (context, index) {
+                  final promocode = cartPageData.promocodeDetails[index];
+                  return Card(
+                    margin:
+                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Gift Icon
+                          Icon(
+                            Icons.card_giftcard,
+                            color: Colors.green.shade700,
+                            size: 28.0,
+                          ),
+                          SizedBox(width: 12.0),
+                          // Promocode Details
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  promocode.promocodeName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                    color: AppColors.primaryLight,
+                                  ),
+                                ),
+                                SizedBox(height: 4.0),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.greenAccent.shade100,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Text(
+                                    promocode.promocodeDiscountPercent != null
+                                        ? '${promocode.promocodeDiscountPercent}%'
+                                        : '${promocode.promocodeDiscountPrice} E£',
+                                    style: TextStyle(
+                                      color: Colors.green.shade700,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Delete Button
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.redAccent,
+                              size: 20.0,
+                            ),
+                            onPressed: () {
+                              context
+                                  .read<CartPageBloc>()
+                                  .add(RemovePromocode(promocodeIndex: index));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            const SizedBox(height: 4), // Promocode input field
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.secondaryGrey, // Background color
+                  border: Border.all(
+                    color: AppColors.primaryGrey, // Dotted outline color
+                    style: BorderStyle.solid, // Border style
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: promocodeController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter promocode',
+                          hintStyle: TextStyle(
+                            color: AppColors
+                                .primaryTextLight, // White text for hint
+                          ),
+                          filled: true,
+                          fillColor: Colors
+                              .transparent, // Inherit container background
+                          border: InputBorder.none, // Remove default border
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => context.read<CartPageBloc>().add(
+                            AddPromocode(
+                                promocode: promocodeController.text.trim()),
+                          ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black, // Black button color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 12.0),
+                      ),
+                      child: isLoading
+                          ? DefaultLoadingWidget(
+                              height: 20,
+                              width: 20,
+                              color: AppColors.primaryTextOnSurfaceLight,
+                            )
+                          : Text(
+                              'Apply',
+                              style: TextStyle(
+                                color: AppColors
+                                    .primaryTextOnSurfaceLight, // White text color
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Divider(
+              indent: 8,
+              endIndent: 8,
+              color: AppColors.primaryGrey,
+            ),
+            const SizedBox(height: 16),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: OrderDetailsWidget(
+                  cartPageData: cartPageData,
+                  isLoading: isLoading,
+                ),
+              ),
+            ),
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              CheckoutButton(
+                // logger: logger,
+                onPressed: () {
+                  context.read<NavigationCubit>().push(
+                      NavigationCheckoutPageState(cartPageData.cartItems
+                          .map((item) => CartItem(
+                              productId: item.productId,
+                              quantity: item.quantity))
+                          .toList()));
+                },
+                text: "Checkout",
+              ),
+            ]),
+          ],
         ),
-        if (isLoading != null && isLoading == true)
-          ShimmerBox(
-            width: 100,
-            height: 15,
-          ),
-        if (isLoading == null)
-          Text(
-            rightText,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: isDarkMode
-                    ? AppColors.primaryTextDark
-                    : AppColors.primaryTextLight,
-                fontWeight: isRightBold ? FontWeight.bold : null),
-          )
-      ],
+      )),
     );
   }
 

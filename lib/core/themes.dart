@@ -9,7 +9,7 @@ class AppThemes {
     primaryColor: AppColors.primaryLight,
     scaffoldBackgroundColor: AppColors.secondaryForegroundLight,
     colorScheme: const ColorScheme.light(
-      surface: AppColors.primaryForegroundLight,
+      surface: AppColors.primaryForegroundDark,
       onSurface: AppColors.secondaryForegroundLight,
       primary: AppColors.primaryLight,
       onPrimary: AppColors.primaryForegroundLight,

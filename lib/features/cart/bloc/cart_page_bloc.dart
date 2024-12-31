@@ -18,6 +18,8 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
     on<RemoveItemFromCart>(_removeItemFromCart);
     on<ClearCart>(_clearCart);
     on<ReduceItemFromCart>(_reduceItemFromCart);
+    on<AddPromocode>(_addPromocode);
+    on<RemovePromocode>(_removePromocode);
     on<LeaveCartPage>((event, emit) => emit(CartPageInitial()));
   }
 
@@ -31,6 +33,40 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
       state is CartPageLoading ? null : emit(CartPageLoading());
       return;
     }
+
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
+  }
+
+  Future<void> _addPromocode(
+      AddPromocode event, Emitter<CartPageState> emit) async {
+    emit(CartPageEditLoading(cartPageData: cartCubit.state.cartPageItems));
+
+    final promocodeDetails =
+        await cartPageService.checkPromoCode(event.promocode);
+    if (promocodeDetails != null) {
+      cartCubit.state.cartPageItems!.promocodeDetails.add(promocodeDetails);
+
+      cartCubit.state.cartPageItems!.cartTotal =
+          cartPageService.updateCartTotal(
+              cartCubit.state.cartPageItems!.cartItems,
+              cartCubit.state.cartPageItems!.promocodeDetails);
+    }
+
+    emit(CartPageLoaded(
+      cartPageData: cartCubit.state.cartPageItems,
+    ));
+  }
+
+  Future<void> _removePromocode(
+      RemovePromocode event, Emitter<CartPageState> emit) async {
+    emit(CartPageEditLoading(cartPageData: cartCubit.state.cartPageItems));
+
+    cartCubit.state.cartPageItems!.promocodeDetails
+        .removeAt(event.promocodeIndex);
+
+    cartCubit.state.cartPageItems!.cartTotal = cartPageService.updateCartTotal(
+        cartCubit.state.cartPageItems!.cartItems,
+        cartCubit.state.cartPageItems!.promocodeDetails);
 
     emit(CartPageLoaded(
       cartPageData: cartCubit.state.cartPageItems,

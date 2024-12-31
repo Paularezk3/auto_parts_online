@@ -1,5 +1,6 @@
 // lib\app\routes\app_router_delegate.dart
 
+import 'package:auto_parts_online/features/checkout/checkout_page_view.dart';
 import 'package:flutter/material.dart';
 import '../../core/utils/app_logger.dart';
 import '../../features/home/home_page_view.dart';
@@ -29,7 +30,7 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
   @override
   Widget build(BuildContext context) {
     final logger = getIt<ILogger>();
-    logger.trace(
+    logger.debug(
         'Navigator Rebuilding with State: ${navigationCubit.currentState}',
         StackTrace.empty);
 
@@ -92,6 +93,13 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
             (state as NavigationProductDetailsPageState).productId;
         return MaterialPage(
           child: ProductDetailsPageView(productId: productId),
+          name: 'ProductDetailsPage',
+        );
+
+      case const (NavigationCheckoutPageState):
+        final productId = (state as NavigationCheckoutPageState).items;
+        return MaterialPage(
+          child: CheckoutPageView(cartItems: productId),
           name: 'ProductDetailsPage',
         );
 

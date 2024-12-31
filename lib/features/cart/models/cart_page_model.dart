@@ -1,18 +1,39 @@
+import 'promocode_details.dart';
+
 class CartPageModel {
   final List<CartPageItem> cartItems;
-  final CartTotal cartTotal;
-  CartPageModel({required this.cartItems, required this.cartTotal});
+  CartTotal cartTotal;
+  List<PromocodeDetails> promocodeDetails;
+
+  CartPageModel(
+      {required this.cartItems,
+      required this.cartTotal,
+      required this.promocodeDetails});
+
+  set setPromocodeDetails(List<PromocodeDetails> newPromo) {
+    promocodeDetails = newPromo;
+  }
+
+  set setCartTotal(CartTotal cartTotal) {
+    this.cartTotal = cartTotal;
+  }
 }
 
 class CartTotal {
-  final double totalPriceBeforeDiscount;
-  final double totalPriceAfterDiscount;
+  final double totalPriceBeforeProductsDiscount;
+  final double totalPriceAfterProductsDiscount;
+  final double totalOrderDiscounts;
+  final double totalDeliveryPrice;
+  final double subTotalPrice;
   final int totalNumberOfItems;
 
   CartTotal(
       {required this.totalNumberOfItems,
-      required this.totalPriceAfterDiscount,
-      required this.totalPriceBeforeDiscount});
+      required this.totalOrderDiscounts,
+      required this.totalDeliveryPrice,
+      required this.subTotalPrice,
+      required this.totalPriceBeforeProductsDiscount,
+      required this.totalPriceAfterProductsDiscount});
 }
 
 class CartPageItem {

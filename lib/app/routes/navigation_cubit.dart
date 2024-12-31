@@ -13,7 +13,7 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
 
   void push(NavigationState state) {
     final updatedStack = List<NavigationState>.from(this.state)..add(state);
-    logger.debug('Pushed to stack: $state', StackTrace.current);
+    logger.debug('Pushed to stack: $state', StackTrace.empty);
     emit(updatedStack);
   }
 
@@ -66,6 +66,8 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
         return NavigationSearchPageState();
       case 'NavigationProductDetailsPageState':
         return NavigationProductDetailsPageState.fromJson(json['arguments']);
+      case 'NavigationCheckoutPageState':
+        return NavigationCheckoutPageState.fromJson(json['arguments']);
       default:
         return NavigationHomePageState();
     }
@@ -76,6 +78,11 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
       return {
         'state': state.runtimeType.toString(),
         'arguments': state.toJson(),
+      };
+    } else if (state is NavigationCheckoutPageState) {
+      return {
+        'state': state.runtimeType.toString(),
+        'arguments': state.toJson()
       };
     }
     return {'state': state.runtimeType.toString()};
