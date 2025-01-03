@@ -1,5 +1,6 @@
 // lib\app\setup_dependencies.dart
 
+import 'package:auto_parts_online/features/checkout/mock_checkout_page_service.dart';
 import 'package:auto_parts_online/features/home/mock_home_page_service.dart';
 import 'package:auto_parts_online/features/product_details_page/mock_product_details_page_service.dart';
 import 'package:auto_parts_online/features/products/mock_products_page_service.dart';
@@ -29,6 +30,8 @@ void setupDependencies() {
       () => MockProductDetailsPageService());
   getIt
       .registerLazySingleton<IMockCartPageService>(() => MockCartPageService());
+  getIt.registerLazySingleton<IMockCheckoutPageService>(
+      () => MockCheckoutPageService());
 
   getIt.registerLazySingleton<HiveHelper>(() {
     final helper = HiveHelper(getIt<ILogger>());

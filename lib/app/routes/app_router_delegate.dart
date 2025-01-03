@@ -97,9 +97,9 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
         );
 
       case const (NavigationCheckoutPageState):
-        final productId = (state as NavigationCheckoutPageState).items;
+        final productId = (state as NavigationCheckoutPageState).cartDetails;
         return MaterialPage(
-          child: CheckoutPageView(cartItems: productId),
+          child: CheckoutPageView(cartDetails: productId),
           name: 'ProductDetailsPage',
         );
 

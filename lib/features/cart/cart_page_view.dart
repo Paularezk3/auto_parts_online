@@ -10,7 +10,6 @@ import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
 import 'package:auto_parts_online/features/cart/app_level_cubit/cart_cubit.dart';
 import 'package:auto_parts_online/features/cart/app_level_cubit/cart_state.dart';
 import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
-import 'package:auto_parts_online/features/cart/models/cart_model.dart';
 import 'package:auto_parts_online/features/cart/widgets/checkout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -301,12 +300,9 @@ class CartPageView extends StatelessWidget {
               CheckoutButton(
                 // logger: logger,
                 onPressed: () {
-                  context.read<NavigationCubit>().push(
-                      NavigationCheckoutPageState(cartPageData.cartItems
-                          .map((item) => CartItem(
-                              productId: item.productId,
-                              quantity: item.quantity))
-                          .toList()));
+                  context
+                      .read<NavigationCubit>()
+                      .push(NavigationCheckoutPageState(cartPageData));
                 },
                 text: "Checkout",
               ),

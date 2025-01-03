@@ -58,11 +58,11 @@ mixin ButtonStyles {
   static VoidCallback? onPressed(VoidCallback? onPressed, ILogger logger) {
     return onPressed != null
         ? () {
-            logger.trace("Button Pressed", null);
+            logger.trace("Button Pressed", StackTrace.empty);
             onPressed();
           }
         : () {
-            logger.error("onPressed is $onPressed", null);
+            logger.error("onPressed is $onPressed", StackTrace.empty);
           };
   }
 }
@@ -73,7 +73,9 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
-  final double? padding;
+
+  /// default padding is 15
+  final EdgeInsets? padding;
   final ILogger logger;
 
   const PrimaryButton({
@@ -92,7 +94,7 @@ class PrimaryButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: EdgeInsets.all(padding ?? 15),
+      padding: padding ?? EdgeInsets.all(15),
       child: SizedBox.fromSize(
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(

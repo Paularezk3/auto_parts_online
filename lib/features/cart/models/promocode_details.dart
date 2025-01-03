@@ -1,21 +1,25 @@
 class PromocodeDetails {
   final String promocodeName;
   final double?
-      promocodeDiscountPercent; // if null therefore it's price not percent discount
+      promocodeDiscountPercent; // Null means price discount instead of percent
   final double? promocodeMaxDiscountPrice;
   final double?
-      promocodeDiscountPrice; // if null therefore it's percent discount not price
-  PromocodeDetails(
-      {required this.promocodeDiscountPercent,
-      required this.promocodeDiscountPrice,
-      required this.promocodeMaxDiscountPrice,
-      required this.promocodeName});
+      promocodeDiscountPrice; // Null means percent discount instead of price
 
+  PromocodeDetails({
+    required this.promocodeDiscountPercent,
+    required this.promocodeDiscountPrice,
+    required this.promocodeMaxDiscountPrice,
+    required this.promocodeName,
+  });
+
+  /// Check if the promocode is percentage-based
   bool discountPercentOrPrice() {
     return (promocodeDiscountPercent != null &&
         promocodeMaxDiscountPrice != null);
   }
 
+  /// Calculate percentage discount
   double _discountPercentCalculator(double beforeDiscount) {
     final afterPercent =
         beforeDiscount * (1 - promocodeDiscountPercent! * 0.01);
@@ -25,21 +29,23 @@ class PromocodeDetails {
         : promocodeMaxDiscountPrice!;
   }
 
+  /// Apply the discount to a given price
   double applyDiscount(double beforeDiscount) {
     if (discountPercentOrPrice()) {
       return _discountPercentCalculator(beforeDiscount);
     } else {
-      return promocodeDiscountPrice!;
+      return beforeDiscount - promocodeDiscountPrice!;
     }
   }
 
+  /// Apply all discounts in a list of promotions
   double applyAllDiscounts(
       double priceBeforeDiscount, List<PromocodeDetails> promotions) {
     // Variables to track the highest percentage discount and its max cap
     double highestPercentageDiscount = 0.0;
     double? maxDiscountCap;
 
-    // Iterate to find the highest percentage discount and its max cap
+    // Find the highest percentage discount and its max cap
     for (var promo in promotions) {
       if (promo.promocodeDiscountPercent != null &&
           promo.promocodeMaxDiscountPrice != null) {
@@ -73,5 +79,28 @@ class PromocodeDetails {
 
     // Ensure the price is not negative
     return finalPrice < 0 ? 0 : finalPrice;
+  }
+
+  /// Convert the object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'promocodeName': promocodeName,
+      'promocodeDiscountPercent': promocodeDiscountPercent,
+      'promocodeMaxDiscountPrice': promocodeMaxDiscountPrice,
+      'promocodeDiscountPrice': promocodeDiscountPrice,
+    };
+  }
+
+  /// Create an object from JSON
+  factory PromocodeDetails.fromJson(Map<String, dynamic> json) {
+    return PromocodeDetails(
+      promocodeName: json['promocodeName'] as String,
+      promocodeDiscountPercent:
+          (json['promocodeDiscountPercent'] as num?)?.toDouble(),
+      promocodeMaxDiscountPrice:
+          (json['promocodeMaxDiscountPrice'] as num?)?.toDouble(),
+      promocodeDiscountPrice:
+          (json['promocodeDiscountPrice'] as num?)?.toDouble(),
+    );
   }
 }

@@ -1,6 +1,6 @@
 // lib\app\routes\navigation_state.dart
 
-import '../../features/cart/models/cart_model.dart';
+import 'package:auto_parts_online/features/cart/models/cart_page_model.dart';
 
 abstract class NavigationState {}
 
@@ -29,38 +29,17 @@ class NavigationProductDetailsPageState extends NavigationState {
 }
 
 class NavigationCheckoutPageState extends NavigationState {
-  final List<CartItem> items;
+  final CartPageModel cartDetails;
 
-  NavigationCheckoutPageState(this.items);
+  NavigationCheckoutPageState(this.cartDetails);
 
   Map<String, dynamic> toJson() {
-    return {
-      'cartProducts': items
-          .map((item) => "${item.productId}```${item.quantity}")
-          .join("{{{"),
-    };
+    return {'cartDetails': cartDetails.toJson()};
   }
 
   static NavigationCheckoutPageState fromJson(Map<String, dynamic> json) {
-    if (json['cartProducts'] == null || json['cartProducts'] is! String) {
-      throw FormatException("Invalid cartProducts format in JSON");
-    }
-
-    final cartProductsString = json['cartProducts'] as String;
-    final cartItems = cartProductsString
-        .split("{{{")
-        .where((item) => item.contains("```"))
-        .map((item) {
-      final idAndQuantity = item.split("```");
-      if (idAndQuantity.length != 2) {
-        throw FormatException("Invalid CartItem format: $item");
-      }
-      return CartItem(
-        productId: int.parse(idAndQuantity[0]),
-        quantity: int.parse(idAndQuantity[1]),
-      );
-    }).toList();
-
-    return NavigationCheckoutPageState(cartItems);
+    return NavigationCheckoutPageState(
+      CartPageModel.fromJson(json['cartDetails'] as Map<String, dynamic>),
+    );
   }
 }

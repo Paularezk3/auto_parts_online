@@ -190,7 +190,7 @@ class ProductDetailsPageView extends StatelessWidget {
                           ),
                           const SizedBox(width: 16),
                           PrimaryButton(
-                            padding: 0,
+                            padding: EdgeInsets.all(0),
                             logger: logger,
                             onPressed: product.stockLevel ==
                                         StockLevel.inStock ||

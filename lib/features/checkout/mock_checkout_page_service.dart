@@ -1,29 +1,38 @@
 import 'dart:math';
 
+import 'package:auto_parts_online/features/cart/models/cart_page_model.dart';
+
+import '../../core/models/account_address.dart';
 import 'checkout_page_model.dart';
 
 abstract class IMockCheckoutPageService {
   IMockCheckoutPageService();
 
-  Future<CheckoutPageModel> fetchCheckoutPageData(String accountId);
+  Future<CheckoutPageModel> fetchCheckoutPageData(
+      String accountId, CartPageModel cartDetails);
   // Future<PromocodeDetails?> checkPromoCode(String promocode);
 }
 
 class MockCheckoutPageService extends IMockCheckoutPageService {
   @override
-  Future<CheckoutPageModel> fetchCheckoutPageData(String accountId) async {
+  Future<CheckoutPageModel> fetchCheckoutPageData(
+      String accountId, CartPageModel cartDetails) async {
     await Future.delayed(Duration(seconds: getRandomNumber()));
     final data = CheckoutPageModel(
+      paymentWay: PaymentWay.instapay,
+      pointValue: 0.05,
       accountAddress: [
         AccountAddress(
             address: "55 abdel aziz",
             city: "Cairo",
             landMark: "AbdelAziz Stores",
-            phoneToContact: "01015811730")
+            phoneToContact: "01015811730",
+            isLastUsed: true)
       ],
-      accountPoints: 5000,
-      availableCities: ["Cairo", "Giza"],
-      availableCountries: ["Egypt"],
+      accountPoints: 500,
+
+      availableAdresses: AvailableAdresses(
+          availableCities: ["Cairo", "Giza"], availableCountries: ["Egypt"]),
       instapayLink: "https://ipn.eg/S/paularezk/instapay/3HB8En",
       // promocode: PromocodeDetails(promocodeDiscountPercent: promocodeDiscountPercent, promocodeDiscountPrice: promocodeDiscountPrice, promocodeMaxDiscountPrice: promocodeMaxDiscountPrice, promocodeName: promocodeName)
     );

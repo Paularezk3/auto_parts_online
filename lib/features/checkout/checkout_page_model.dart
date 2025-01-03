@@ -1,32 +1,49 @@
 // lib\features\checkout\checkout_page_model.dart
 
+import '../../core/models/account_address.dart';
+
 class CheckoutPageModel {
   final int accountPoints;
+  final double pointValue;
   final List<AccountAddress> accountAddress;
-  final List<String> availableCities;
-  final List<String> availableCountries;
   final String? instapayLink;
-  // final List<PromocodeDetails>? promocode;
+  final AvailableAdresses availableAdresses;
+  PaymentWay paymentWay;
   CheckoutPageModel({
     required this.accountAddress,
+    required this.pointValue,
+    required this.availableAdresses,
     required this.accountPoints,
+    this.instapayLink,
+    required this.paymentWay,
+  });
+
+  CheckoutPageModel copyWith({
+    int? accountPoints,
+    List<AccountAddress>? accountAddress,
+    String? instapayLink,
+    AvailableAdresses? availableAdresses,
+    PaymentWay? paymentWay,
+    double? pointValue,
+  }) {
+    return CheckoutPageModel(
+      pointValue: pointValue ?? this.pointValue,
+      accountPoints: accountPoints ?? this.accountPoints,
+      accountAddress: accountAddress ?? this.accountAddress,
+      instapayLink: instapayLink ?? this.instapayLink,
+      availableAdresses: availableAdresses ?? this.availableAdresses,
+      paymentWay: paymentWay ?? this.paymentWay,
+    );
+  }
+}
+
+class AvailableAdresses {
+  final List<String> availableCities;
+  final List<String> availableCountries;
+  AvailableAdresses({
     required this.availableCities,
     required this.availableCountries,
-    // this.promocode,
-    this.instapayLink,
   });
 }
 
-class AccountAddress {
-  final String address;
-  final String landMark;
-  final String city;
-  final String phoneToContact;
-  AccountAddress(
-      {required this.address,
-      required this.city,
-      required this.phoneToContact,
-      required this.landMark});
-}
-
-enum PaymentWay { cash, instapay }
+enum PaymentWay { cash, instapay, vodafoneCash }

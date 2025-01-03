@@ -1,5 +1,6 @@
 // lib\app\app.dart
 import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
+import 'package:auto_parts_online/features/checkout/bloc/checkout_page_bloc.dart';
 import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_bloc.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_bloc.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => CartCubit()),
         BlocProvider(
             create: (context) => CartPageBloc(context.read<CartCubit>())),
+        BlocProvider(create: (_) => CheckoutPageBloc()),
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),
