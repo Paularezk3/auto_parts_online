@@ -185,7 +185,7 @@ class FilterPanel extends StatelessWidget {
                         side: BorderSide(
                           color: isDarkMode
                               ? AppColors.primaryForegroundDark
-                              : AppColors.accentDarkGrey!, // Border color
+                              : AppColors.accentDarkGrey, // Border color
                           width: 2.0, // Border width
                         ),
                         onChanged: (bool? value) {

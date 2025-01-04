@@ -9,6 +9,7 @@ import '../core/utils/locale_service.dart';
 import '../features/cart/app_level_cubit/cart_cubit.dart';
 import '../features/home/bloc/home_page_bloc.dart';
 
+import '../features/online_payment/bloc/online_payment_page_bloc.dart';
 import '../features/products/bloc/products_page_bloc.dart';
 import 'my_material_app.dart';
 import 'setup_dependencies.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) => CartPageBloc(context.read<CartCubit>())),
         BlocProvider(create: (_) => CheckoutPageBloc()),
+        BlocProvider(create: (_) => OnlinePaymentPageBloc()),
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),

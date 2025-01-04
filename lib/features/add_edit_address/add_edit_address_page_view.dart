@@ -40,7 +40,9 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
   Widget build(BuildContext context) {
     ILogger logger = getIt<ILogger>();
     return Scaffold(
-      appBar: AppBar(title: const Text("Add/Edit Address")),
+      appBar: AppBar(
+          title: const Text("Add/Edit Address",
+              style: TextStyle(color: Colors.black))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -117,6 +119,7 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
       if (widget.onAddressSaved != null) {
         widget.onAddressSaved!(
           AccountAddress(
+            addressId: widget.initialAddress?.addressId ?? -1,
             address: _addressController.text,
             city: _cityController.text,
             landMark: _landmarkController.text,
@@ -128,6 +131,7 @@ class _AddEditAddressPageState extends State<AddEditAddressPage> {
       Navigator.pop(
         context,
         AccountAddress(
+          addressId: widget.initialAddress?.addressId ?? -1,
           address: _addressController.text,
           city: _cityController.text,
           landMark: _landmarkController.text,

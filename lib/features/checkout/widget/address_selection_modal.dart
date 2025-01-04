@@ -1,7 +1,6 @@
 import 'package:auto_parts_online/app/setup_dependencies.dart';
 import 'package:auto_parts_online/common/components/default_buttons.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/models/account_address.dart';
@@ -10,11 +9,12 @@ class AddressSelectionModal extends StatelessWidget {
   final List<AccountAddress> addresses;
   final VoidCallback onAddNewAddress;
   final ValueChanged<AccountAddress> onEditAddress;
-
+  final void Function(AccountAddress) onChoosingAnotherAddress;
   const AddressSelectionModal({
     required this.addresses,
     required this.onAddNewAddress,
     required this.onEditAddress,
+    required this.onChoosingAnotherAddress,
     super.key,
   });
 
@@ -41,6 +41,7 @@ class AddressSelectionModal extends StatelessWidget {
           const SizedBox(height: 16),
           if (addresses.isNotEmpty)
             ...addresses.map((address) => ListTile(
+                  onTap: () => onChoosingAnotherAddress(address),
                   title: Text(
                     address.address,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -58,27 +59,6 @@ class AddressSelectionModal extends StatelessWidget {
                     onPressed: () => onEditAddress(address),
                   ),
                 )),
-          if (addresses.isEmpty)
-            GestureDetector(
-              onTap: onAddNewAddress,
-              child: DottedBorder(
-                color: Colors.blueGrey,
-                strokeWidth: 1,
-                dashPattern: [6, 4],
-                child: Container(
-                  height: 100,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Add a new shipping address",
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
           const SizedBox(height: 16),
           OutlinedPrimaryButton(
             logger: logger,

@@ -1,15 +1,19 @@
 // Refactored OrderSummary with skewmorphic star icon and white container design
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_gradients.dart';
 
 class OrderSummary extends StatelessWidget {
-  final double totalPrice;
+  final double subTotalPrice;
   final int points;
   final ValueChanged<int> onPointsRedeemed;
-  final double pointValue;
+  final double totalPrice;
 
   const OrderSummary({
-    required this.pointValue,
     required this.totalPrice,
+    required this.subTotalPrice,
     required this.points,
     required this.onPointsRedeemed,
     super.key,
@@ -17,9 +21,6 @@ class OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pointsDiscount = points * 0.05;
-    final finalPrice = totalPrice - pointsDiscount;
-
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -36,13 +37,19 @@ class OrderSummary extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSummaryRow(
-              "Total Before Discount", totalPrice.toStringAsFixed(2), context),
+          _buildSummaryRow("Total Before Discount",
+              subTotalPrice.toStringAsFixed(2), context),
           const SizedBox(height: 8),
-          _buildPointsRow(context, pointsDiscount),
+          _buildPointsRow(context, subTotalPrice - totalPrice),
+          const SizedBox(height: 8),
+          const Divider(
+            color: AppColors.primaryGrey,
+            endIndent: 12,
+            indent: 12,
+          ),
           const SizedBox(height: 8),
           _buildSummaryRow(
-              "Final Total", finalPrice.toStringAsFixed(2), context,
+              "Final Total", totalPrice.toStringAsFixed(2), context,
               isHighlighted: true),
         ],
       ),
@@ -88,10 +95,10 @@ class OrderSummary extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.amber.withValues(alpha: 0.4),
+                    color: Colors.amber.withValues(alpha: 0.3),
                     blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: const Offset(4, 4),
+                    spreadRadius: 1,
+                    offset: const Offset(2, 2),
                   ),
                   BoxShadow(
                     color: Colors.white,
@@ -115,7 +122,13 @@ class OrderSummary extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               "$points Points",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: GoogleFonts.inter(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w900,
+                foreground: Paint()
+                  ..shader = AppGradients.linearPrimaryAccent.createShader(
+                      Rect.fromLTWH(50, 0, 100, 0)), // Adjust width as needed
+              ),
             ),
           ],
         ),

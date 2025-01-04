@@ -19,7 +19,7 @@ class AddressCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),

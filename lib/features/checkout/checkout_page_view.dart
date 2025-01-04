@@ -1,14 +1,12 @@
 // Path: lib/features/checkout/checkout_page_view.dart
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/app/setup_dependencies.dart';
-import 'package:auto_parts_online/common/components/default_buttons.dart';
 import 'package:auto_parts_online/common/layouts/error_page.dart';
 import 'package:auto_parts_online/core/utils/app_logger.dart';
 import 'package:auto_parts_online/features/checkout/bloc/checkout_page_bloc.dart';
 import 'package:auto_parts_online/features/checkout/bloc/checkout_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../app/routes/navigation_cubit.dart';
 import '../../common/layouts/default_appbar.dart';
 import '../../common/widgets/skeleton_loader.dart';
@@ -21,6 +19,7 @@ import 'bloc/checkout_page_event.dart';
 import 'checkout_page_model.dart';
 import 'widget/address_card.dart';
 import 'widget/address_selection_modal.dart';
+import 'widget/checkout_slider.dart';
 import 'widget/order_summary.dart';
 import 'widget/payment_method_selector.dart';
 
@@ -52,8 +51,13 @@ class CheckoutPageView extends StatelessWidget {
           return SkeletonLoader();
         } else if (state is CheckoutPageLoaded) {
           final checkoutPageData = state.checkoutPageModel;
-          final lastUsedAddress = state.checkoutPageModel.accountAddress
-              .firstWhere((address) => address.isLastUsed);
+          late final AccountAddress? lastUsedAddress;
+          if (state.checkoutPageModel.accountAddress.isEmpty) {
+            lastUsedAddress = null;
+          } else {
+            lastUsedAddress = state.checkoutPageModel.accountAddress
+                .firstWhere((address) => address.isLastUsed);
+          }
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -67,18 +71,16 @@ class CheckoutPageView extends StatelessWidget {
                   const SizedBox(height: 16),
                   if (state.checkoutPageModel.accountAddress.isNotEmpty)
                     AddressCard(
-                      address: lastUsedAddress.address,
+                      address: lastUsedAddress!.address,
                       city: lastUsedAddress.city,
                       phone: lastUsedAddress.phoneToContact,
-                      onEdit: () => _showAddressModal(
-                        context,
-                        state.checkoutPageModel.accountAddress,
-                      ),
+                      onEdit: () => _showAddressModal(context,
+                          state.checkoutPageModel.accountAddress, state),
                     )
                   else
                     AddAddressPlaceholder(
-                      onAdd: () => _showAddressModal(
-                          context, state.checkoutPageModel.accountAddress),
+                      onAdd: () => _showAddressModal(context,
+                          state.checkoutPageModel.accountAddress, state),
                     ),
                   const SizedBox(height: 32),
                   Text(
@@ -87,9 +89,10 @@ class CheckoutPageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   OrderSummary(
-                    pointValue: checkoutPageData.pointValue,
-                    totalPrice: checkoutPageData.accountPoints * 10.0,
+                    subTotalPrice: checkoutPageData.widgetData.subTotal,
                     points: checkoutPageData.accountPoints,
+                    totalPrice:
+                        checkoutPageData.widgetData.totalAfterPointsDiscount,
                     onPointsRedeemed: (int pointsUsed) {
                       checkPageBloc.add(UpdatePoints(pointsUsed: pointsUsed));
                     },
@@ -101,28 +104,50 @@ class CheckoutPageView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   PaymentMethodSelector(
-                    selectedMethod: checkoutPageData.paymentWay,
-                    instapayLink: checkoutPageData.instapayLink,
+                    selectedMethod: checkoutPageData.widgetData.paymentWay,
                     onPaymentMethodChanged: (PaymentWay method) {
                       checkPageBloc
                           .add(UpdatePaymentMethod(paymentWay: method));
                     },
                   ),
-                  PrimaryButton(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                    text: state.checkoutPageModel.paymentWay == PaymentWay.cash
-                        ? "Order Now"
-                        : "Pay Now",
-                    logger: logger,
-                    onPressed: () async {
-                      var url = (state).checkoutPageModel.instapayLink!;
-                      if (await canLaunchUrl(Uri.parse(url))) {
-                        await launchUrl(Uri.parse(url));
-                      } else {
-                        throw 'Could not launch $url';
-                      }
+                  const SizedBox(height: 32),
+                  CheckoutSlider(
+                    isReadyToCheckout:
+                        state.checkoutPageModel.widgetData.paymentWay != null
+                            ? (state.checkoutPageModel.accountAddress
+                                    .isNotEmpty &&
+                                state.checkoutPageModel.accountAddress
+                                    .where((element) => element.isLastUsed)
+                                    .isNotEmpty)
+                            : false, // Boolean to indicate readiness
+                    isProcessing:
+                        state.checkoutPageModel.widgetData.isSliderProcessing,
+                    onCheckout: () {
+                      // Handle the checkout process
+                      context.read<NavigationCubit>().push(
+                          NavigationOnlinePaymentPageState(
+                              state.checkoutPageModel.widgetData.paymentWay!,
+                              state.checkoutPageModel.widgetData
+                                  .totalAfterPointsDiscount));
+                      context.read<CheckoutPageBloc>().add(UpdateWidgetData(
+                              widgetData:
+                                  state.checkoutPageModel.widgetData.copyWith(
+                            isSliderProcessing: false,
+                          )));
                     },
-                  )
+                    buttonText: state.checkoutPageModel.widgetData.paymentWay ==
+                            null
+                        ? "Choose Payment"
+                        : !(state.checkoutPageModel.accountAddress.isNotEmpty &&
+                                state.checkoutPageModel.accountAddress
+                                    .where((element) => element.isLastUsed)
+                                    .isNotEmpty)
+                            ? "Put Address"
+                            : (state.checkoutPageModel.widgetData.paymentWay ==
+                                    PaymentWay.cash
+                                ? "Slide to Order"
+                                : "Slide to Pay"),
+                  ),
                 ],
               ),
             ),
@@ -139,7 +164,8 @@ class CheckoutPageView extends StatelessWidget {
     );
   }
 
-  void _showAddressModal(BuildContext context, List<AccountAddress> addresses) {
+  void _showAddressModal(BuildContext context, List<AccountAddress> addresses,
+      CheckoutPageLoaded state) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -149,15 +175,43 @@ class CheckoutPageView extends StatelessWidget {
           Navigator.pop(context); // Close the modal before navigating
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const AddEditAddressPage()),
+            MaterialPageRoute(
+                builder: (_) => AddEditAddressPage(
+                      onAddressSaved: (p0) {
+                        state.checkoutPageModel.accountAddress.add(p0);
+                        context.read<CheckoutPageBloc>().add(UpdateAddress(
+                            address: state.checkoutPageModel.accountAddress));
+                      },
+                    )),
           );
+        },
+        onChoosingAnotherAddress: (AccountAddress address) {
+          context.read<CheckoutPageBloc>().add(UpdateAddress(
+              address: state.checkoutPageModel.accountAddress
+                  .map((e) => e.copyWith(isLastUsed: false))
+                  .toList()));
+          context.read<CheckoutPageBloc>().add(UpdateAddress(
+              address: state.checkoutPageModel.accountAddress
+                  .map((e) => e.copyWith(
+                      isLastUsed:
+                          e.addressId == address.addressId ? true : false))
+                  .toList()));
+          Navigator.pop(context);
         },
         onEditAddress: (AccountAddress address) {
           Navigator.pop(context); // Close the modal before navigating
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => AddEditAddressPage(initialAddress: address),
+              builder: (_) => AddEditAddressPage(
+                  initialAddress: address,
+                  onAddressSaved: (p0) {
+                    state.checkoutPageModel.accountAddress.removeWhere(
+                        (element) => element.addressId == address.addressId);
+                    state.checkoutPageModel.accountAddress.add(p0);
+                    context.read<CheckoutPageBloc>().add(UpdateAddress(
+                        address: state.checkoutPageModel.accountAddress));
+                  }),
             ),
           );
         },

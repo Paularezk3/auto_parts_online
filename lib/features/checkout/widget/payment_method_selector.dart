@@ -1,17 +1,15 @@
-// Create a new StatelessWidget for PaymentMethodSelector
+import 'package:auto_parts_online/core/constants/assets_path.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../checkout_page_model.dart';
 
 class PaymentMethodSelector extends StatefulWidget {
-  final PaymentWay selectedMethod;
-  final String? instapayLink;
+  final PaymentWay? selectedMethod;
   final ValueChanged<PaymentWay> onPaymentMethodChanged;
 
   const PaymentMethodSelector({
     required this.selectedMethod,
-    this.instapayLink,
     required this.onPaymentMethodChanged,
     super.key,
   });
@@ -21,7 +19,7 @@ class PaymentMethodSelector extends StatefulWidget {
 }
 
 class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
-  late PaymentWay _selectedMethod;
+  late PaymentWay? _selectedMethod;
 
   @override
   void initState() {
@@ -74,12 +72,31 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                 _getPaymentMethodName(method),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              subtitle: isSelected ? _getPaymentMethodDetails(method) : null,
+              trailing: _getPaymentMethodLogo(method),
             ),
           ),
         );
       }).toList(),
     );
+  }
+
+  Widget _getPaymentMethodLogo(PaymentWay method) {
+    switch (method) {
+      case PaymentWay.cash:
+        return SizedBox.shrink();
+      case PaymentWay.instapay:
+        return Image.asset(
+          AssetsPath.instaPayLogo, // Replace with the correct asset path
+          width: 32,
+          height: 32,
+        );
+      case PaymentWay.vodafoneCash:
+        return Image.asset(
+          AssetsPath.vodafoneCashLogo, // Replace with the correct asset path
+          width: 32,
+          height: 32,
+        );
+    }
   }
 
   String _getPaymentMethodName(PaymentWay method) {
@@ -90,64 +107,6 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
         return "InstaPay";
       case PaymentWay.vodafoneCash:
         return "Vodafone Cash";
-      // default:
-      //   return "Unknown";
-    }
-  }
-
-  Widget _getPaymentMethodDetails(PaymentWay method) {
-    switch (method) {
-      case PaymentWay.instapay:
-        return _buildNote(
-            "Use the InstaPay link to complete your payment securely. Don't worry, our team will verify the payment.",
-            method);
-      case PaymentWay.vodafoneCash:
-        return _buildNote(
-            "Copy the Vodafone Cash number and send the amount. Rest assured, our team will confirm the transaction.",
-            method);
-      default:
-        return SizedBox.shrink();
-    }
-  }
-
-  Widget _buildNote(String message, PaymentWay method) {
-    switch (method) {
-      case PaymentWay.instapay:
-        return Container(
-          margin: const EdgeInsets.only(top: 8.0),
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: Colors.green[50],
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.green),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.info, color: Colors.green),
-              const SizedBox(width: 8),
-              Expanded(
-                  child: Text(message, style: TextStyle(color: Colors.green))),
-            ],
-          ),
-        );
-      default:
-        return Container(
-          margin: const EdgeInsets.only(top: 8.0),
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.blue),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.info, color: Colors.blue),
-              const SizedBox(width: 8),
-              Expanded(
-                  child: Text(message, style: TextStyle(color: Colors.blue))),
-            ],
-          ),
-        );
     }
   }
 }

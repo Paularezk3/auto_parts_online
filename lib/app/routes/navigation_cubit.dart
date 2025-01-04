@@ -68,6 +68,8 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
         return NavigationProductDetailsPageState.fromJson(json['arguments']);
       case 'NavigationCheckoutPageState':
         return NavigationCheckoutPageState.fromJson(json['arguments']);
+      case 'NavigationOnlinePaymentPageState':
+        return NavigationOnlinePaymentPageState.fromJson(json['arguments']);
       default:
         return NavigationHomePageState();
     }
@@ -80,6 +82,11 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
         'arguments': state.toJson(),
       };
     } else if (state is NavigationCheckoutPageState) {
+      return {
+        'state': state.runtimeType.toString(),
+        'arguments': state.toJson()
+      };
+    } else if (state is NavigationOnlinePaymentPageState) {
       return {
         'state': state.runtimeType.toString(),
         'arguments': state.toJson()

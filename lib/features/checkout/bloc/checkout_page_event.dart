@@ -10,8 +10,13 @@ class LoadCheckoutPage extends CheckoutPageEvent {
   LoadCheckoutPage({required this.cartDetails});
 }
 
+class UpdateWidgetData extends CheckoutPageEvent {
+  final CheckOutWidgetData widgetData;
+  UpdateWidgetData({required this.widgetData});
+}
+
 class UpdateAddress extends CheckoutPageEvent {
-  final AccountAddress address;
+  final List<AccountAddress> address;
   UpdateAddress({required this.address});
 }
 

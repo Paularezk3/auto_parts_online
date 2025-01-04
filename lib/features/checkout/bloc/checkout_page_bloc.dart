@@ -15,6 +15,7 @@ class CheckoutPageBloc extends Bloc<CheckoutPageEvent, CheckoutPageState> {
     on<UpdateAddress>(_updateAddress);
     on<UpdatePaymentMethod>(_updatePaymentMethod);
     on<UpdatePoints>(_updatePoints);
+    on<UpdateWidgetData>(_updateWidgetData);
   }
 
   _loadCheckoutPage(
@@ -32,7 +33,16 @@ class CheckoutPageBloc extends Bloc<CheckoutPageEvent, CheckoutPageState> {
     }
   }
 
-  _updateAddress(UpdateAddress event, Emitter<CheckoutPageState> emit) {}
+  _updateAddress(UpdateAddress event, Emitter<CheckoutPageState> emit) {
+    emit(
+      CheckoutPageLoaded(
+        checkoutPageModel:
+            (state as CheckoutPageLoaded).checkoutPageModel.copyWith(
+                  accountAddress: event.address,
+                ),
+      ),
+    );
+  }
 
   _updatePaymentMethod(
       UpdatePaymentMethod event, Emitter<CheckoutPageState> emit) {
@@ -40,7 +50,10 @@ class CheckoutPageBloc extends Bloc<CheckoutPageEvent, CheckoutPageState> {
       CheckoutPageLoaded(
         checkoutPageModel:
             (state as CheckoutPageLoaded).checkoutPageModel.copyWith(
-                  paymentWay: event.paymentWay,
+                  widgetData: (state as CheckoutPageLoaded)
+                      .checkoutPageModel
+                      .widgetData
+                      .copyWith(paymentWay: event.paymentWay),
                 ),
       ),
     );
@@ -56,6 +69,16 @@ class CheckoutPageBloc extends Bloc<CheckoutPageEvent, CheckoutPageState> {
                           .accountPoints -
                       event.pointsUsed,
                 ),
+      ),
+    );
+  }
+
+  _updateWidgetData(UpdateWidgetData event, Emitter<CheckoutPageState> emit) {
+    emit(
+      CheckoutPageLoaded(
+        checkoutPageModel: (state as CheckoutPageLoaded)
+            .checkoutPageModel
+            .copyWith(widgetData: event.widgetData),
       ),
     );
   }

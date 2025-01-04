@@ -18,48 +18,32 @@ class MockCheckoutPageService extends IMockCheckoutPageService {
   Future<CheckoutPageModel> fetchCheckoutPageData(
       String accountId, CartPageModel cartDetails) async {
     await Future.delayed(Duration(seconds: getRandomNumber()));
+    const int accountPoints = 520;
+    const double pointValue = 0.05;
     final data = CheckoutPageModel(
-      paymentWay: PaymentWay.instapay,
-      pointValue: 0.05,
+      widgetData: CheckOutWidgetData(
+        isSliderProcessing: false,
+        subTotal: cartDetails.cartTotal.subTotalPrice,
+        totalAfterPointsDiscount:
+            cartDetails.cartTotal.subTotalPrice - (accountPoints * pointValue),
+        paymentWay: null,
+      ),
+      pointValue: pointValue,
       accountAddress: [
         AccountAddress(
+            addressId: 1,
             address: "55 abdel aziz",
             city: "Cairo",
             landMark: "AbdelAziz Stores",
             phoneToContact: "01015811730",
             isLastUsed: true)
       ],
-      accountPoints: 500,
-
+      accountPoints: accountPoints,
       availableAdresses: AvailableAdresses(
           availableCities: ["Cairo", "Giza"], availableCountries: ["Egypt"]),
-      instapayLink: "https://ipn.eg/S/paularezk/instapay/3HB8En",
-      // promocode: PromocodeDetails(promocodeDiscountPercent: promocodeDiscountPercent, promocodeDiscountPrice: promocodeDiscountPrice, promocodeMaxDiscountPrice: promocodeMaxDiscountPrice, promocodeName: promocodeName)
     );
     return data;
   }
-
-  // @override
-  // Future<PromocodeDetails?> checkPromoCode(String promocode) async {
-  //   // as if loading from firestore
-  //   await Future.delayed(Duration(seconds: getRandomNumber()));
-
-  //   // fake data
-  //   if (promocode == "MaxDiscount-40") {
-  //     return PromocodeDetails(
-  //         promocodeDiscountPercent: 40,
-  //         promocodeDiscountPrice: null,
-  //         promocodeMaxDiscountPrice: 2000,
-  //         promocodeName: promocode);
-  //   } else if (promocode == "50EGP") {
-  //     return PromocodeDetails(
-  //         promocodeDiscountPercent: null,
-  //         promocodeDiscountPrice: 50,
-  //         promocodeMaxDiscountPrice: null,
-  //         promocodeName: promocode);
-  //   }
-  //   return null;
-  // }
 
   int getRandomNumber({int? number}) {
     final random = Random();

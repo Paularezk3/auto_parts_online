@@ -46,10 +46,10 @@ mixin AppBarStyle {
   static Color cartIconColor({required context, required isLoading}) {
     return isDarkMode(context: context)
         ? isLoading
-            ? AppColors.secondaryDarkerGrey!
+            ? AppColors.secondaryDarkerGrey
             : AppColors.primaryDark
         : isLoading
-            ? AppColors.secondaryDarkerGrey!
+            ? AppColors.secondaryDarkerGrey
             : AppColors.primaryLight;
   }
 

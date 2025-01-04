@@ -2,6 +2,7 @@
 
 import 'package:auto_parts_online/features/checkout/mock_checkout_page_service.dart';
 import 'package:auto_parts_online/features/home/mock_home_page_service.dart';
+import 'package:auto_parts_online/features/online_payment/mock_online_payment_page_service.dart';
 import 'package:auto_parts_online/features/product_details_page/mock_product_details_page_service.dart';
 import 'package:auto_parts_online/features/products/mock_products_page_service.dart';
 import 'package:auto_parts_online/features/search/mock_search_page_service.dart';
@@ -32,6 +33,8 @@ void setupDependencies() {
       .registerLazySingleton<IMockCartPageService>(() => MockCartPageService());
   getIt.registerLazySingleton<IMockCheckoutPageService>(
       () => MockCheckoutPageService());
+  getIt.registerLazySingleton<IMockOnlinePaymentPage>(
+      () => MockOnlinePaymentPageService());
 
   getIt.registerLazySingleton<HiveHelper>(() {
     final helper = HiveHelper(getIt<ILogger>());

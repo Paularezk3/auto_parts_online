@@ -1,6 +1,7 @@
 // lib\app\routes\navigation_state.dart
 
 import 'package:auto_parts_online/features/cart/models/cart_page_model.dart';
+import 'package:auto_parts_online/features/checkout/checkout_page_model.dart';
 
 abstract class NavigationState {}
 
@@ -41,5 +42,20 @@ class NavigationCheckoutPageState extends NavigationState {
     return NavigationCheckoutPageState(
       CartPageModel.fromJson(json['cartDetails'] as Map<String, dynamic>),
     );
+  }
+}
+
+class NavigationOnlinePaymentPageState extends NavigationState {
+  final PaymentWay paymentWay;
+  final double paymentAmount;
+  NavigationOnlinePaymentPageState(this.paymentWay, this.paymentAmount);
+
+  Map<String, dynamic> toJson() {
+    return {'paymentWay': paymentWay.index, 'paymentAmount': paymentAmount};
+  }
+
+  static NavigationOnlinePaymentPageState fromJson(Map<String, dynamic> json) {
+    return NavigationOnlinePaymentPageState(
+        PaymentWay.values[json['paymentWay']], json['paymentAmount']);
   }
 }
