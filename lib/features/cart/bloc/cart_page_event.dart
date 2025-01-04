@@ -1,9 +1,20 @@
 // lib/features/cart/bloc/cart_page_event.dart
+
 import '../models/cart_model.dart';
 
 abstract class CartPageEvent {}
 
 class LoadCartPage extends CartPageEvent {}
+
+class AddPromocode extends CartPageEvent {
+  final String promocode;
+  AddPromocode({required this.promocode});
+}
+
+class RemovePromocode extends CartPageEvent {
+  final int promocodeIndex;
+  RemovePromocode({required this.promocodeIndex});
+}
 
 class AddItemToCart extends CartPageEvent {
   final CartItem item;

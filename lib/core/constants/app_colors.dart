@@ -30,6 +30,6 @@ class AppColors {
   static const primaryGrey = Colors.grey;
   static final secondaryGrey = Colors.grey[350];
   static final lightGrey = Colors.grey[50];
-  static final secondaryDarkerGrey = Colors.grey[600];
-  static final accentDarkGrey = Colors.grey[900];
+  static final secondaryDarkerGrey = Colors.grey.shade600;
+  static final accentDarkGrey = Colors.grey.shade900;
 }

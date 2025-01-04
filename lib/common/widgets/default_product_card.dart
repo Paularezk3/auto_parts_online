@@ -84,10 +84,10 @@ class DefaultProductCard extends StatelessWidget {
                               gradient: LinearGradient(
                                   colors: [
                                 isDarkMode
-                                    ? AppColors.accentDarkGrey!
+                                    ? AppColors.accentDarkGrey
                                     : AppColors.secondaryForegroundLight,
                                 isDarkMode
-                                    ? AppColors.accentDarkGrey!
+                                    ? AppColors.accentDarkGrey
                                     : AppColors.secondaryForegroundLight,
                               ],
                                   begin: Alignment.topCenter,

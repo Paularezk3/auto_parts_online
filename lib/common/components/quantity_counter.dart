@@ -8,7 +8,11 @@ class QuantityCounter extends StatelessWidget {
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   final bool isLoading;
+  final bool canBeDeleted;
+  final void Function()? onDeleteItem;
   const QuantityCounter({
+    this.canBeDeleted = false,
+    this.onDeleteItem,
     this.isLoading = false,
     required this.counterValue,
     required this.onIncrement,
@@ -33,8 +37,12 @@ class QuantityCounter extends StatelessWidget {
       child: Row(
         children: [
           _buildCounterButton(
-            icon: Icons.remove,
-            onPressed: counterValue > 1 ? onDecrement : null,
+            icon: canBeDeleted
+                ? (counterValue == 1 ? Icons.delete_rounded : Icons.remove)
+                : Icons.remove,
+            onPressed: canBeDeleted
+                ? (counterValue > 1 ? onDecrement : onDeleteItem)
+                : (counterValue > 1 ? onDecrement : null),
             textColor: textColor,
           ),
           SizedBox(

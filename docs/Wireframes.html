@@ -834,46 +834,90 @@
       </div>
   </section>
 
-    <section class="page">
-      <h2>Checkout Page</h2>
-      <div class="section">
-        <h3>Purpose</h3>
-        <p>
-          Facilitate the completion of a purchase by collecting shipping and
-          payment details.
-        </p>
-      </div>
-      <div class="section">
-        <h3>Components</h3>
+  <section class="page">
+    <h2>Checkout Page</h2>
+    <div class="section">
+      <h3>Purpose</h3>
+      <p>
+        The checkout page is designed to guide the user through the final steps
+        of their purchase journey. This page ensures seamless collection of
+        necessary information, including shipping and payment details, while
+        providing a clear review of the order to build user confidence before
+        completing the transaction.
+      </p>
+    </div>
+    <div class="section">
+      <h3>Components</h3>
+      <ul>
+        <li>
+          <strong>Shipping Address Form:</strong> 
+          A user-friendly form for entering the recipient's name, address, and contact details. The form should validate inputs in real-time (e.g., zip code format, phone number length) and support autofill to enhance usability.
+        </li>
+        <li>
+          <strong>Payment Method Selector:</strong> 
+          A selection interface offering multiple payment options (e.g., Credit/Debit Card, PayPal, Digital Wallets). Includes fields for securely capturing card details or redirecting to external payment gateways as needed.
+        </li>
+        <li>
+          <strong>Order Review Section:</strong> 
+          A summary box displaying the list of items in the cart with itemized details (name, quantity, price), applicable discounts, shipping fees, and the total amount. Includes an "Edit Cart" link for quick updates.
+        </li>
+        <li>
+          <strong>Points Redemption:</strong>
+          <ul class="component">
+            <li>
+              <em>"Use Points" Toggle:</em> 
+              An interactive toggle or checkbox allowing users to apply reward points for discounts. Clearly indicates the total points available and how many are being used.
+            </li>
+            <li>
+              <em>Real-time Update:</em> 
+              Displays the updated total cost dynamically when points are applied. Example: "Total: $45 after applying 500 points".
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Place Order Button:</strong> 
+          A prominently styled button to finalize the purchase. Should display a spinner or loading indicator after clicking to indicate the process is ongoing.
+        </li>
+        <li>
+          <strong>Promotional Code Field:</strong> 
+          An optional input field where users can enter promo codes. Includes a "Apply Code" button to validate and apply discounts.
+        </li>
+        <li>
+          <strong>Security Assurance Badges:</strong> 
+          Visual indicators (e.g., "Secure Checkout," SSL badges) to reassure users about the safety of their payment details.
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <h3>Layout</h3>
+      <p>
+        <strong>Desktop:</strong> A clean and intuitive three-column layout with
+        the following arrangement:
         <ul>
-          <li>
-            Shipping Address Form: Includes name, address, and contact details.
-          </li>
-          <li>Payment Method Selector: Credit card, PayPal, etc.</li>
-          <li>Order Review Section: Summarizes cart items and total cost.</li>
-          <li>
-            Points Redemption:
-            <ul class="component">
-              <li>
-                "Use Points" Toggle: Apply points for discounts at checkout.
-              </li>
-              <li>
-                Real-time Update: Show new totals after applying points (e.g.,
-                "Total: $45 after applying 500 points").
-              </li>
-            </ul>
-          </li>
+          <li>Left Column: Shipping address form</li>
+          <li>Middle Column: Payment method selector</li>
+          <li>Right Column: Order review and summary</li>
         </ul>
-      </div>
-      <div class="section">
-        <h3>Layout</h3>
-        <p>
-          Desktop: Three-column layout with shipping, payment, and order review
-          side by side.<br />
-          Mobile: Multi-step form with one section per screen.
-        </p>
-      </div>
-    </section>
+        <br />
+        <strong>Mobile:</strong> A multi-step form optimized for smaller screens.
+        Each section (shipping, payment, order review) is displayed on a separate
+        screen with "Next" and "Back" navigation buttons for progression.
+      </p>
+    </div>
+    <div class="section">
+      <h3>Accessibility</h3>
+      <p>
+        Ensure compliance with WCAG 2.1 standards:
+        <ul>
+          <li>All form fields have clear labels and accessible descriptions.</li>
+          <li>Keyboard navigation is supported across all components.</li>
+          <li>Proper focus management ensures users are directed to the correct field after an error.</li>
+          <li>Color contrast ratios meet accessibility standards for readability.</li>
+        </ul>
+      </p>
+    </div>
+  </section>
+  
 
     <section class="page">
       <h2>Order History Page</h2>

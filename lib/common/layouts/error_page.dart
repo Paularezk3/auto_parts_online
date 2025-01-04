@@ -15,7 +15,13 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(children: [
-        Text(message),
+        const Icon(Icons.error_outline, color: Colors.red, size: 48),
+        const SizedBox(height: 8),
+        Text(
+          message,
+          style: Theme.of(context).textTheme.bodyLarge,
+          textAlign: TextAlign.center,
+        ),
         PrimaryButton(
           logger: logger,
           text: AppLocalizations.of(context)!.reloadPage,

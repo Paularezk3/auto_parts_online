@@ -29,8 +29,7 @@ class MyMaterialApp extends StatelessWidget {
           locale: locale,
           title: 'Elite Spare Parts',
           theme: AppThemes.lightTheme,
-          darkTheme: AppThemes.darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.light,
           routerDelegate: appRouterDelegate,
           routeInformationParser: _AppRouteInformationParser(),
           localizationsDelegates: const [
@@ -69,7 +68,25 @@ class _AppRouteInformationParser
       return RouteInformation(uri: Uri.parse('/searchpage'));
     } else if (configuration is NavigationProductDetailsPageState) {
       return RouteInformation(uri: Uri.parse('/productDetailsPage'));
+    } else if (configuration is NavigationCheckoutPageState) {
+      return RouteInformation(uri: Uri.parse('/checkoutPage'));
     }
     return null;
+  }
+}
+
+class CustomPageTransitionsBuilder extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
   }
 }

@@ -1,5 +1,6 @@
 // lib\app\app.dart
 import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
+import 'package:auto_parts_online/features/checkout/bloc/checkout_page_bloc.dart';
 import 'package:auto_parts_online/features/product_details_page/bloc/product_details_page_bloc.dart';
 import 'package:auto_parts_online/features/search/bloc/search_page_bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import '../core/utils/locale_service.dart';
 import '../features/cart/app_level_cubit/cart_cubit.dart';
 import '../features/home/bloc/home_page_bloc.dart';
 
+import '../features/online_payment/bloc/online_payment_page_bloc.dart';
 import '../features/products/bloc/products_page_bloc.dart';
 import 'my_material_app.dart';
 import 'setup_dependencies.dart';
@@ -39,6 +41,7 @@ class _MyAppState extends State<MyApp> {
     if (_locale == null) {
       return MaterialApp(
         navigatorKey: navigatorKey,
+        theme: ThemeData.light(),
         home: const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
@@ -58,6 +61,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => CartCubit()),
         BlocProvider(
             create: (context) => CartPageBloc(context.read<CartCubit>())),
+        BlocProvider(create: (_) => CheckoutPageBloc()),
+        BlocProvider(create: (_) => OnlinePaymentPageBloc()),
         // Future BLoC providers can be added here
       ],
       child: MyMaterialApp(locale: _locale!),
