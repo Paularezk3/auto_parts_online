@@ -4,8 +4,10 @@ class CartPageModel {
   final List<CartPageItem> cartItems;
   CartTotal cartTotal;
   List<PromocodeDetails> promocodeDetails;
+  DeliveryStatus deliveryStatus;
 
   CartPageModel({
+    required this.deliveryStatus,
     required this.cartItems,
     required this.cartTotal,
     required this.promocodeDetails,
@@ -18,12 +20,14 @@ class CartPageModel {
       'cartTotal': cartTotal.toJson(),
       'promocodeDetails':
           promocodeDetails.map((promo) => promo.toJson()).toList(),
+      'deliveryStatus': deliveryStatus.toJson()
     };
   }
 
   // Create from JSON
   factory CartPageModel.fromJson(Map<String, dynamic> json) {
     return CartPageModel(
+      deliveryStatus: DeliveryStatus.fromJson(json['deliveryStatus']),
       cartItems: (json['cartItems'] as List<dynamic>)
           .map((item) => CartPageItem.fromJson(item as Map<String, dynamic>))
           .toList(),
@@ -32,6 +36,33 @@ class CartPageModel {
           .map((promo) =>
               PromocodeDetails.fromJson(promo as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class DeliveryStatus {
+  final bool isFastDeliveryEnabledFromAdmin;
+  final bool isFastDelivery;
+
+  DeliveryStatus(
+      {required this.isFastDeliveryEnabledFromAdmin,
+      required this.isFastDelivery});
+
+  get getIsFastDelivery =>
+      isFastDeliveryEnabledFromAdmin ? isFastDelivery : false;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isFastDeliveryEnabledFromAdmin': isFastDeliveryEnabledFromAdmin,
+      'isFastDelivery': isFastDelivery,
+    };
+  }
+
+  factory DeliveryStatus.fromJson(Map<String, dynamic> json) {
+    return DeliveryStatus(
+      isFastDeliveryEnabledFromAdmin:
+          json['isFastDeliveryEnabledFromAdmin'] as bool,
+      isFastDelivery: json['isFastDelivery'] as bool,
     );
   }
 }

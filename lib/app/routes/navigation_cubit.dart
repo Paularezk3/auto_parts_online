@@ -17,21 +17,60 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
     emit(updatedStack);
   }
 
-  void pop() {
-    if (state.last.runtimeType == NavigationSearchPageState) {
-      if (state[0].runtimeType == NavigationHomePageState) {
-        emit([NavigationHomePageState()]);
-      }
-    }
-    if (state.length > 1) {
+  void pop({NavigationState? pushState}) {
+    _popConditions();
+    if (pushState != null) {
+      final updatedStack = List<NavigationState>.from(state)
+        ..removeLast()
+        ..add(pushState);
+      logger.debug(
+          'Popped from stack, with adding new top: ${updatedStack.last}',
+          StackTrace.empty);
+      emit(updatedStack);
+    } else if (state.length > 1) {
       final updatedStack = List<NavigationState>.from(state)..removeLast();
       logger.debug(
-          'Popped from stack, new top: ${updatedStack.last}', StackTrace.empty);
+          'Popped from stack, top: ${updatedStack.last}', StackTrace.empty);
       emit(updatedStack);
     } else {
       logger.debug(
           'Cannot pop from stack, already at base state', StackTrace.empty);
     }
+  }
+
+  void popToHomeAndPush(NavigationState newState) {
+    final updatedStack = [
+      state.first is NavigationHomePageState
+          ? state.first
+          : NavigationHomePageState(),
+      newState
+    ];
+
+    logger.debug('Popped to home and pushed new state: ${updatedStack.last}',
+        StackTrace.empty);
+    emit(updatedStack);
+  }
+
+  void popUntil(Type targetStateType) {
+    final updatedStack = List<NavigationState>.from(state)
+      ..removeWhere(
+          (page) => page.runtimeType != targetStateType && page != state.first);
+
+    if (updatedStack.isEmpty) {
+      updatedStack.add(NavigationHomePageState());
+    }
+
+    logger.debug('Popped until $targetStateType. Current stack: $updatedStack',
+        StackTrace.empty);
+    emit(updatedStack);
+  }
+
+  void _popConditions() {
+    if (state.last.runtimeType == NavigationSearchPageState) {
+      if (state[0].runtimeType == NavigationHomePageState) {
+        emit([NavigationHomePageState()]);
+      }
+    } else {}
   }
 
   void navigateTo(NavigationState state) {
@@ -70,6 +109,9 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
         return NavigationCheckoutPageState.fromJson(json['arguments']);
       case 'NavigationOnlinePaymentPageState':
         return NavigationOnlinePaymentPageState.fromJson(json['arguments']);
+      case 'NavigationOrderPlacedSuccessfullyState':
+        return NavigationOrderPlacedSuccessfullyState.fromJson(
+            json['arguments']);
       default:
         return NavigationHomePageState();
     }
@@ -87,6 +129,11 @@ class NavigationCubit extends HydratedCubit<List<NavigationState>> {
         'arguments': state.toJson()
       };
     } else if (state is NavigationOnlinePaymentPageState) {
+      return {
+        'state': state.runtimeType.toString(),
+        'arguments': state.toJson()
+      };
+    } else if (state is NavigationOrderPlacedSuccessfullyState) {
       return {
         'state': state.runtimeType.toString(),
         'arguments': state.toJson()

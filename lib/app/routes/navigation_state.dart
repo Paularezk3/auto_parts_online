@@ -59,3 +59,21 @@ class NavigationOnlinePaymentPageState extends NavigationState {
         PaymentWay.values[json['paymentWay']], json['paymentAmount']);
   }
 }
+
+class NavigationOrderPlacedSuccessfullyState extends NavigationState {
+  final PaymentWay paymentWay;
+  NavigationOrderPlacedSuccessfullyState(this.paymentWay);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'paymentWay': paymentWay.index,
+    };
+  }
+
+  static NavigationOrderPlacedSuccessfullyState fromJson(
+      Map<String, dynamic> json) {
+    return NavigationOrderPlacedSuccessfullyState(
+      PaymentWay.values[json['paymentWay']],
+    );
+  }
+}

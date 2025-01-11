@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_parts_online/app/routes/navigation_cubit.dart';
+import 'package:auto_parts_online/app/routes/navigation_state.dart';
 import 'package:auto_parts_online/common/components/default_buttons.dart';
 import 'package:auto_parts_online/common/layouts/default_appbar.dart';
 import 'package:auto_parts_online/common/widgets/skeleton_loader.dart';
@@ -115,10 +116,14 @@ class OnlinePaymentPageView extends StatelessWidget {
                             .onlinePaymentData.widgetData.isReferenceUploaded)
                           PrimaryButton(
                             onPressed: () {
-                              // Logic for continuing after uploading proof.
+                              context
+                                  .read<NavigationCubit>()
+                                  .push(NavigationOrderPlacedSuccessfullyState(
+                                    paymentWay,
+                                  ));
                             },
                             logger: logger,
-                            text: "Upload Proof",
+                            text: "Place Order",
                           )
                       ]),
                 );

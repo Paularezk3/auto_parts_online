@@ -124,11 +124,18 @@ class CheckoutPageView extends StatelessWidget {
                         state.checkoutPageModel.widgetData.isSliderProcessing,
                     onCheckout: () {
                       // Handle the checkout process
-                      context.read<NavigationCubit>().push(
-                          NavigationOnlinePaymentPageState(
-                              state.checkoutPageModel.widgetData.paymentWay!,
-                              state.checkoutPageModel.widgetData
-                                  .totalAfterPointsDiscount));
+                      if (state.checkoutPageModel.widgetData.paymentWay ==
+                          PaymentWay.cash) {
+                        context.read<NavigationCubit>().push(
+                            NavigationOrderPlacedSuccessfullyState(state
+                                .checkoutPageModel.widgetData.paymentWay!));
+                      } else {
+                        context.read<NavigationCubit>().push(
+                            NavigationOnlinePaymentPageState(
+                                state.checkoutPageModel.widgetData.paymentWay!,
+                                state.checkoutPageModel.widgetData
+                                    .totalAfterPointsDiscount));
+                      }
                       context.read<CheckoutPageBloc>().add(UpdateWidgetData(
                               widgetData:
                                   state.checkoutPageModel.widgetData.copyWith(

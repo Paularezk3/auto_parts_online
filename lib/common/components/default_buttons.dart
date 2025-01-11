@@ -73,13 +73,26 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback? onPressed;
   final ButtonSize buttonSize;
-
-  /// default padding is 15
   final EdgeInsets? padding;
   final ILogger logger;
+  final IconData? icon; // Add an optional icon field
 
   const PrimaryButton({
     required this.text,
+    required this.logger,
+    this.isEnabled = true,
+    this.isLoading = false,
+    this.onPressed,
+    this.buttonSize = ButtonSize.big,
+    this.padding,
+    this.icon,
+    super.key,
+  });
+
+  // Named constructor for creating a button with an icon
+  const PrimaryButton.icon({
+    required this.text,
+    required this.icon,
     required this.logger,
     this.isEnabled = true,
     this.isLoading = false,
@@ -94,14 +107,13 @@ class PrimaryButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: padding ?? EdgeInsets.all(15),
+      padding: padding ?? const EdgeInsets.all(15),
       child: SizedBox.fromSize(
         size: ButtonStyles.getButtonSize(buttonSize),
         child: ElevatedButton(
           style: ButtonStyle(
             minimumSize: WidgetStateProperty.all(
-              ButtonStyles.getButtonSize(
-                  buttonSize), // Set a size based on buttonSize
+              ButtonStyles.getButtonSize(buttonSize),
             ),
             backgroundColor: WidgetStateProperty.resolveWith((states) {
               return (isEnabled && onPressed != null)
@@ -134,17 +146,30 @@ class PrimaryButton extends StatelessWidget {
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 )
-              : Text(
-                  text,
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                  style: ButtonStyles.getTextStyle(
-                    text: text,
-                    isEnabled: (isEnabled && onPressed != null),
-                    theme: theme,
-                    buttonSize: buttonSize,
-                    isPrimary: true,
-                  ),
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (icon != null)
+                      Icon(
+                        icon,
+                        color: Colors.white,
+                        size: buttonSize == ButtonSize.big ? 20 : 16,
+                      ),
+                    if (icon != null) const SizedBox(width: 8), // Add spacing
+                    Text(
+                      text,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      style: ButtonStyles.getTextStyle(
+                        text: text,
+                        isEnabled: (isEnabled && onPressed != null),
+                        theme: theme,
+                        buttonSize: buttonSize,
+                        isPrimary: true,
+                      ),
+                    ),
+                  ],
                 ),
         ),
       ),

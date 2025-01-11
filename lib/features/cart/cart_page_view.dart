@@ -42,8 +42,6 @@ class CartPageView extends StatelessWidget {
             : null;
       },
       child: BaseScreen(
-        anotherPageClicked: () =>
-            context.read<CartPageBloc>().add(LeaveCartPage()),
         selectedIndex: 2,
         child: FutureBuilder(
           future: _waitForLoading(context),
@@ -53,14 +51,19 @@ class CartPageView extends StatelessWidget {
             } else {
               return BlocBuilder<CartPageBloc, CartPageState>(
                 buildWhen: (previous, current) {
-                  return current is CartPageInitial &&
-                          previous is! CartPageInitial
-                      ? false
-                      : true;
+                  if (current is CartPageLeft) {
+                    logger.trace(
+                        "previous State: $previous,\ncurrent state: $current, and bloc builder won't rebuild",
+                        StackTrace.empty);
+                    return false;
+                  } else if (current is LeaveCartPage) {
+                    return false;
+                  }
+                  return true;
                 },
                 builder: (context, state) {
                   logger.trace("current State: $state", StackTrace.empty);
-                  if (state is CartPageInitial) {
+                  if (state is CartPageInitial || state is CartPageLeft) {
                     context.read<CartPageBloc>().add(LoadCartPage());
                     return _loadingWidget();
                   } else if (state is CartPageLoading) {
@@ -107,6 +110,7 @@ class CartPageView extends StatelessWidget {
         withShadow: false,
       ),
       body: SingleChildScrollView(
+          // todo: remove this single
           child: SingleChildScrollView(
         child: Column(
           children: [
@@ -247,10 +251,14 @@ class CartPageView extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => context.read<CartPageBloc>().add(
-                            AddPromocode(
-                                promocode: promocodeController.text.trim()),
-                          ),
+                      onPressed: () {
+                        if (promocodeController.text.trim().isNotEmpty) {
+                          context.read<CartPageBloc>().add(
+                                AddPromocode(
+                                    promocode: promocodeController.text.trim()),
+                              );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black, // Black button color
                         shape: RoundedRectangleBorder(

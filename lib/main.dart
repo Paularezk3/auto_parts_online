@@ -13,20 +13,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    final tempDir = await getTemporaryDirectory();
-    final directory = Directory('${tempDir.path}/hydrated_storage');
+    final appDir = await getTemporaryDirectory();
+    final hydratedDir = Directory('${appDir.path}/hydrated_storage');
 
-    if (!directory.existsSync()) {
-      directory.createSync(recursive: true);
+    if (!hydratedDir.existsSync()) {
+      hydratedDir.createSync(recursive: true);
     }
 
-    debugPrint('Using storage directory: ${directory.path}');
+    debugPrint('Using storage directory: ${hydratedDir.path}');
 
-    await Hive.initFlutter();
+    await Hive.initFlutter(appDir.path);
     await Hive.openBox<List<String>>("recentSearchBox");
 
     final storage = await HydratedStorage.build(
-      storageDirectory: directory,
+      storageDirectory: hydratedDir,
     );
 
     HydratedBloc.storage = storage;
@@ -42,7 +42,7 @@ void main() async {
   }
 }
 
-// Fallback UI
+/// Fallback UI for the runApp
 class ErrorApp extends StatelessWidget {
   final String message;
 

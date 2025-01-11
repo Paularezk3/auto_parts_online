@@ -20,7 +20,7 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
     on<ReduceItemFromCart>(_reduceItemFromCart);
     on<AddPromocode>(_addPromocode);
     on<RemovePromocode>(_removePromocode);
-    on<LeaveCartPage>((event, emit) => emit(CartPageInitial()));
+    on<LeaveCartPage>((event, emit) => emit(CartPageLeft()));
   }
 
   void _loadCartPage(LoadCartPage event, Emitter<CartPageState> emit) async {

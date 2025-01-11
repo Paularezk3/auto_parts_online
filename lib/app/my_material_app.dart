@@ -50,7 +50,6 @@ class _AppRouteInformationParser
   @override
   Future<NavigationState> parseRouteInformation(
       RouteInformation routeInformation) async {
-    // Default to home page for now; you can expand this to parse specific routes
     return NavigationHomePageState();
   }
 
@@ -70,6 +69,10 @@ class _AppRouteInformationParser
       return RouteInformation(uri: Uri.parse('/productDetailsPage'));
     } else if (configuration is NavigationCheckoutPageState) {
       return RouteInformation(uri: Uri.parse('/checkoutPage'));
+    } else if (configuration is NavigationOnlinePaymentPageState) {
+      return RouteInformation(uri: Uri.parse('/onlinePaymentPage'));
+    } else if (configuration is NavigationOrderPlacedSuccessfullyState) {
+      return RouteInformation(uri: Uri.parse('/orderPlaccedSuccessfully'));
     }
     return null;
   }

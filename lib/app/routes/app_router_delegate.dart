@@ -2,6 +2,7 @@
 
 import 'package:auto_parts_online/features/checkout/checkout_page_view.dart';
 import 'package:auto_parts_online/features/online_payment/online_payment_page_view.dart';
+import 'package:auto_parts_online/features/order_placed_successfully/order_placed_view.dart';
 import 'package:flutter/material.dart';
 import '../../core/utils/app_logger.dart';
 import '../../features/home/home_page_view.dart';
@@ -114,6 +115,16 @@ class AppRouterDelegate extends RouterDelegate<NavigationState>
             paymentAmount: paymentAmount,
           ),
           name: 'ProductDetailsPage',
+        );
+
+      case const (NavigationOrderPlacedSuccessfullyState):
+        final paymentWay =
+            (state as NavigationOrderPlacedSuccessfullyState).paymentWay;
+        return MaterialPage(
+          child: OrderPlacedView(
+            paymentWay: paymentWay,
+          ),
+          name: 'OrderPlacedSuccessfully',
         );
 
       case const (NavigationCartPageState):

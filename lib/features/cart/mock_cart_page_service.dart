@@ -41,10 +41,14 @@ class MockCartPageService implements IMockCartPageService {
     final cartTotal =
         calculateCartTotal(cartPageItems, deliveryFees, promocode);
 
+    final DeliveryStatus deliveryStatus = DeliveryStatus(
+        isFastDeliveryEnabledFromAdmin: true, isFastDelivery: true);
+
     return CartPageModel(
         cartItems: cartPageItems,
         cartTotal: cartTotal,
-        promocodeDetails: promocode);
+        promocodeDetails: promocode,
+        deliveryStatus: deliveryStatus);
   }
 
   @override

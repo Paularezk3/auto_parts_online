@@ -331,10 +331,16 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class OtherPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+
+  /// default is false
   final bool showBackButton;
   final void Function()? onBackTap;
   final bool isLoading;
+
+  /// default is false
   final bool isTitleLoading;
+
+  /// default is with shadow
   final bool? withShadow;
 
   const OtherPageAppBar({

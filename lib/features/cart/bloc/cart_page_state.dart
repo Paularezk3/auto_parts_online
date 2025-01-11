@@ -25,3 +25,5 @@ class CartPageEditLoading extends CartPageState {
   final CartPageModel? cartPageData;
   CartPageEditLoading({required this.cartPageData});
 }
+
+class CartPageLeft extends CartPageState {}
