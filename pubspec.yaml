@@ -84,6 +84,7 @@ flutter:
     - assets/logos/vodafone_cash_logo.png
     - assets/logos/instapay_logo.png
     - assets/animations/verified.json
+    - assets/icons/fast-delivery-colored.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

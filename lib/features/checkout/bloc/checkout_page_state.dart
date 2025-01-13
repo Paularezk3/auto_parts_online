@@ -19,3 +19,5 @@ class CheckoutPageError extends CheckoutPageState {
   final String message;
   CheckoutPageError({required this.message});
 }
+
+class CheckoutPageLeft extends CheckoutPageState {}

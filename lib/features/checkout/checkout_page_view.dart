@@ -35,139 +35,160 @@ class CheckoutPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final checkPageBloc = context.read<CheckoutPageBloc>();
     final ILogger logger = getIt<ILogger>();
-    return Scaffold(
-      appBar: OtherPageAppBar(
-        title: "Checkout",
-        isLoading: false,
-        showBackButton: true,
-        onBackTap: () => context.read<NavigationCubit>().pop(),
-      ),
-      body: BlocBuilder<CheckoutPageBloc, CheckoutPageState>(
-          builder: (context, state) {
-        logger.trace("current state is $state", StackTrace.empty);
-        if (state is CheckoutPageInitial) {
-          checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
-        } else if (state is CheckoutPageLoading) {
-          return SkeletonLoader();
-        } else if (state is CheckoutPageLoaded) {
-          final checkoutPageData = state.checkoutPageModel;
-          late final AccountAddress? lastUsedAddress;
-          if (state.checkoutPageModel.accountAddress.isEmpty) {
-            lastUsedAddress = null;
-          } else {
-            lastUsedAddress = state.checkoutPageModel.accountAddress
-                .firstWhere((address) => address.isLastUsed);
-          }
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Shipping Address",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  if (state.checkoutPageModel.accountAddress.isNotEmpty)
-                    AddressCard(
-                      address: lastUsedAddress!.address,
-                      city: lastUsedAddress.city,
-                      phone: lastUsedAddress.phoneToContact,
-                      onEdit: () => _showAddressModal(context,
-                          state.checkoutPageModel.accountAddress, state),
-                    )
-                  else
-                    AddAddressPlaceholder(
-                      onAdd: () => _showAddressModal(context,
-                          state.checkoutPageModel.accountAddress, state),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) =>
+          checkPageBloc.add(LeaveCheckoutPage()),
+      child: Scaffold(
+        appBar: OtherPageAppBar(
+          title: "Checkout",
+          isLoading: false,
+          showBackButton: true,
+          onBackTap: () {
+            context.read<NavigationCubit>().pop();
+          },
+        ),
+        body: BlocBuilder<CheckoutPageBloc, CheckoutPageState>(
+            buildWhen: (previous, current) =>
+                current is CheckoutPageLeft ? false : true,
+            builder: (context, state) {
+              logger.trace("current state is $state", StackTrace.empty);
+              if (state is CheckoutPageInitial || state is CheckoutPageLeft) {
+                checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
+              } else if (state is CheckoutPageLoading) {
+                return SkeletonLoader();
+              } else if (state is CheckoutPageLoaded) {
+                final checkoutPageData = state.checkoutPageModel;
+                late final AccountAddress? lastUsedAddress;
+                if (state.checkoutPageModel.accountAddress.isEmpty) {
+                  lastUsedAddress = null;
+                } else {
+                  lastUsedAddress = state.checkoutPageModel.accountAddress
+                      .firstWhere((address) => address.isLastUsed);
+                }
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          "Shipping Address",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 16),
+                        if (state.checkoutPageModel.accountAddress.isNotEmpty)
+                          AddressCard(
+                            address: lastUsedAddress!.address,
+                            city: lastUsedAddress.city,
+                            phone: lastUsedAddress.phoneToContact,
+                            onEdit: () => _showAddressModal(context,
+                                state.checkoutPageModel.accountAddress, state),
+                          )
+                        else
+                          AddAddressPlaceholder(
+                            onAdd: () => _showAddressModal(context,
+                                state.checkoutPageModel.accountAddress, state),
+                          ),
+                        const SizedBox(height: 32),
+                        Text(
+                          "Order Summary",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 16),
+                        OrderSummary(
+                          subTotalPrice: checkoutPageData.widgetData.subTotal,
+                          points: checkoutPageData.accountPoints,
+                          totalPrice: checkoutPageData
+                              .widgetData.totalAfterPointsDiscount,
+                          onPointsRedeemed: (int pointsUsed) {
+                            checkPageBloc
+                                .add(UpdatePoints(pointsUsed: pointsUsed));
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                        Text(
+                          "Payment Method",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        PaymentMethodSelector(
+                          selectedMethod:
+                              checkoutPageData.widgetData.paymentWay,
+                          onPaymentMethodChanged: (PaymentWay method) {
+                            checkPageBloc
+                                .add(UpdatePaymentMethod(paymentWay: method));
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                        CheckoutSlider(
+                          isReadyToCheckout: state.checkoutPageModel.widgetData
+                                      .paymentWay !=
+                                  null
+                              ? (state.checkoutPageModel.accountAddress
+                                      .isNotEmpty &&
+                                  state.checkoutPageModel.accountAddress
+                                      .where((element) => element.isLastUsed)
+                                      .isNotEmpty)
+                              : false, // Boolean to indicate readiness
+                          isProcessing: state
+                              .checkoutPageModel.widgetData.isSliderProcessing,
+                          onCheckout: () {
+                            // Handle the checkout process
+                            if (state.checkoutPageModel.widgetData.paymentWay ==
+                                PaymentWay.cash) {
+                              context.read<NavigationCubit>().push(
+                                  NavigationOrderPlacedSuccessfullyState(state
+                                      .checkoutPageModel
+                                      .widgetData
+                                      .paymentWay!));
+                            } else {
+                              context.read<NavigationCubit>().push(
+                                  NavigationOnlinePaymentPageState(
+                                      state.checkoutPageModel.widgetData
+                                          .paymentWay!,
+                                      state.checkoutPageModel.widgetData
+                                          .totalAfterPointsDiscount));
+                            }
+                            context.read<CheckoutPageBloc>().add(
+                                    UpdateWidgetData(
+                                        widgetData: state
+                                            .checkoutPageModel.widgetData
+                                            .copyWith(
+                                  isSliderProcessing: false,
+                                )));
+                          },
+                          buttonText: state.checkoutPageModel.widgetData
+                                      .paymentWay ==
+                                  null
+                              ? "Choose Payment"
+                              : !(state.checkoutPageModel.accountAddress
+                                          .isNotEmpty &&
+                                      state.checkoutPageModel.accountAddress
+                                          .where(
+                                              (element) => element.isLastUsed)
+                                          .isNotEmpty)
+                                  ? "Put Address"
+                                  : (state.checkoutPageModel.widgetData
+                                              .paymentWay ==
+                                          PaymentWay.cash
+                                      ? "Slide to Order"
+                                      : "Slide to Pay"),
+                        ),
+                      ],
                     ),
-                  const SizedBox(height: 32),
-                  Text(
-                    "Order Summary",
-                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 16),
-                  OrderSummary(
-                    subTotalPrice: checkoutPageData.widgetData.subTotal,
-                    points: checkoutPageData.accountPoints,
-                    totalPrice:
-                        checkoutPageData.widgetData.totalAfterPointsDiscount,
-                    onPointsRedeemed: (int pointsUsed) {
-                      checkPageBloc.add(UpdatePoints(pointsUsed: pointsUsed));
-                    },
-                  ),
-                  const SizedBox(height: 32),
-                  Text(
-                    "Payment Method",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  PaymentMethodSelector(
-                    selectedMethod: checkoutPageData.widgetData.paymentWay,
-                    onPaymentMethodChanged: (PaymentWay method) {
-                      checkPageBloc
-                          .add(UpdatePaymentMethod(paymentWay: method));
-                    },
-                  ),
-                  const SizedBox(height: 32),
-                  CheckoutSlider(
-                    isReadyToCheckout:
-                        state.checkoutPageModel.widgetData.paymentWay != null
-                            ? (state.checkoutPageModel.accountAddress
-                                    .isNotEmpty &&
-                                state.checkoutPageModel.accountAddress
-                                    .where((element) => element.isLastUsed)
-                                    .isNotEmpty)
-                            : false, // Boolean to indicate readiness
-                    isProcessing:
-                        state.checkoutPageModel.widgetData.isSliderProcessing,
-                    onCheckout: () {
-                      // Handle the checkout process
-                      if (state.checkoutPageModel.widgetData.paymentWay ==
-                          PaymentWay.cash) {
-                        context.read<NavigationCubit>().push(
-                            NavigationOrderPlacedSuccessfullyState(state
-                                .checkoutPageModel.widgetData.paymentWay!));
-                      } else {
-                        context.read<NavigationCubit>().push(
-                            NavigationOnlinePaymentPageState(
-                                state.checkoutPageModel.widgetData.paymentWay!,
-                                state.checkoutPageModel.widgetData
-                                    .totalAfterPointsDiscount));
-                      }
-                      context.read<CheckoutPageBloc>().add(UpdateWidgetData(
-                              widgetData:
-                                  state.checkoutPageModel.widgetData.copyWith(
-                            isSliderProcessing: false,
-                          )));
-                    },
-                    buttonText: state.checkoutPageModel.widgetData.paymentWay ==
-                            null
-                        ? "Choose Payment"
-                        : !(state.checkoutPageModel.accountAddress.isNotEmpty &&
-                                state.checkoutPageModel.accountAddress
-                                    .where((element) => element.isLastUsed)
-                                    .isNotEmpty)
-                            ? "Put Address"
-                            : (state.checkoutPageModel.widgetData.paymentWay ==
-                                    PaymentWay.cash
-                                ? "Slide to Order"
-                                : "Slide to Pay"),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else if (state is CheckoutPageError) {
-          ErrorPage(state.message, logger: logger, onButtonPressed: () {
-            checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
-          });
-        }
-        return ErrorPage("something wrong had happened", onButtonPressed: () {
-          checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
-        }, logger: logger);
-      }),
+                );
+              } else if (state is CheckoutPageError) {
+                ErrorPage(state.message, logger: logger, onButtonPressed: () {
+                  checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
+                });
+              }
+              return ErrorPage("something wrong had happened",
+                  onButtonPressed: () {
+                checkPageBloc.add(LoadCheckoutPage(cartDetails: cartDetails));
+              }, logger: logger);
+            }),
+      ),
     );
   }
 

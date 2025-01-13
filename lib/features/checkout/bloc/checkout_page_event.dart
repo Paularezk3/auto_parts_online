@@ -30,3 +30,5 @@ class UpdatePoints extends CheckoutPageEvent {
 
   UpdatePoints({required this.pointsUsed});
 }
+
+class LeaveCheckoutPage extends CheckoutPageEvent {}

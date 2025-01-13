@@ -20,6 +20,7 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
     on<ReduceItemFromCart>(_reduceItemFromCart);
     on<AddPromocode>(_addPromocode);
     on<RemovePromocode>(_removePromocode);
+    on<ChangeDeliveryMode>(_changeDeliveryMode);
     on<LeaveCartPage>((event, emit) => emit(CartPageLeft()));
   }
 
@@ -49,6 +50,7 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
       cartCubit.state.cartPageItems!.cartTotal =
           cartPageService.updateCartTotal(
               cartCubit.state.cartPageItems!.cartItems,
+              cartCubit.state.cartPageItems!.deliveryStatus,
               cartCubit.state.cartPageItems!.promocodeDetails);
     }
 
@@ -66,11 +68,25 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
 
     cartCubit.state.cartPageItems!.cartTotal = cartPageService.updateCartTotal(
         cartCubit.state.cartPageItems!.cartItems,
+        cartCubit.state.cartPageItems!.deliveryStatus,
         cartCubit.state.cartPageItems!.promocodeDetails);
 
     emit(CartPageLoaded(
       cartPageData: cartCubit.state.cartPageItems,
     ));
+  }
+
+  Future<void> _changeDeliveryMode(
+      ChangeDeliveryMode event, Emitter<CartPageState> emit) async {
+    cartCubit.state.cartPageItems!.deliveryStatus.isFastDelivery =
+        event.isFastDelivery;
+
+    cartCubit.state.cartPageItems!.cartTotal = cartPageService.updateCartTotal(
+        cartCubit.state.cartPageItems!.cartItems,
+        cartCubit.state.cartPageItems!.deliveryStatus,
+        cartCubit.state.cartPageItems!.promocodeDetails);
+
+    emit(CartPageLoaded(cartPageData: cartCubit.state.cartPageItems));
   }
 
   Future<void> _addItemToCart(

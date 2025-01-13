@@ -2,6 +2,7 @@ class PromocodeDetails {
   final String promocodeName;
   final double?
       promocodeDiscountPercent; // Null means price discount instead of percent
+  final List<String> tags;
   final double? promocodeMaxDiscountPrice;
   final double?
       promocodeDiscountPrice; // Null means percent discount instead of price
@@ -10,6 +11,7 @@ class PromocodeDetails {
     required this.promocodeDiscountPercent,
     required this.promocodeDiscountPrice,
     required this.promocodeMaxDiscountPrice,
+    required this.tags,
     required this.promocodeName,
   });
 
@@ -88,12 +90,14 @@ class PromocodeDetails {
       'promocodeDiscountPercent': promocodeDiscountPercent,
       'promocodeMaxDiscountPrice': promocodeMaxDiscountPrice,
       'promocodeDiscountPrice': promocodeDiscountPrice,
+      'tags': tags
     };
   }
 
   /// Create an object from JSON
   factory PromocodeDetails.fromJson(Map<String, dynamic> json) {
     return PromocodeDetails(
+      tags: json['tags'] as List<String>,
       promocodeName: json['promocodeName'] as String,
       promocodeDiscountPercent:
           (json['promocodeDiscountPercent'] as num?)?.toDouble(),

@@ -36,4 +36,9 @@ class ReduceItemFromCart extends CartPageEvent {
   ReduceItemFromCart({required this.itemId, required this.quantity});
 }
 
+class ChangeDeliveryMode extends CartPageEvent {
+  final bool isFastDelivery;
+  ChangeDeliveryMode(this.isFastDelivery);
+}
+
 class LeaveCartPage extends CartPageEvent {}

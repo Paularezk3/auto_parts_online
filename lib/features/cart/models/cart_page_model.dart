@@ -42,10 +42,14 @@ class CartPageModel {
 
 class DeliveryStatus {
   final bool isFastDeliveryEnabledFromAdmin;
-  final bool isFastDelivery;
+  bool isFastDelivery;
+  double fastDeliveryFees;
+  double normalDeliveryFees;
 
   DeliveryStatus(
       {required this.isFastDeliveryEnabledFromAdmin,
+      required this.fastDeliveryFees,
+      required this.normalDeliveryFees,
       required this.isFastDelivery});
 
   get getIsFastDelivery =>
@@ -55,11 +59,15 @@ class DeliveryStatus {
     return {
       'isFastDeliveryEnabledFromAdmin': isFastDeliveryEnabledFromAdmin,
       'isFastDelivery': isFastDelivery,
+      'fastDeliveryFees': fastDeliveryFees,
+      'normalDeliveryFees': normalDeliveryFees
     };
   }
 
   factory DeliveryStatus.fromJson(Map<String, dynamic> json) {
     return DeliveryStatus(
+      fastDeliveryFees: json['fastDeliveryFees'] as double,
+      normalDeliveryFees: json['normalDeliveryFees'] as double,
       isFastDeliveryEnabledFromAdmin:
           json['isFastDeliveryEnabledFromAdmin'] as bool,
       isFastDelivery: json['isFastDelivery'] as bool,

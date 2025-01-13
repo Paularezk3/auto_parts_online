@@ -8,46 +8,61 @@ import 'models/promocode_details.dart';
 abstract class IMockCartPageService {
   IMockCartPageService();
 
-  Future<CartPageModel> fetchCartPageData(List<CartItem> cartItems);
+  Future<CartPageModel> fetchCartPageData(List<CartItem> cartItems,
+      {List<PromocodeDetails>? promocodes, DeliveryStatus? deliveryStatus});
 
   Future<PromocodeDetails?> checkPromoCode(String promocode);
-  CartTotal updateCartTotal(
-      List<CartPageItem> cartItem, List<PromocodeDetails> promocodeDetails);
+  CartTotal updateCartTotal(List<CartPageItem> cartItem,
+      DeliveryStatus deliveryStatus, List<PromocodeDetails> promocodeDetails);
 }
 
 class MockCartPageService implements IMockCartPageService {
-  double deliveryFees = 40;
-
   @override
-  Future<CartPageModel> fetchCartPageData(List<CartItem> cartItems) async {
+  Future<CartPageModel> fetchCartPageData(List<CartItem> cartItems,
+      {List<PromocodeDetails>? promocodes,
+      DeliveryStatus? deliveryStatus}) async {
     // Fetch Part
     await Future.delayed(Duration(seconds: getRandomNumber()));
     final List<CartPageItem> cartPageItems = await fetchCartItems(cartItems);
 
-    final promocode = [
-      PromocodeDetails(
-          promocodeDiscountPercent: 40,
-          promocodeDiscountPrice: null,
-          promocodeMaxDiscountPrice: 2000,
-          promocodeName: "40 OFF"),
-      PromocodeDetails(
-          promocodeDiscountPercent: null,
-          promocodeDiscountPrice: 500,
-          promocodeMaxDiscountPrice: null,
-          promocodeName: "500 OFF"),
-    ];
+    promocodes = promocodes ??
+        [
+          PromocodeDetails(
+              tags: [],
+              promocodeDiscountPercent: 40,
+              promocodeDiscountPrice: null,
+              promocodeMaxDiscountPrice: 2000,
+              promocodeName: "40 OFF"),
+          PromocodeDetails(
+              tags: ["FreeDeliveryForFast&Normal"],
+              promocodeDiscountPercent: null,
+              promocodeDiscountPrice: 0,
+              promocodeMaxDiscountPrice: null,
+              promocodeName: "FreeDel4O"),
+          PromocodeDetails(
+              tags: [],
+              promocodeDiscountPercent: null,
+              promocodeDiscountPrice: 500,
+              promocodeMaxDiscountPrice: null,
+              promocodeName: "500 OFF"),
+        ];
+
+    deliveryStatus = deliveryStatus ??
+        DeliveryStatus(
+          fastDeliveryFees: 100,
+          normalDeliveryFees: 40,
+          isFastDeliveryEnabledFromAdmin: true,
+          isFastDelivery: true,
+        );
 
     // Calculate Part
-    final cartTotal =
-        calculateCartTotal(cartPageItems, deliveryFees, promocode);
-
-    final DeliveryStatus deliveryStatus = DeliveryStatus(
-        isFastDeliveryEnabledFromAdmin: true, isFastDelivery: true);
+    final cartTotal = calculateCartTotal(cartPageItems,
+        _calculateDeliveryFees(deliveryStatus, promocodes), promocodes);
 
     return CartPageModel(
         cartItems: cartPageItems,
         cartTotal: cartTotal,
-        promocodeDetails: promocode,
+        promocodeDetails: promocodes,
         deliveryStatus: deliveryStatus);
   }
 
@@ -59,12 +74,21 @@ class MockCartPageService implements IMockCartPageService {
     // fake data
     if (promocode == "MaxDiscount-40") {
       return PromocodeDetails(
+          tags: ["SecondTimeUsed", ""],
           promocodeDiscountPercent: 40,
           promocodeDiscountPrice: null,
           promocodeMaxDiscountPrice: 2000,
           promocodeName: promocode);
+    } else if (promocode == "FreeDel4O") {
+      return PromocodeDetails(
+          tags: ["FreeDeliveryForFast&Normal"],
+          promocodeDiscountPercent: null,
+          promocodeDiscountPrice: 0,
+          promocodeMaxDiscountPrice: null,
+          promocodeName: promocode);
     } else if (promocode == "50EGP") {
       return PromocodeDetails(
+          tags: [],
           promocodeDiscountPercent: null,
           promocodeDiscountPrice: 50,
           promocodeMaxDiscountPrice: null,
@@ -74,9 +98,12 @@ class MockCartPageService implements IMockCartPageService {
   }
 
   @override
-  CartTotal updateCartTotal(
-      List<CartPageItem> cartItem, List<PromocodeDetails> promocodeDetails) {
-    return calculateCartTotal(cartItem, deliveryFees, promocodeDetails);
+  CartTotal updateCartTotal(List<CartPageItem> cartItem,
+      DeliveryStatus deliveryStatus, List<PromocodeDetails> promocodeDetails) {
+    return calculateCartTotal(
+        cartItem,
+        _calculateDeliveryFees(deliveryStatus, promocodeDetails),
+        promocodeDetails);
   }
 
   CartTotal calculateCartTotal(List<CartPageItem> cartItem, double deliveryFees,
@@ -163,5 +190,26 @@ class MockCartPageService implements IMockCartPageService {
     final random = Random();
     return random.nextInt(
         number ?? 4); // Generates a random number from 0 to 3 (inclusive)
+  }
+
+  double _calculateDeliveryFees(
+      DeliveryStatus deliveryStatus, List<PromocodeDetails> promocode) {
+    return promocode
+                .firstWhere(
+                    (e) => e.tags.any((s) => s == "FreeDeliveryForFast&Normal"),
+                    orElse: () => PromocodeDetails(
+                        promocodeDiscountPercent: null,
+                        promocodeDiscountPrice: 0,
+                        promocodeMaxDiscountPrice: null,
+                        tags: [],
+                        promocodeName: "NULL"))
+                .promocodeName ==
+            "NULL"
+        ? deliveryStatus.isFastDeliveryEnabledFromAdmin
+            ? (deliveryStatus.isFastDelivery
+                ? deliveryStatus.fastDeliveryFees
+                : deliveryStatus.normalDeliveryFees)
+            : deliveryStatus.normalDeliveryFees
+        : 0;
   }
 }

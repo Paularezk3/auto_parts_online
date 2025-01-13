@@ -16,6 +16,7 @@ class CheckoutPageBloc extends Bloc<CheckoutPageEvent, CheckoutPageState> {
     on<UpdatePaymentMethod>(_updatePaymentMethod);
     on<UpdatePoints>(_updatePoints);
     on<UpdateWidgetData>(_updateWidgetData);
+    on<LeaveCheckoutPage>((event, emit) => emit(CheckoutPageLeft()));
   }
 
   _loadCheckoutPage(

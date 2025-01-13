@@ -11,10 +11,13 @@ class CartCubit extends Cubit<CartState> {
 
   /// Updates the state with recalculated totals and updated cart items.
   Future<void> _updateCartState(List<CartItem> items) async {
+    final promocodes = state.cartPageItems?.promocodeDetails;
+    final deliveryStatus = state.cartPageItems?.deliveryStatus;
     emit(CartLoadingState(
         recentItems: items)); // Emit a loading state while fetching data.
     try {
-      final cartPageData = await _cartPageService.fetchCartPageData(items);
+      final cartPageData = await _cartPageService.fetchCartPageData(items,
+          promocodes: promocodes, deliveryStatus: deliveryStatus);
       final totalBeforeDiscount =
           cartPageData.cartTotal.totalPriceBeforeProductsDiscount;
       final totalAfterDiscount =

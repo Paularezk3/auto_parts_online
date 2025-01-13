@@ -13,7 +13,9 @@ import 'package:auto_parts_online/features/cart/bloc/cart_page_bloc.dart';
 import 'package:auto_parts_online/features/cart/widgets/checkout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../common/components/default_switch_list_tile.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/assets_path.dart';
 import '../../core/utils/app_logger.dart';
 import 'bloc/cart_page_event.dart';
 import 'bloc/cart_page_state.dart';
@@ -110,213 +112,254 @@ class CartPageView extends StatelessWidget {
         withShadow: false,
       ),
       body: SingleChildScrollView(
-          // todo: remove this single
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
+          child: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            physics:
+                NeverScrollableScrollPhysics(), // Disable internal scrolling
+            itemCount: cartPageData!.cartItems.length,
+            itemBuilder: (context, index) {
+              final item = cartPageData.cartItems[index];
+              return CartPageProductCard(
+                item: item,
+                isLoading: isLoading,
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+          const Divider(
+            indent: 8,
+            endIndent: 8,
+            color: AppColors.primaryGrey,
+          ),
+          const SizedBox(height: 16),
+
+          // Fast Delivery Section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                // Fast Delivery Icon
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Image.asset(
+                    AssetsPath.fastDeliveryColoredIcon,
+                    width: 32.0,
+                    height: 32.0,
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultSwitchListTile(
+                        title: "Fast Delivery",
+                        subtitle:
+                            "Note: Fast delivery may not always be available based on employee availability.",
+                        value: cartPageData.deliveryStatus.getIsFastDelivery,
+                        enabled: cartPageData
+                            .deliveryStatus.isFastDeliveryEnabledFromAdmin,
+                        onChanged: (value) {
+                          context
+                              .read<CartPageBloc>()
+                              .add(ChangeDeliveryMode(value));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+          const Divider(
+            indent: 8,
+            endIndent: 8,
+            color: AppColors.primaryGrey,
+          ),
+          const SizedBox(height: 16),
+          // ListView for added promocodes
+          if (cartPageData.promocodeDetails.isNotEmpty)
             ListView.builder(
-              shrinkWrap:
-                  true, // Prevents the list view from expanding infinitely
-              physics:
-                  NeverScrollableScrollPhysics(), // Disable internal scrolling
-              itemCount: cartPageData!.cartItems.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: cartPageData.promocodeDetails.length,
               itemBuilder: (context, index) {
-                final item = cartPageData.cartItems[index];
-                return CartPageProductCard(
-                  item: item,
-                  isLoading: isLoading,
+                final promocode = cartPageData.promocodeDetails[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Gift Icon
+                        Icon(
+                          Icons.card_giftcard,
+                          color: Colors.green.shade700,
+                          size: 28.0,
+                        ),
+                        SizedBox(width: 12.0),
+                        // Promocode Details
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                promocode.promocodeName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.0,
+                                  color: AppColors.primaryLight,
+                                ),
+                              ),
+                              SizedBox(height: 4.0),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 4.0, horizontal: 8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.greenAccent.shade100,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Text(
+                                  promocode.promocodeDiscountPercent != null
+                                      ? '${promocode.promocodeDiscountPercent}%'
+                                      : '${promocode.promocodeDiscountPrice} E£',
+                                  style: TextStyle(
+                                    color: Colors.green.shade700,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Delete Button
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.redAccent,
+                            size: 20.0,
+                          ),
+                          onPressed: () {
+                            context
+                                .read<CartPageBloc>()
+                                .add(RemovePromocode(promocodeIndex: index));
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
-            const SizedBox(height: 16),
-            const Divider(
-              indent: 8,
-              endIndent: 8,
-              color: AppColors.primaryGrey,
-            ),
-            const SizedBox(height: 16),
-            // ListView for added promocodes
-            if (cartPageData.promocodeDetails.isNotEmpty)
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: cartPageData.promocodeDetails.length,
-                itemBuilder: (context, index) {
-                  final promocode = cartPageData.promocodeDetails[index];
-                  return Card(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 12.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Gift Icon
-                          Icon(
-                            Icons.card_giftcard,
-                            color: Colors.green.shade700,
-                            size: 28.0,
-                          ),
-                          SizedBox(width: 12.0),
-                          // Promocode Details
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  promocode.promocodeName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.0,
-                                    color: AppColors.primaryLight,
-                                  ),
-                                ),
-                                SizedBox(height: 4.0),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 4.0, horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.greenAccent.shade100,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Text(
-                                    promocode.promocodeDiscountPercent != null
-                                        ? '${promocode.promocodeDiscountPercent}%'
-                                        : '${promocode.promocodeDiscountPrice} E£',
-                                    style: TextStyle(
-                                      color: Colors.green.shade700,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Delete Button
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.redAccent,
-                              size: 20.0,
-                            ),
-                            onPressed: () {
-                              context
-                                  .read<CartPageBloc>()
-                                  .add(RemovePromocode(promocodeIndex: index));
-                            },
-                          ),
-                        ],
+          const SizedBox(height: 4), // Promocode input field
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.secondaryGrey, // Background color
+                border: Border.all(
+                  color: AppColors.primaryGrey, // Dotted outline color
+                  style: BorderStyle.solid, // Border style
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: promocodeController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter promocode',
+                        hintStyle: TextStyle(
+                          color:
+                              AppColors.primaryTextLight, // White text for hint
+                        ),
+                        filled: true,
+                        fillColor:
+                            Colors.transparent, // Inherit container background
+                        border: InputBorder.none, // Remove default border
                       ),
                     ),
-                  );
-                },
-              ),
-            const SizedBox(height: 4), // Promocode input field
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.secondaryGrey, // Background color
-                  border: Border.all(
-                    color: AppColors.primaryGrey, // Dotted outline color
-                    style: BorderStyle.solid, // Border style
-                    width: 1.0,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: promocodeController,
-                        decoration: InputDecoration(
-                          hintText: 'Enter promocode',
-                          hintStyle: TextStyle(
-                            color: AppColors
-                                .primaryTextLight, // White text for hint
-                          ),
-                          filled: true,
-                          fillColor: Colors
-                              .transparent, // Inherit container background
-                          border: InputBorder.none, // Remove default border
-                        ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (promocodeController.text.trim().isNotEmpty) {
+                        context.read<CartPageBloc>().add(
+                              AddPromocode(
+                                  promocode: promocodeController.text.trim()),
+                            );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black, // Black button color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
                       ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 12.0),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (promocodeController.text.trim().isNotEmpty) {
-                          context.read<CartPageBloc>().add(
-                                AddPromocode(
-                                    promocode: promocodeController.text.trim()),
-                              );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black, // Black button color
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 12.0),
-                      ),
-                      child: isLoading
-                          ? DefaultLoadingWidget(
-                              height: 20,
-                              width: 20,
-                              color: AppColors.primaryTextOnSurfaceLight,
-                            )
-                          : Text(
-                              'Apply',
-                              style: TextStyle(
-                                color: AppColors
-                                    .primaryTextOnSurfaceLight, // White text color
-                                fontWeight: FontWeight.bold,
-                              ),
+                    child: isLoading
+                        ? DefaultLoadingWidget(
+                            height: 20,
+                            width: 20,
+                            color: AppColors.primaryTextOnSurfaceLight,
+                          )
+                        : Text(
+                            'Apply',
+                            style: TextStyle(
+                              color: AppColors
+                                  .primaryTextOnSurfaceLight, // White text color
+                              fontWeight: FontWeight.bold,
                             ),
-                    ),
-                  ],
-                ),
+                          ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            const Divider(
-              indent: 8,
-              endIndent: 8,
-              color: AppColors.primaryGrey,
-            ),
-            const SizedBox(height: 16),
-            Card(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: OrderDetailsWidget(
-                  cartPageData: cartPageData,
-                  isLoading: isLoading,
-                ),
+          ),
+          const SizedBox(height: 16),
+          const Divider(
+            indent: 8,
+            endIndent: 8,
+            color: AppColors.primaryGrey,
+          ),
+          const SizedBox(height: 16),
+          Card(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: OrderDetailsWidget(
+                cartPageData: cartPageData,
+                isLoading: isLoading,
               ),
             ),
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              CheckoutButton(
-                // logger: logger,
-                onPressed: () {
-                  context
-                      .read<NavigationCubit>()
-                      .push(NavigationCheckoutPageState(cartPageData));
-                },
-                text: "Checkout",
-              ),
-            ]),
-          ],
-        ),
+          ),
+          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            CheckoutButton(
+              // logger: logger,
+              onPressed: () {
+                context
+                    .read<NavigationCubit>()
+                    .push(NavigationCheckoutPageState(cartPageData));
+              },
+              text: "Checkout",
+            ),
+          ]),
+        ],
       )),
     );
   }
