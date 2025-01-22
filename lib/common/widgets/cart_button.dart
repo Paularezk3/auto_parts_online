@@ -10,6 +10,7 @@ class CartButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool isLoading;
 
+  /// it is the floating button that is placed at the bottom of the screen to show the cart items and easy navigate to cart page
   const CartButton({
     super.key,
     required this.isLoading,
@@ -54,32 +55,37 @@ class CartButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // The Shopping Cart & Items
-              if (!isLoading)
-                Row(
-                  children: [
-                    // Container around the icon
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.shopping_cart,
-                      size: 20,
-                      color: isDarkMode
-                          ? AppColors.primaryTextOnSurfaceDark
-                          : AppColors.primaryTextOnSurfaceLight,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '$itemCount items',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkMode
-                            ? AppColors.primaryTextOnSurfaceDark
-                            : AppColors.primaryTextOnSurfaceLight,
-                      ),
-                    ),
-                  ],
-                ),
-              if (isLoading) DefaultLoadingWidget(),
+              Row(
+                children: [
+                  // Container around the icon
+                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.shopping_cart,
+                    size: 20,
+                    color: isDarkMode
+                        ? AppColors.primaryTextOnSurfaceDark
+                        : AppColors.primaryTextOnSurfaceLight,
+                  ),
+                  const SizedBox(width: 8),
+                  isLoading
+                      ? DefaultLoadingWidget(
+                          color: Colors.white,
+                          width: 20,
+                          height: 20,
+                        )
+                      : Text(
+                          '$itemCount items',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode
+                                ? AppColors.primaryTextOnSurfaceDark
+                                : AppColors.primaryTextOnSurfaceLight,
+                          ),
+                        ),
+                ],
+              ),
+
               Row(
                 children: [
                   // Total Order
@@ -94,7 +100,7 @@ class CartButton extends StatelessWidget {
                             : AppColors.primaryTextOnSurfaceLight,
                       ),
                     ),
-                  if (isLoading) ShimmerBox(width: 20, height: 20),
+                  if (isLoading) ShimmerBox(width: 40, height: 20),
                   SizedBox(
                     width: 8,
                   ),
