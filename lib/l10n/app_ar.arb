@@ -1,0 +1,187 @@
+{
+  "@@locale": "ar",
+  "homePageTitle": "الصفحة الرئيسية",
+  "@homePageTitle": {
+    "description": "عنوان الصفحة الرئيسية"
+  },
+  "buttonTesting": "اختبار",
+  "@buttonTesting": {
+    "description": "النص المعروض على زر الاختبار"
+  },
+  "welcomeMessage": "مرحبًا بك في منصتنا!",
+  "@welcomeMessage": {
+    "description": "رسالة الترحيب في الصفحة الرئيسية"
+  },
+  "searchHint": "ابحث عن منتج او فئة",
+  "@searchHint": {
+    "description": "النص الإرشادي في شريط البحث"
+  },
+  "featuredProducts": "منتجات مميزة",
+  "@featuredProducts": {
+    "description": "عنوان قسم المنتجات المميزة"
+  },
+  "productTitle": "عنوان المنتج {index}",
+  "@productTitle": {
+    "description": "عنوان المنتج مع رقم المنتج",
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "productPrice": "{price} د.إ",
+  "@productPrice": {
+    "description": "سعر المنتج",
+    "placeholders": {
+      "price": {
+        "type": "double",
+        "example": "99.99"
+      }
+    }
+  },
+  "addToCart": "أضف إلى السلة",
+  "@addToCart": {
+    "description": "النص الموجود على زر إضافة المنتج إلى السلة"
+  },
+  "footerMessage": "© 2024 اسم شركتك",
+  "@footerMessage": {
+    "description": "رسالة حقوق النشر في التذييل"
+  },
+  "bottomNavHome": "الرئيسية",
+  "@bottomNavHome": {
+    "description": "التسمية للرئيسية في شريط التنقل السفلي"
+  },
+  "bottomNavProducts": "المنتجات",
+  "@bottomNavProducts": {
+    "description": "التسمية للمنتجات في شريط التنقل السفلي"
+  },
+  "bottomNavCart": "السلة",
+  "@bottomNavCart": {
+    "description": "التسمية للسلة في شريط التنقل السفلي"
+  },
+  "bottomNavAccount": "الحساب",
+  "@bottomNavAccount": {
+    "description": "التسمية للحساب في شريط التنقل السفلي"
+  },
+  "reloadPage": "اعادة التحميل",
+  "@reloadPage": {
+    "description": "عبارة تشير للمستخدم ليعيد تحميل الصفحة"
+  },
+  "home": "الصفحة الرئيسية",
+  "@home": {
+    "description": "الصفحة الاولي"
+  },
+  "products": "المنتجات",
+  "@products": {
+    "description": "المنتجات"
+  },
+  "cart": "عربة التسوق",
+  "@cart": {
+    "description": "المكان الذي يجمع فيه الزبون كل مشترياته"
+  },
+  "account": "الحساب",
+  "@account": {
+    "description": "المكان الذي يوجد به كل تفاصيل الحساب لديه"
+  },
+  "recentSearchEmpty": "ستظهر عمليات البحث الأخيرة هنا. ابدأ بالبحث عن منتج!",
+  "@recentSearchEmpty": {
+    "description": "تظهر هذه الرسالة عندما يكون البحث الأخير فارغًا"
+  },
+  "inStock": "متوفر في المخزن",
+  "@inStock": {
+    "description": "مؤشر لتوافر المخزون بكميات كبيرة."
+  },
+  "outOfStock": "غير متوفر في المخزن",
+  "@outOfStock": {
+    "description": "مؤشر على أن العنصر غير متوفر حاليًا."
+  },
+  "limitedStock": "كمية محدودة",
+  "@limitedStock": {
+    "description": "يشير إلى أن كمية قليلة من العنصر متوفرة."
+  },
+  "categories": "الفئات",
+  "@categories": {
+    "description": "قائمة بفئات المنتجات لتسهيل التنقل."
+  },
+  "category": "الفئات",
+  "@category": {
+    "description": "قائمة بفئات المنتجات لتسهيل التنقل."
+  },
+  "signUpPromo": "قم بالتسجيل اليوم للحصول على عروض حصرية!",
+  "@signUpPromo": {
+    "description": "دعوة للتسجيل للحصول على صفقات خاصة."
+  },
+  "signIn": "تسجيل الدخول",
+  "@signIn": {
+    "description": "زر أو إجراء يسمح للمستخدمين بتسجيل الدخول إلى حساباتهم."
+  },
+  "signUp": "إنشاء حساب",
+  "@signUp": {
+    "description": "زر أو إجراء يسمح للمستخدمين بإنشاء حساب."
+  },
+  "recentSearches": "عمليات البحث الأخيرة",
+  "@recentSearches": {
+    "description": "قائمة بعمليات البحث التي أدخلها المستخدم مؤخرًا."
+  },
+  "warning": "تحذير",
+  "@warning": {
+    "description": "رسالة تحذير أو تنبيه عامة لإخطار المستخدم."
+  },
+  "deleteRecentSearchPrompt": "هل أنت متأكد أنك تريد حذف عملية البحث الأخيرة هذه؟",
+  "@deleteRecentSearchPrompt": {
+    "description": "مطالبة تأكيد لحذف إدخال بحث حديث."
+  },
+  "popularSearches": "عمليات البحث الشائعة",
+  "@popularSearches": {
+    "description": "قائمة بالمصطلحات أو المنتجات الشائعة البحث."
+  },
+  "sparePartsSuggestions": "اقتراحات قطع الغيار",
+  "@sparePartsSuggestions": {
+    "description": "توصيات لقطع الغيار بناءً على تفضيلات المستخدم أو الاتجاهات."
+  },
+  "reloadError": "حدث خطأ. يرجى إعادة تحميل الصفحة.",
+  "@reloadError": {
+    "description": "رسالة خطأ تشير إلى حدوث مشكلة وتقترح إعادة تحميل الصفحة."
+  },
+  "filters": "تصفية",
+  "@filters": {
+    "description": "تصفية المنتجات ليتمكن المستخدم من الحصول على منتجه بسهولة"
+  },
+  "selectCategories": "اختر الفئات",
+  "@selectCategories": {
+    "description": "تسمية تحث المستخدم على اختيار فئات المنتجات."
+  },
+  "done": "تم",
+  "@done": {
+    "description": "إجراء للتأكيد أو الإكمال."
+  },
+  "priceRange": "نطاق السعر",
+  "@priceRange": {
+    "description": "تسمية تشير إلى نطاق أسعار المنتجات."
+  },
+  "brand": "العلامة التجارية",
+  "@brand": {
+    "description": "تسمية لاختيار علامة تجارية للمنتج."
+  },
+  "selectBrand": "اختر العلامة التجارية",
+  "@selectBrand": {
+    "description": "مطالبة تشجع المستخدم على اختيار علامة تجارية."
+  },
+  "model": "الموديل",
+  "@model": {
+    "description": "تسمية لاختيار موديل المنتج."
+  },
+  "selectModel": "اختر الموديل",
+  "@selectModel": {
+    "description": "مطالبة تشجع المستخدم على اختيار موديل."
+  },
+  "year": "السنة",
+  "@year": {
+    "description": "تسمية لاختيار السنة."
+  },
+  "selectYear": "اختر السنة",
+  "@selectYear": {
+    "description": "مطالبة تشجع المستخدم على اختيار السنة."
+  }
+}

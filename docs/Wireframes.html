@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Wireframe Design Documentation</title>
+    <style>
+      body {
+        font-family: Montserrat, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f9f8f1; /* Secondary Foreground */
+        color: #000000; /* Primary Foreground */
+      }
+
+      h1 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+        text-align: center;
+        margin: 20px auto; /* Centers the box horizontally */
+      }
+      h2 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+        text-align: center;
+        margin: 20px auto; /* Centers the box horizontally */
+      }
+      h3 {
+        color: #c18b2f; /* Primary Color */
+        font-family: "Janna LT Bold", sans-serif;
+      }
+
+      .page {
+        border: 1px solid #c18b2f; /* Primary Color */
+        padding: 20px;
+        margin: 20px auto; /* Centers the box horizontally */
+        max-width: 800px; /* Restricts the width for better readability */
+        border-radius: 12px; /* Rounded corners */
+        background: linear-gradient(90deg, #f9f8f1); /* Subtle gradient */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        text-align: left; /* Ensures text remains left-aligned */
+      }
+
+      span {
+        font-size: 14px;
+        color: #333;
+        text-align: center;
+      }
+
+      .section {
+        margin-bottom: 15px;
+      }
+
+      code {
+        background: #f4f4f4;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+
+      .color-swatch {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .color-box {
+        width: 50px;
+        height: 25px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        border-radius: 4px; /* Rounded corners */
+        align-items: center;
+      }
+
+      .typography-example {
+        margin: 10px 0;
+      }
+
+      .gradient-box {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #c18b2f; /* Primary Color */
+        margin-bottom: 10px;
+        border-radius: 12px; /* Rounded corners */
+      }
+
+      .color-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        align-items: center;
+        margin: auto;
+      }
+
+      .color-table th,
+      .color-table td {
+        padding: 15px;
+        vertical-align: middle;
+      }
+
+      .color-table th {
+        background-color: rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+      }
+
+      .color-table td {
+        border: 1px solid rgba(0, 0, 0, 0); /* Transparent border */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wireframe Design Documentation</h1>
+
+    <section class="page">
+      <h2>Brand Identity</h2>
+      <div class="section">
+        <h3>Colors</h3>
+        <table class="color-table">
+          <thead>
+            <tr>
+              <th>Color Type</th>
+              <th>Light Mode</th>
+              <th>Dark Mode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Primary Color -->
+            <tr>
+              <td>Primary Color</td>
+              <td>
+                <div class="color-box" style="background-color: #c18b2f"></div>
+                <span>#c18b2f</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #d09b3e"></div>
+                <span>#d09b3e</span>
+              </td>
+            </tr>
+            <!-- Primary Foreground -->
+            <tr>
+              <td>Primary Foreground</td>
+              <td>
+                <div class="color-box" style="background-color: #000000"></div>
+                <span>#000000</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #ffffff"></div>
+                <span>#ffffff</span>
+              </td>
+            </tr>
+            <!-- Secondary Color -->
+            <tr>
+              <td>Secondary Color</td>
+              <td>
+                <div class="color-box" style="background-color: #020024"></div>
+                <span>#020024</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #dddbff"></div>
+                <span>#dddbff</span>
+              </td>
+            </tr>
+            <!-- Secondary Foreground -->
+            <tr>
+              <td>Secondary Foreground</td>
+              <td>
+                <div class="color-box" style="background-color: #f9f8f1"></div>
+                <span>#f9f8f1</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #0e0d06"></div>
+                <span>#0e0d06</span>
+              </td>
+            </tr>
+            <!-- Accent Color -->
+            <tr>
+              <td>Accent Color</td>
+              <td>
+                <div class="color-box" style="background-color: #d95100"></div>
+                <span>#d95100</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #ff7424"></div>
+                <span>#ff7424</span>
+              </td>
+            </tr>
+            <!-- Accent Foreground -->
+            <tr>
+              <td>Accent Foreground</td>
+              <td>
+                <div class="color-box" style="background-color: #000000"></div>
+                <span>#000000</span>
+              </td>
+              <td>
+                <div class="color-box" style="background-color: #ffffff"></div>
+                <span>#ffffff</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h3>Typography</h3>
+        <div
+          class="typography-example"
+          style="
+            font-family: 'Janna LT Bold';
+            font-size: 32px;
+            font-weight: bold;
+          "
+        >
+          Arabic Title Example - 32px Bold (Janna LT Bold)
+        </div>
+
+        <div
+          class="typography-example"
+          style="font-family: 'Cairo'; font-size: 24px; font-weight: bold"
+        >
+          24px Bold (Cairo) مثال عملي
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Helvetica; font-size: 32px; font-weight: bold"
+        >
+          Title Example - 32px Bold (Helvetica)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Montserrat; font-size: 18px; font-weight: normal"
+        >
+          Body Text Example - 18px Regular (Montserrat)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: Montserrat; font-size: 14px; font-weight: normal"
+        >
+          Small Text Example - 14px Regular (Montserrat)
+        </div>
+        <div
+          class="typography-example"
+          style="font-family: 'Cairo'; font-size: 16px; font-weight: normal"
+        >
+          Body Text Example - 16px Regular (Cairo)
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Gradients</h3>
+        <div
+          class="gradient-box"
+          style="background: linear-gradient(#c18b2f, #020024)"
+        >
+          Primary to Secondary Gradient #c18b2f, #020024
+        </div>
+        <div
+          class="gradient-box"
+          style="background: linear-gradient(#c18b2f, #d95100)"
+        >
+          Primary to Accent Gradient #c18b2f, #d95100
+        </div>
+        <div
+          class="gradient-box"
+          style="background: radial-gradient(#c18b2f, #020024)"
+        >
+          Radial Primary to Secondary Gradient #c18b2f, #020024
+        </div>
+      </div>
+    </section>
+    <section class="page">
+      <h2>Resources & Inspiration</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide references to external tools and designs that inspired or
+          support this wireframe documentation.
+        </p>
+      </div>
+      <div class="section" style="display: flex; flex-wrap: wrap; gap: 20px">
+        <a
+          href="https://elitespareparts.net/store/?woo-share=iHlRXtOXN4Y5bBzyxgS39GG5jlDaAW46"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Elite+Spare+Parts"
+            alt="Elite Spare Parts"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Elite Spare Parts Store</span>
+        </a>
+        <a
+          href="https://www.realtimecolors.com/?colors=000000-f9f8f1-c18b2f-020024-d95100&fonts=Inter-Inter"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Realtime+Colors"
+            alt="Realtime Colors"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Realtime Colors Tool</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/2bv3arIhKSQrEVMF3bNfEl/E-commerce-Shop-Mobile-Wireframe-Flows-(Community)?node-id=1095-15866&node-type=frame&t=8hrzfs8OeOD3qc0U-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=E-commerce+Mobile+Wireframe"
+            alt="E-commerce Mobile Wireframe"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>E-commerce Mobile Wireframe Flows (Figma)</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/2e6KQ3s1aaMve7PCnHCfUX/Ecommerce-Website-Wireframe-(Community)?node-id=0-1&node-type=canvas&t=HuAvVlIVnI65DXYA-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Ecommerce+Website+Wireframe"
+            alt="Ecommerce Website Wireframe"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Ecommerce Website Wireframe (Figma)</span>
+        </a>
+        <a
+          href="https://www.figma.com/design/N4Kz9Jcw2dkanXEGpaMuFE/iOS-Native-Wireframes-(Community)?node-id=0-1&node-type=canvas&t=lQIecCBCCKi0JAOW-0"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=iOS+Native+Wireframes"
+            alt="iOS Native Wireframes"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>iOS Native Wireframes (Figma)</span>
+        </a>
+        <a
+          href="https://preview.themeforest.net/item/turbojet-shopify-spare-parts-store-theme-automotive/full_screen_preview/39594753"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=Turbojet+Shopify+Theme"
+            alt="Turbojet Shopify Theme"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>Turbojet Shopify Spare Parts Theme</span>
+        </a>
+        <a
+          href="https://preview.themeforest.net/item/ap-karpart-car-spare-parts-shopify-theme/full_screen_preview/51582460"
+          target="_blank"
+          style="
+            text-decoration: none;
+            color: #000;
+            flex: 1 1 300px;
+            text-align: center;
+          "
+        >
+          <img
+            src="https://via.placeholder.com/200x100.png?text=AP+Karpart+Shopify+Theme"
+            alt="AP Karpart Shopify Theme"
+            style="
+              border: 1px solid #ccc;
+              border-radius: 12px;
+              margin-bottom: 10px;
+              width: 100%;
+            "
+          />
+          <span>AP Karpart Shopify Theme</span>
+        </a>
+      </div>
+    </section>
+    <section class="page">
+      <h2>Home Page (Mobile Application)</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          The Home Page for the mobile application acts as a central hub for users to explore featured content, browse categories, and access primary functionalities with a clean and intuitive layout designed for smaller screens.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            <strong>Header:</strong>
+            <ul class="component">
+              <li>Logo: Centered at the top of the screen for branding.</li>
+              <li>Notification Icon: Positioned at the top-right for quick access to notifications.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Bottom Navigation Bar:</strong>
+            <ul class="component">
+              <li>Tabs: Home, Categories, Cart, Profile, and More.</li>
+              <li>Icons and Labels: Simple, intuitive icons with labels for clarity.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Hero Section:</strong>
+            <ul class="component">
+              <li>Small carousel slider displaying promotions or featured products.</li>
+              <li>Swipe Gesture: Allows users to swipe through banners.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Featured Products Section:</strong>
+            <ul class="component">
+              <li>Horizontal Scroll: Displays product cards in a scrollable row.</li>
+              <li>Product Cards: Include image, title, price, and a compact "Add to Cart" button.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Categories Section:</strong>
+            <ul class="component">
+              <li>Category List: A grid of categories with icons or images and labels.</li>
+              <li>Optimized for touch: Large tappable areas for easy navigation.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Call-to-Action Section:</strong>
+            <ul class="component">
+              <li>Sign-up/Newsletter Prompt: A banner encouraging user sign-ups with a single tap action.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          
+          <strong>Mobile:</strong>
+          <ul>
+            <li>Top Header: Compact with essential icons like notifications.</li>
+            <li>Bottom Navigation: Persistent and easily accessible with intuitive tabs.</li>
+            <li>Vertical Scrolling: Smooth, single-column layout optimized for one-handed use.</li>
+            <li>Touch-friendly Elements: Buttons and cards designed for quick interaction.</li>
+          </ul>
+
+      <strong>Desktop:</strong>
+      <ul>
+        <li>Header spans the full width, with navigation and search bar centrally aligned.</li>
+        <li>Hero section occupies the top fold with a visually striking banner.</li>
+        <li>Content sections are divided into grids, ensuring balance and readability.</li>
+        <li>Footer spans the full width with a clean, organized structure.</li>
+      </ul>
+      <strong>Mobile:</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Products Listing Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable users to browse and filter car spare parts effectively. This page
+          provides tools for filtering products based on various criteria such as
+          categories, price range, brands, and compatibility with specific car makes
+          and models. The design supports accessibility, usability, and multi-lingual
+          usage in English and Arabic. It adapts to dark and light mode preferences.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            <strong>Filters Panel:</strong>
+            <ul class="component">
+              <li>
+                <strong>Category:</strong>
+                A dropdown or checkbox list for selecting product categories such as Engine, Body Parts, Accessories, etc.
+                Multi-select functionality is included to enhance user experience. 
+                <ul>
+                  <li>
+                    - When the user clicks the "Select Categories" button, a pop-up dialog opens with a list of checkboxes. 
+                    - The user can select one or more categories. 
+                    - After pressing "Done," the selected categories are dynamically applied as filters, updating the product list in real-time.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Price Range Slider:</strong>
+                Allows users to specify minimum and maximum price values. Includes a text input for precise entry.
+                <ul>
+                  <li>
+                    - As the user adjusts the slider, the displayed price range updates in real-time.
+                    - The product list is filtered dynamically to show only items within the selected price range.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Brand Selector:</strong>
+                Dropdown menu featuring major car brands with a type-ahead search for quick selection.
+                <ul>
+                  <li>
+                    - When the user types into the dropdown's search bar, matching brand names are suggested.
+                    - Selecting a brand dynamically filters the product list to include only items from the selected brand.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Compatibility Selector:</strong>
+                A dropdown for selecting car make, model, and year. Ensures accuracy and usability with dependency filtering (e.g., model options depend on selected make).
+                <ul>
+                  <li>
+                    - When a car make is selected, the models dropdown is populated with relevant options.
+                    - Once a model is chosen, the year dropdown adjusts to display only valid years for that model.
+                    - All selections dynamically filter the product list, showing only compatible parts.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          
+          <li>
+            <strong>Product Cards:</strong> 
+            Displayed in a responsive grid or list view. Each card contains:
+            <ul class="component">
+              <li>Product image with zoom functionality on hover.</li>
+              <li>
+                Title, short description, and price prominently displayed for quick
+                decision-making.
+              </li>
+              <li>
+                Action buttons for "Add to Cart" and "View Details." Includes a
+                wishlist icon.
+              </li>
+              <li>
+                Indicators for stock availability (e.g., "In Stock," "Out of Stock").
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Pagination:</strong> 
+            Includes numbered buttons, "Next" and "Previous" options, and optional
+            infinite scrolling with a loading spinner.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          The layout is designed to accommodate both desktop and mobile users:
+        </p>
+        <ul>
+          <li>
+            <strong>Desktop:</strong> 
+            Filters are displayed in a vertical sidebar on the left. Products are
+            arranged in a multi-column grid to utilize available screen space.
+          </li>
+          <li>
+            <strong>Mobile:</strong> 
+            Filters are collapsible and accessible via a button at the top. Products
+            are displayed in a single-column list to maximize readability on smaller
+            screens.
+          </li>
+          <li>
+            <strong>Dark and Light Modes:</strong>
+            The page dynamically adjusts its styling based on user preferences. Uses
+            WCAG-compliant contrast ratios to ensure readability.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Accessibility Features</h3>
+        <ul>
+          <li>
+            Full keyboard navigation support for all interactive components (e.g.,
+            dropdowns, sliders, buttons).
+          </li>
+          <li>ARIA roles and labels for screen readers.</li>
+          <li>High-contrast mode compatibility.</li>
+          <li>
+            Multi-lingual support with a language toggle for English and Arabic, with
+            right-to-left (RTL) styling for Arabic text.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>User Interaction Details</h3>
+        <p>
+          Filters and selections dynamically update the product list in real-time
+          without requiring a full page reload, ensuring a seamless user experience.
+        </p>
+      </div>
+    </section>
+    
+    <section class="page">
+      <h2>Product Details Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide users with comprehensive information about a specific product, enabling them to make informed purchasing decisions. Includes details such as images, descriptions, compatibility, pricing, and customer reviews.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            <strong>Product Image Gallery:</strong> 
+            A carousel with zoom and swipe capabilities. Supports multiple images and videos where applicable. Includes alt text for accessibility.
+          </li>
+          <li>
+            <strong>Product Details Section:</strong>
+            <ul class="component">
+              <li>
+                <strong>Title:</strong> Prominent display with clear typography.
+              </li>
+              <li>
+                <strong>Price:</strong> Includes discount pricing and clear formatting (e.g., crossed-out original price).
+              </li>
+              <li>
+                <strong>Stock Availability:</strong> Real-time stock updates with visual indicators (e.g., "In Stock" in green, "Out of Stock" in red).
+              </li>
+              <li>
+                <strong>Compatibility Information:</strong>
+                Highlight compatible car makes, models, and years in a distinct, easily noticeable section. Use bold text or colored tags (e.g., badges with car icons) to represent supported car models clearly.
+              </li>
+              <li>
+                <strong>Description:</strong> A comprehensive overview of the product, including technical specifications and benefits.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>"Add to Cart" Button:</strong> A large, prominent button with hover and focus states. Includes an "Added to Cart" confirmation.
+          </li>
+          <li>
+            <strong>Customer Reviews Section:</strong>
+            Displays a list of customer reviews with:
+            <ul class="component">
+              <li>Average star rating at the top.</li>
+              <li>Individual review text and customer names.</li>
+              <li>Ability to filter reviews by rating (e.g., 5-star, 4-star).</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Service Center Integration:</strong>
+            <p>
+              Display a clear "Find a Service Center" call-to-action below the compatibility information.  
+              <ul class="component">
+              <li> <strong>Text:</strong> A descriptive label like "Locate a Trusted Service Center Near You."  </li>
+              <li> <strong>Style: </strong> Place this text as a button-like element styled for easy clickability.  </li>
+                <li> <strong>Action:</strong> Clicking this will open a page or map where users can input their location or allow location access to find nearby trusted service centers. The results should show distance, contact details, and service ratings, if available. </li>
+            </ul>
+            </p>
+          </li>
+          <li>
+            <strong>Warranty Information:</strong>
+            <p>
+              Display the warranty terms as a <strong>badge-style element</strong>.  
+              <ul class="component">
+                <li> <strong>Appearance:</strong> The badge should include a small warranty icon (e.g., a shield or document) and text like "1-Year Warranty Included."  </li>
+                  <li> <strong>Actionable Info Icon:</strong> Beside the badge, place an <strong>info icon</strong> (e.g., a small "i" inside a circle). When clicked, this icon opens a <strong>bottom modal sheet</strong> containing detailed warranty information, including coverage, exclusions, and instructions for claims.  </li>
+                    <li> <strong>Modal Details:</strong> Ensure the modal is scrollable, has a close button, and includes contact information for warranty inquiries.</li>
+              </ul>
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          <strong>Desktop:</strong> A two-column layout with:
+          <ul>
+            <li>Image gallery prominently displayed on the left.</li>
+            <li>Product details, price, and actions (e.g., "Add to Cart") on the right.</li>
+          </ul>
+          <strong>Mobile:</strong> A single-column layout with a vertically stacked arrangement for ease of scrolling.
+        </p>
+      </div>
+    </section>
+    
+
+    <section class="page">
+      <h1>Cart Page</h1>
+
+      <div class="section" id="purpose">
+          <h3>Purpose</h3>
+          <p>The Cart Page allows users to review their selected products, update quantities, explore recommendations, and proceed to checkout.</p>
+      </div>
+
+      <div class="section" id="components">
+          <h3>Components</h3>
+          <ul>
+              <li>
+                  <h3>Product List Section</h3>
+                  <p>The Product List Section includes individual product cards for each item in the cart:</p>
+                  <ul>
+                      <li><strong>Product Card (Cart Item):</strong></li>
+                      <ul>
+                          <li><strong>Image:</strong> Positioned on the left side of the card, ensuring clear representation and responsive resizing.</li>
+                          <li>
+                              <strong>Details Column:</strong> Positioned to the right of the image and includes:
+                              <ul>
+                                  <li><strong>Product Name:</strong> Displayed in bold text. Clicking the name navigates to the Product Details Page.</li>
+                                  <li><strong>Price:</strong> Shows the original price (strikethrough) and discounted price (highlighted).</li>
+                                  <li>
+                                      <strong>Quantity Selector:</strong> Features increment (+) and decrement (-) buttons inline beside the quantity value. When the quantity is set to 1, the decrement button transforms into a trash icon, removing the product from the cart. 
+                                  </li>
+                                  <li><strong>Touch Action:</strong> The entire card is tappable, linking to the Product Details Page.</li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Cart Summary Section</h3>
+                  <p>The Cart Summary Section provides a detailed breakdown:</p>
+                  <ul>
+                      <li><strong>Subtotal:</strong> Total of product prices before tax.</li>
+                      <li><strong>Tax:</strong> Displayed separately.</li>
+                      <li><strong>Total:</strong> Final price (Subtotal + Tax).</li>
+                      <li><strong>"Proceed to Checkout" Button:</strong> Prominently displayed, fixed at the bottom of the screen on mobile devices for accessibility.</li>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Products For You Section</h3>
+                  <p>Displays a recommendation carousel or grid:</p>
+                  <ul>
+                      <li>Horizontally scrollable list of recommended products.</li>
+                      <li>Each item includes an image, product name, price (original and discounted), and an "Add to Cart" button.</li>
+                      <li>Accessible from both desktop and mobile views.</li>
+                      <li>Heading: Clearly labeled as “Products for You.”</li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+
+      <div class="section" id="layout">
+          <h3>Layout</h3>
+          <ul>
+              <li>
+                  <h3>Desktop View</h3>
+                  <p>Two-column layout:</p>
+                  <ul>
+                      <li><strong>Left Column:</strong> Product List.</li>
+                      <li><strong>Right Column:</strong> Cart Summary and Checkout Button, aligned vertically.</li>
+                  </ul>
+              </li>
+              <li>
+                  <h3>Mobile View</h3>
+                  <p>Stacked layout:</p>
+                  <ul>
+                      <li>Product List appears first, followed by the Cart Summary.</li>
+                      <li>Cart Summary and "Proceed to Checkout" button are pinned to the bottom for better accessibility.</li>
+                  </ul>
+                  <p>Additional features for mobile:</p>
+                  <ul>
+                      <li>
+                          <strong>Condensed Product Cards:</strong>
+                          <ul>
+                              <li>Compact design with reduced padding and smaller font sizes.</li>
+                              <li>Align image and text in a single row for minimal scrolling.</li>
+                          </ul>
+                      </li>
+                      <li>
+                          <strong>Sticky Cart Summary:</strong>
+                          <ul>
+                              <li>Collapses into a floating button (e.g., "View Total") at the bottom when scrolling through the Product List.</li>
+                              <li>Expands into full details when tapped.</li>
+                          </ul>
+                      </li>
+                      <li><strong>One-Tap Usability:</strong> Optimized touch targets for buttons to ensure ease of use with one hand.</li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+  </section>
+
+  <section class="page">
+    <h2>Checkout Page</h2>
+    <div class="section">
+      <h3>Purpose</h3>
+      <p>
+        The checkout page is designed to guide the user through the final steps
+        of their purchase journey. This page ensures seamless collection of
+        necessary information, including shipping and payment details, while
+        providing a clear review of the order to build user confidence before
+        completing the transaction.
+      </p>
+    </div>
+    <div class="section">
+      <h3>Components</h3>
+      <ul>
+        <li>
+          <strong>Shipping Address Form:</strong> 
+          A user-friendly form for entering the recipient's name, address, and contact details. The form should validate inputs in real-time (e.g., zip code format, phone number length) and support autofill to enhance usability.
+        </li>
+        <li>
+          <strong>Payment Method Selector:</strong> 
+          A selection interface offering multiple payment options (e.g., Credit/Debit Card, PayPal, Digital Wallets). Includes fields for securely capturing card details or redirecting to external payment gateways as needed.
+        </li>
+        <li>
+          <strong>Order Review Section:</strong> 
+          A summary box displaying the list of items in the cart with itemized details (name, quantity, price), applicable discounts, shipping fees, and the total amount. Includes an "Edit Cart" link for quick updates.
+        </li>
+        <li>
+          <strong>Points Redemption:</strong>
+          <ul class="component">
+            <li>
+              <em>"Use Points" Toggle:</em> 
+              An interactive toggle or checkbox allowing users to apply reward points for discounts. Clearly indicates the total points available and how many are being used.
+            </li>
+            <li>
+              <em>Real-time Update:</em> 
+              Displays the updated total cost dynamically when points are applied. Example: "Total: $45 after applying 500 points".
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Place Order Button:</strong> 
+          A prominently styled button to finalize the purchase. Should display a spinner or loading indicator after clicking to indicate the process is ongoing.
+        </li>
+        <li>
+          <strong>Promotional Code Field:</strong> 
+          An optional input field where users can enter promo codes. Includes a "Apply Code" button to validate and apply discounts.
+        </li>
+        <li>
+          <strong>Security Assurance Badges:</strong> 
+          Visual indicators (e.g., "Secure Checkout," SSL badges) to reassure users about the safety of their payment details.
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <h3>Layout</h3>
+      <p>
+        <strong>Desktop:</strong> A clean and intuitive three-column layout with
+        the following arrangement:
+        <ul>
+          <li>Left Column: Shipping address form</li>
+          <li>Middle Column: Payment method selector</li>
+          <li>Right Column: Order review and summary</li>
+        </ul>
+        <br />
+        <strong>Mobile:</strong> A multi-step form optimized for smaller screens.
+        Each section (shipping, payment, order review) is displayed on a separate
+        screen with "Next" and "Back" navigation buttons for progression.
+      </p>
+    </div>
+    <div class="section">
+      <h3>Accessibility</h3>
+      <p>
+        Ensure compliance with WCAG 2.1 standards:
+        <ul>
+          <li>All form fields have clear labels and accessible descriptions.</li>
+          <li>Keyboard navigation is supported across all components.</li>
+          <li>Proper focus management ensures users are directed to the correct field after an error.</li>
+          <li>Color contrast ratios meet accessibility standards for readability.</li>
+        </ul>
+      </p>
+    </div>
+  </section>
+  
+
+    <section class="page">
+      <h2>Order History Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Allow customers to track and review their past purchases, including
+          status and details of each order.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Order List:
+            <ul class="component">
+              <li>Order ID: Unique identifier for each order.</li>
+              <li>Date: The date the order was placed.</li>
+              <li>Total Price: Sum of items in the order.</li>
+              <li>Status: Order status (e.g., Pending, Delivered).</li>
+            </ul>
+          </li>
+          <li>
+            "View Details" Button: Opens detailed information for the specific
+            order.
+          </li>
+          <li>
+            Reorder Option: Shortcut to add items from a previous order to the
+            cart.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: A table format with columns for ID, date, total, and
+          status.<br />
+          Mobile: A card layout displaying key order details in a stacked
+          format.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Login/Register Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable secure user authentication through email/password and Google
+          Login.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>Email/Password Input: Fields for entering email and password.</li>
+          <li>
+            "Log in with Google" Button: Integration for Google OAuth
+            authentication.
+          </li>
+          <li>
+            "Forgot Password" Link: Redirects to a password recovery page.
+          </li>
+          <li>
+            Validation Messages: Real-time feedback for invalid inputs (e.g.,
+            missing email).
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: A centered form layout with all fields visible at once.<br />
+          Mobile: Simplified layout with vertically stacked fields.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Admin Panel</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide tools for suppliers to manage inventory, track sales, monitor
+          performance, and analyze trends using intuitive dashboards and
+          analytics.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Navigation Menu:
+            <ul class="component">
+              <li>
+                Sidebar or top bar navigation links to Dashboard, Inventory
+                Management, and Analytics.
+              </li>
+              <li>Collapsible sections for a cleaner mobile interface.</li>
+            </ul>
+          </li>
+          <li>
+            Loyalty Program
+            <ul class="component">
+              <li>Points Rules Management</li>
+              <li>Tiers Management</li>
+              <li>Reward Catalogue</li>
+              <li>User Analytics</li>
+            </ul>
+          </li>
+
+          <li>
+            Dashboard Widgets:
+            <ul class="component">
+              <li>
+                Sales Metrics: Show total sales, sales trends, and top-selling
+                products.
+              </li>
+              <li>
+                Low Stock Alerts: Highlight products running low on inventory.
+              </li>
+              <li>
+                Inventory Overview: Summarizes stock levels across all
+                categories.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Inventory Management Section:
+            <ul class="component">
+              <li>
+                Product List: Displays all products with search and filter
+                options.
+              </li>
+              <li>Management Options: Add, update, or delete products.</li>
+            </ul>
+          </li>
+          <li>
+            Analytics Widgets:
+            <ul class="component">
+              <li>Graphs for sales performance over time.</li>
+              <li>Filters for date ranges and product categories.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Sidebar navigation with detailed widgets laid out in a grid
+          format for quick data access.<br />
+          Mobile: Simplified layout with vertically stacked sections and
+          collapsible navigation for ease of use on smaller screens.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Inventory Management Page</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Enable suppliers to efficiently manage product inventory, ensuring
+          accuracy and real-time updates.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Product List:
+            <ul class="component">
+              <li>Table or card-based list of all products.</li>
+              <li>Search Bar: Filter products by name, category, or SKU.</li>
+              <li>Sort Options: By price, stock quantity, or added date.</li>
+            </ul>
+          </li>
+          <li>
+            Add Product:
+            <ul class="component">
+              <li>
+                Form with fields for product name, description, price, stock,
+                category, and image upload.
+              </li>
+              <li>Validation: Ensure all required fields are completed.</li>
+            </ul>
+          </li>
+          <li>
+            Edit Product:
+            <ul class="component">
+              <li>Pre-filled form for updating product details.</li>
+              <li>Preview Changes: Option to view updates before saving.</li>
+            </ul>
+          </li>
+          <li>
+            Delete Product:
+            <ul class="component">
+              <li>
+                Confirmation Popup: Ask for user confirmation before deletion.
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Table layout with columns for product details and action
+          buttons.<br />
+          Mobile: Stacked card layout with collapsible actions for each product.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Loyalty Program</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide users with a centralized view of their loyalty points, tier
+          progress, and rewards.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Total Points Display: Prominent display of the user's current points
+            balance.
+          </li>
+          <li>
+            Tiers Section:
+            <ul class="component">
+              <li>
+                Current Tier: Highlight the user's current tier (e.g., Silver).
+              </li>
+              <li>Progress Tracker: Visual progress toward the next tier.</li>
+              <li>Tier Benefits: List perks for each tier.</li>
+            </ul>
+          </li>
+          <li>
+            Rewards Section:
+            <ul class="component">
+              <li>
+                Redeemable Rewards: Show available rewards with point costs.
+              </li>
+              <li>
+                Redeem Button: Allow users to apply points to get rewards.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Transaction History: Log of points earned, redeemed, and current
+            balance.
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Display sections in a three-column layout for points, tiers,
+          and rewards.<br />
+          Mobile: Stacked layout with collapsible sections for a cleaner
+          experience.
+        </p>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Loyalty Program Notifications</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>Notify users about points earned and tier progress in real-time.</p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Points Earned Notification: "Congratulations! You earned 500 points
+            for your referral!"
+          </li>
+          <li>
+            Tier Upgrade Notification: "You've been upgraded to Gold Tier. Enjoy
+            5% off and free shipping!"
+          </li>
+          <li>Customizable Messages: Based on user actions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Analytics Page (Admin)</h2>
+      <div class="section">
+        <h3>Purpose</h3>
+        <p>
+          Provide suppliers with actionable insights on sales performance,
+          product trends, and inventory turnover to support data-driven
+          decisions.
+        </p>
+      </div>
+      <div class="section">
+        <h3>Components</h3>
+        <ul>
+          <li>
+            Sales Graphs:
+            <ul class="component">
+              <li>
+                Line/Bar charts showing sales over time (daily, weekly,
+                monthly).
+              </li>
+              <li>
+                Filters: Date range, product categories, or specific products.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Top-Performing Products:
+            <ul class="component">
+              <li>List of products ranked by sales volume.</li>
+              <li>
+                Include metrics like revenue, number of units sold, and
+                profitability.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Inventory Turnover:
+            <ul class="component">
+              <li>
+                Chart or table showing inventory movement and restocking
+                frequency.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Customizable Reports:
+            <ul class="component">
+              <li>Option to generate and export PDF/Excel reports.</li>
+            </ul>
+          </li>
+          <li>
+            Loyalty Program Management:
+            <ul class="component">
+              <li>
+                Points Rules Management:
+                <ul class="component">
+                  <li>Set earning rates (e.g., points per $1).</li>
+                  <li>Configure referral bonuses.</li>
+                </ul>
+              </li>
+              <li>
+                Tiers Management:
+                <ul class="component">
+                  <li>
+                    Define thresholds and benefits for Silver, Gold, and
+                    Platinum tiers.
+                  </li>
+                  <li>Set automatic progression rules.</li>
+                </ul>
+              </li>
+              <li>
+                Reward Catalogue:
+                <ul class="component">
+                  <li>Add, update, or remove redeemable rewards.</li>
+                  <li>Set point costs for rewards.</li>
+                </ul>
+              </li>
+              <li>
+                User Analytics:
+                <ul class="component">
+                  <li>
+                    Track loyalty program engagement and tier distribution.
+                  </li>
+                  <li>Monitor rewards redemption patterns.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Layout</h3>
+        <p>
+          Desktop: Interactive charts and tables in a dashboard-style layout.<br />
+          Mobile: Simplified, scrollable view with expandable graphs and
+          summaries.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

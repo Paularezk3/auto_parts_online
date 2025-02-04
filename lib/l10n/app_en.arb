@@ -1,0 +1,187 @@
+{
+  "@@locale": "en",
+  "homePageTitle": "Home Page",
+  "@homePageTitle": {
+    "description": "Title of the home page"
+  },
+  "buttonTesting": "Testing",
+  "@buttonTesting": {
+    "description": "Text displayed on a testing button"
+  },
+  "welcomeMessage": "Welcome to Our Platform!",
+  "@welcomeMessage": {
+    "description": "Greeting message on the home page"
+  },
+  "searchHint": "Search for Product or Category",
+  "@searchHint": {
+    "description": "Placeholder text in the search bar"
+  },
+  "featuredProducts": "Featured Products",
+  "@featuredProducts": {
+    "description": "Heading for featured products section"
+  },
+  "productTitle": "Product Title {index}",
+  "@productTitle": {
+    "description": "The title of a product with its index",
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "productPrice": "$${price}",
+  "@productPrice": {
+    "description": "The price of a product",
+    "placeholders": {
+      "price": {
+        "type": "double",
+        "example": "99.99"
+      }
+    }
+  },
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Button text for adding a product to the cart"
+  },
+  "footerMessage": "© 2024 Your Company Name",
+  "@footerMessage": {
+    "description": "Footer copyright message"
+  },
+  "bottomNavHome": "Home",
+  "@bottomNavHome": {
+    "description": "Label for home in bottom navigation bar"
+  },
+  "bottomNavProducts": "Products",
+  "@bottomNavProducts": {
+    "description": "Label for products in bottom navigation bar"
+  },
+  "bottomNavCart": "Cart",
+  "@bottomNavCart": {
+    "description": "Label for cart in bottom navigation bar"
+  },
+  "bottomNavAccount": "Account",
+  "@bottomNavAccount": {
+    "description": "Label for account in bottom navigation bar"
+  },
+  "reloadPage": "Reload Page",
+  "@reloadPage": {
+    "description": "Text indexing for user to reload the page"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "First Page"
+  },
+  "products": "Products",
+  "@products": {
+    "description": "Place that have all our Products"
+  },
+  "cart": "Cart",
+  "@cart": {
+    "description": "Place that customer has all his buyings"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "his account details"
+  },
+  "recentSearchEmpty": "Your recent searches will appear here. Start by searching for a product!",
+  "@recentSearchEmpty": {
+    "description": "this message appear when the recent search is empty"
+  },
+  "inStock": "In Stock",
+  "@inStock": {
+    "description": "This is an indicator of high stock availability."
+  },
+  "outOfStock": "Out of Stock",
+  "@outOfStock": {
+    "description": "This is an indicator that the item is currently unavailable."
+  },
+  "limitedStock": "Limited Stock",
+  "@limitedStock": {
+    "description": "This indicates a low quantity of the item is available."
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "A list of product categories for easy navigation."
+  },
+  "category": "Category",
+  "@category": {
+    "description": "A list of product categories for easy navigation."
+  },
+  "signUpPromo": "Sign up today to get exclusive offers!",
+  "@signUpPromo": {
+    "description": "A call-to-action encouraging users to sign up for special deals."
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "A button or action allowing users to log into their accounts."
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "A button or action allowing users to create an account."
+  },
+  "recentSearches": "Recent Searches",
+  "@recentSearches": {
+    "description": "A list of search queries the user has recently entered."
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "A general warning or alert message to notify the user."
+  },
+  "deleteRecentSearchPrompt": "Are you sure you want to delete this recent search?",
+  "@deleteRecentSearchPrompt": {
+    "description": "A confirmation prompt for deleting a recent search entry."
+  },
+  "popularSearches": "Popular Searches",
+  "@popularSearches": {
+    "description": "A list of commonly searched terms or products."
+  },
+  "sparePartsSuggestions": "Spare Parts Suggestions",
+  "@sparePartsSuggestions": {
+    "description": "Recommendations for spare parts based on user preferences or trends."
+  },
+  "reloadError": "An error occurred. Please try reloading the page.",
+  "@reloadError": {
+    "description": "An error message indicating something went wrong and suggesting a page reload."
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "the filteration of products for user to get his product easier"
+  },
+  "selectCategories": "Select Categories",
+  "@selectCategories": {
+    "description": "A label prompting the user to select product categories."
+  },
+  "done": "Done",
+  "@done": {
+    "description": "A confirmation or completion action."
+  },
+  "priceRange": "Price Range",
+  "@priceRange": {
+    "description": "A label indicating the range of product prices."
+  },
+  "brand": "Brand",
+  "@brand": {
+    "description": "A label for selecting a product brand."
+  },
+  "selectBrand": "Select Brand",
+  "@selectBrand": {
+    "description": "A prompt encouraging the user to choose a brand."
+  },
+  "model": "Model",
+  "@model": {
+    "description": "A label for selecting a product model."
+  },
+  "selectModel": "Select Model",
+  "@selectModel": {
+    "description": "A prompt encouraging the user to choose a model."
+  },
+  "year": "Year",
+  "@year": {
+    "description": "A label for selecting a year."
+  },
+  "selectYear": "Select Year",
+  "@selectYear": {
+    "description": "A prompt encouraging the user to choose a year."
+  }
+}
