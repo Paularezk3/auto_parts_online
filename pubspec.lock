@@ -207,6 +207,7 @@ packages:
     source: hosted
     version: "1.19.0"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   convert:
     dependency: transitive
     description:
@@ -247,6 +248,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   cupertino_icons:
@@ -1035,6 +1038,7 @@ packages:
     source: sdk
     version: "0.0.0"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   source_gen:
     dependency: transitive
     description:
@@ -1067,6 +1071,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.13"
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   source_span:
@@ -1158,6 +1164,7 @@ packages:
     source: hosted
     version: "1.3.0"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   synchronized:
     dependency: transitive
     description:
@@ -1166,6 +1173,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0+3"
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   term_glyph:
@@ -1192,6 +1201,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.3"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   test_core:
     dependency: transitive
@@ -1315,6 +1325,8 @@ packages:
     version: "1.1.16"
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   vector_math:
     dependency: transitive
     description:
@@ -1371,6 +1383,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.3.0"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   wakelock_plus:
     dependency: transitive
@@ -1492,6 +1505,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 sdks:
