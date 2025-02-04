@@ -39,12 +39,16 @@ class CartPageView extends StatelessWidget {
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-        return didPop
-            ? context.read<CartPageBloc>().add(LeaveCartPage())
-            : null;
+        if (didPop && context.read<CartPageBloc>().state is! LeaveCartPage) {
+          context.read<CartPageBloc>().add(LeaveCartPage());
+        }
       },
       child: BaseScreen(
         selectedIndex: 2,
+        anotherPageClicked: () =>
+            context.read<CartPageBloc>().state is! LeaveCartPage
+                ? context.read<CartPageBloc>().add(LeaveCartPage())
+                : null,
         child: FutureBuilder(
           future: _waitForLoading(context),
           builder: (context, snapshot) {

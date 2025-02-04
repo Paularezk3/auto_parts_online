@@ -60,7 +60,7 @@ class _AppRouteInformationParser
     } else if (configuration is NavigationProductPageState) {
       return RouteInformation(uri: Uri.parse('/products'));
     } else if (configuration is NavigationAccountPageState) {
-      return RouteInformation(uri: Uri.parse('/accountpage'));
+      return RouteInformation(uri: Uri.parse('/account'));
     } else if (configuration is NavigationCartPageState) {
       return RouteInformation(uri: Uri.parse('/cart'));
     } else if (configuration is NavigationSearchPageState) {

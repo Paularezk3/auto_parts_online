@@ -13,6 +13,10 @@ class CartPageBloc extends Bloc<CartPageEvent, CartPageState> {
   final IMockCartPageService cartPageService = getIt<IMockCartPageService>();
 
   CartPageBloc(this.cartCubit) : super(CartPageInitial()) {
+    // cartCubit.stream.listen((cartItemCount) {
+    //   if(state is State)
+    //   add(LoadCartPage(cartItemCount));
+    // });
     on<LoadCartPage>(_loadCartPage);
     on<AddItemToCart>(_addItemToCart);
     on<RemoveItemFromCart>(_removeItemFromCart);

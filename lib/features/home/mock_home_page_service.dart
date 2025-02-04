@@ -1,3 +1,5 @@
+// lib\features\home\mock_home_page_service.dart
+
 import 'dart:math';
 
 import '../../core/models/stock_level.dart';
